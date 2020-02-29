@@ -1,0 +1,3 @@
+rootProject.name='Fragment Navigator Example'
+include ':app'
+include ':fragulo'
