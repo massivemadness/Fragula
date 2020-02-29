@@ -1,9 +1,7 @@
-package com.fragulo.navigator.transformer
+package com.fragulo.transformer
 
 import android.view.View
-import com.fragulo.navigator.common.FragmentNavigator
-import com.fragulo.navigator.extensions.invisible
-import com.fragulo.navigator.extensions.visible
+import com.fragulo.common.FragmentNavigator
 import kotlin.math.abs
 
 

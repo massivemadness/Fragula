@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.fragulo.navigator.common.Arg
-import com.fragulo.navigator.listener.OnFragmentNavigatorListener
+import com.fragulo.common.Arg
+import com.fragulo.listener.OnFragmentNavigatorListener
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_blank.*
 

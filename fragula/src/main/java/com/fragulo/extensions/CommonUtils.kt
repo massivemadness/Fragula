@@ -1,4 +1,4 @@
-package com.fragulo.navigator.extensions
+package com.fragulo.extensions
 
 import android.content.res.Resources
 import android.os.Looper

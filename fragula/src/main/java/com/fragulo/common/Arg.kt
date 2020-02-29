@@ -1,4 +1,4 @@
-package com.fragulo.navigator.common
+package com.fragulo.common
 
 class Arg<K, V>(val key: K?, val value: V?) {
 

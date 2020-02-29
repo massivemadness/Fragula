@@ -1,4 +1,4 @@
-package com.fragulo.navigator
+package com.fragulo
 
 import android.content.Context
 import android.graphics.Color
@@ -9,10 +9,10 @@ import android.util.AttributeSet
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleObserver
-import com.fragulo.navigator.adapter.NavigatorAdapter
-import com.fragulo.navigator.common.Arg
-import com.fragulo.navigator.common.FragmentNavigator
-import com.fragulo.navigator.listener.OnFragmentNavigatorListener
+import com.fragulo.adapter.NavigatorAdapter
+import com.fragulo.common.Arg
+import com.fragulo.common.FragmentNavigator
+import com.fragulo.listener.OnFragmentNavigatorListener
 import java.io.Serializable
 
 class Navigator : FragmentNavigator, LifecycleObserver {

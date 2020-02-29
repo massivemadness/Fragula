@@ -1,4 +1,4 @@
-package com.fragulo.navigator.adapter.base
+package com.fragulo.adapter.base
 
 import android.database.DataSetObservable
 import android.database.DataSetObserver

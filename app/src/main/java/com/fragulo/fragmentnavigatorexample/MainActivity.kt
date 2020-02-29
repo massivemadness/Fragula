@@ -2,11 +2,9 @@ package com.fragulo.fragmentnavigatorexample
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.view.MotionEvent
 import androidx.fragment.app.Fragment
-import com.fragulo.navigator.Navigator
-import com.fragulo.navigator.common.Arg
+import com.fragulo.common.Arg
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

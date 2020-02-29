@@ -29,6 +29,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation project(':fragulo')
+    implementation project(':fragula')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

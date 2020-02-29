@@ -1,4 +1,4 @@
-package com.fragulo.navigator.listener
+package com.fragulo.listener
 
 interface OnFragmentNavigatorListener {
     // it called when the fragment opening transaction is complete

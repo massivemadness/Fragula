@@ -1,4 +1,4 @@
-package com.fragulo.navigator.adapter.base
+package com.fragulo.adapter.base
 
 
 import android.os.Bundle
@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
-import com.fragulo.navigator.extensions.log
-import com.fragulo.navigator.extensions.simpleName
+import com.fragulo.extensions.log
+import com.fragulo.extensions.simpleName
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 import kotlin.collections.ArrayList

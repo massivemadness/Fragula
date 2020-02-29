@@ -1,4 +1,4 @@
-package com.fragulo.navigator.common
+package com.fragulo.common
 
 import android.R
 import android.content.Context
@@ -28,12 +28,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.customview.view.AbsSavedState
-import com.fragulo.navigator.adapter.base.PagerAdapter
-import com.fragulo.navigator.extensions.invisible
-import com.fragulo.navigator.extensions.log
-import com.fragulo.navigator.extensions.tryCatch
-import com.fragulo.navigator.extensions.visible
-import com.fragulo.navigator.transformer.NavigatorPageTransformer
+import com.fragulo.adapter.base.PagerAdapter
+import com.fragulo.extensions.invisible
+import com.fragulo.extensions.tryCatch
+import com.fragulo.extensions.visible
+import com.fragulo.transformer.NavigatorPageTransformer
 import java.lang.annotation.Inherited
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
