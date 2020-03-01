@@ -1,5 +1,6 @@
 # Fragula
 A simple and customizable Android fragments navigator with support "swipe to dismiss" gestures
+
 ![](20200301_131107.gif)
 
 ### Requirements
