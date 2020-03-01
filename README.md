@@ -29,7 +29,7 @@ allprojects {
 
 And then add the dependency to the **module `build.gradle`** file:
 ```gradle
-implementation 'com.github.shikleyev:fragula:1.0'
+implementation 'com.github.shikleyev:fragula:latest_version'
 ```
 
 ### Usage
