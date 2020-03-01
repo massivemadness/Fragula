@@ -159,8 +159,8 @@ if (fragment != null && fragment is MainFragment) {
 ```
 
 
-#### Issues
-#### 1
+### Issues
+#### 1.
 The Navigator cannot delete a fragment in the middle or beginning of the fragment stack. This leads to the violation of the order of the fragments and unexpected errors. Use onBackPressed to delete the last fragment or 
 ```kotlin
 navigator.goToPreviousFragmentAndRemoveLast()
@@ -170,7 +170,7 @@ If you want to remove the last few fragments, use:
 navigator.goToPosition(position)
 ```
 This will also remove all closed fragments from the stack
-#### 2
+#### 2.
 Gestures conflict when using Motion Layout
 
 ![](20200301_133838.gif)
@@ -194,6 +194,8 @@ MotionLayout.setOnTouchListener { view, motionEvent ->
 ```
 ![](20200301_133937.gif)
 
+
+Also, you can take a look at the [sample project](https://github.com/shikleyev/fragula/tree/master/app) for more information.
 
 ![](20200301_131439.gif)
 
