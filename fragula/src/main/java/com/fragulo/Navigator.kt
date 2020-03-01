@@ -94,7 +94,6 @@ class Navigator : FragmentNavigator, LifecycleObserver {
 
     fun fragmentsCount(): Int = navigatorAdapter?.count ?: 0
 
-
     private fun setNavigatorChangeListener() {
         onPageChangeListener = object : OnPageChangeListener {
             var sumPositionAndPositionOffset = 0f
