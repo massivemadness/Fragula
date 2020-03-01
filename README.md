@@ -30,6 +30,24 @@ And then add the dependency to the **module `build.gradle`** file:
 implementation 'com.github.shikleyev:fragula:1.0'
 ```
 
+### Usage
+#### Simple usage
+All you need to do is create a Navigator in the xml of your activity:
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<com.fragulo.Navigator
+    android:id="@+id/navigator"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"/>
+```
+
+And init navigator in onCreate of your activity:
+```kotlin
+navigator.init(supportFragmentManager)
+```
 
 ![](20200301_131439.gif)
 ![](20200301_133838.gif)
