@@ -3,19 +3,19 @@ package com.fragulo.extensions
 import android.view.View
 
 
-fun View.visible() {
+internal fun View.visible() {
     if (visibility != View.VISIBLE) {
         visibility = View.VISIBLE
     }
 }
 
-fun View.invisible() {
+internal fun View.invisible() {
     if (visibility != View.INVISIBLE) {
         visibility = View.INVISIBLE
     }
 }
 
-fun View.gone() {
+internal fun View.gone() {
     if (visibility != View.GONE) {
         visibility = View.GONE
     }

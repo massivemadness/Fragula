@@ -15,7 +15,6 @@ import com.fragulo.extensions.log
 import com.fragulo.extensions.simpleName
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
-import kotlin.collections.ArrayList
 
 /**
  * Implementation of [androidx.viewpager.widget.PagerAdapter] that
@@ -59,7 +58,7 @@ import kotlin.collections.ArrayList
  * {@sample frameworks/support/samples/Support4Demos/src/main/res/layout/fragment_pager_list.xml
  * *      complete}
  */
-abstract class FragmentStatePagerAdapter
+internal abstract class FragmentStatePagerAdapter
 /**
  * Constructor for [androidx.fragment.app.FragmentStatePagerAdapter].
  *

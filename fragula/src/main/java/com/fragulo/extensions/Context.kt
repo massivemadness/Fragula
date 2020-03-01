@@ -7,8 +7,11 @@ import androidx.core.content.ContextCompat
 import com.fragulo.navigator.R
 
 
-fun Context.getColorCompat(@ColorRes colorRes: Int) = ContextCompat.getColor(this, colorRes)
-fun Context.getDrawableCompat(@DrawableRes drawableRes: Int) = ContextCompat.getDrawable(this, drawableRes)
+internal fun Context.getColorCompat(@ColorRes colorRes: Int) =
+    ContextCompat.getColor(this, colorRes)
+
+internal fun Context.getDrawableCompat(@DrawableRes drawableRes: Int) =
+    ContextCompat.getDrawable(this, drawableRes)
 
 
 internal inline val Context.displayWidth: Int

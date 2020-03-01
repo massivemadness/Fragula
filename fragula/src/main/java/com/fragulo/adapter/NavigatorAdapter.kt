@@ -4,7 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.fragulo.adapter.base.FragmentStatePagerAdapter
 
-class NavigatorAdapter(private val fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
+internal class NavigatorAdapter(private val fragmentManager: FragmentManager) :
+    FragmentStatePagerAdapter(fragmentManager) {
 
 
     val fragments: ArrayList<Fragment> = ArrayList()

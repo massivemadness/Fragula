@@ -2,10 +2,10 @@ package com.fragulo.fragmentnavigatorexample
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.fragulo.common.Arg
 import com.fragulo.listener.OnFragmentNavigatorListener
 import kotlinx.android.synthetic.main.activity_main.*
@@ -18,13 +18,13 @@ const val ARG_PARAM2 = "param2"
 class BlankFragment : Fragment(), OnFragmentNavigatorListener {
 
     private var param1: String? = null
-    private var param2: String? = null
+    private var param2: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            param2 = it.getInt(ARG_PARAM2)
         }
     }
 
@@ -42,10 +42,10 @@ class BlankFragment : Fragment(), OnFragmentNavigatorListener {
         }
 
         param2?.let {
-            tv_args_2.text = it
+            tv_args_2.text = it.toString()
         }
 
-        val count = (activity as MainActivity).navigator.fragmentsCount()?.toString()
+        val count = (activity as MainActivity).navigator.fragmentsCount().toString()
 
         tv_number.text = count
 
@@ -57,7 +57,8 @@ class BlankFragment : Fragment(), OnFragmentNavigatorListener {
             (activity as MainActivity).addFragment(
                 BlankFragment(),
                 Arg(ARG_PARAM1, "Add fragment arg"),
-                Arg(ARG_PARAM2, "New arg"))
+                Arg(ARG_PARAM2, 12345)
+            )
         }
 
         btn_replace_fragment.setOnClickListener {
@@ -68,7 +69,8 @@ class BlankFragment : Fragment(), OnFragmentNavigatorListener {
             (activity as MainActivity).replaceCurrentFragment(
                 BlankFragment(),
                 Arg(ARG_PARAM1, "Replace Fragment arg"),
-                Arg(ARG_PARAM2, "New arg"))
+                Arg(ARG_PARAM2, 6789)
+            )
         }
 
     }

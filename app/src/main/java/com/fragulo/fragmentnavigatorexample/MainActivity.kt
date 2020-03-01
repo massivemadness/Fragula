@@ -1,13 +1,17 @@
 package com.fragulo.fragmentnavigatorexample
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.fragulo.common.Arg
 import kotlinx.android.synthetic.main.activity_main.*
 
+private const val TAG = "MainActivity"
+
 class MainActivity : AppCompatActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,8 +19,13 @@ class MainActivity : AppCompatActivity() {
 
         navigator.init(supportFragmentManager)
         navigator.onPageScrolled = {position, positionOffset, positionOffsetPixels ->
-            title = positionOffset.toString()
+            Log.i(
+                TAG,
+                "position: $position  positionOffset: $positionOffset  positionOffsetPixels: $positionOffsetPixels"
+            )
         }
+        navigator.onNotifyDataChanged = { fragmentCount -> }
+        navigator.onPageScrollStateChanged = { state -> }
         if (savedInstanceState == null) {
             navigator.addFragment(BlankFragment())
         }
@@ -63,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         if (navigator.fragmentsCount() > 1) {
-            navigator?.goToPreviousFragmentAndRemoveLast()
+            navigator.goToPreviousFragmentAndRemoveLast()
         } else {
             super.onBackPressed()
         }

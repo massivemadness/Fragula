@@ -198,10 +198,6 @@ open class FragmentNavigator : ViewGroup {
     var isChangingChildVisibility: Boolean = true
     private var durationFactor = 1f
 
-    enum class SwipeDirection {
-        ALL, LEFT, RIGHT, NONE
-    }
-
     /**
      * Callback interface for responding to changing state of the selected page.
      */
@@ -370,7 +366,7 @@ open class FragmentNavigator : ViewGroup {
                     }
                 })
         setPageTransformer(false, NavigatorPageTransformer())
-        setAllowedSwipeDirection(SwipeDirection.LEFT)
+        setAllowedSwipeDirection(SwipeDirection.RIGHT)
         overScrollMode = View.OVER_SCROLL_NEVER
     }
 
@@ -498,20 +494,20 @@ open class FragmentNavigator : ViewGroup {
     /**
      * Set the currently selected page.
      *
-     * @param item Item index to select
+     * @param position Item index to select
      * @param smoothScroll True to smoothly scroll to the new item, false to transition immediately
      */
-    fun goToFragment(item: Int, smoothScroll: Boolean) {
+    fun goToPosition(position: Int, smoothScroll: Boolean = true) {
         mPopulatePending = false
-        setCurrentItemInternal(item, smoothScroll, false)
+        setCurrentItemInternal(position, smoothScroll, false)
     }
 
     fun goToPreviousFragmentAndRemoveLast() {
-        goToFragment(currentItem - 1, true)
+        goToPosition(currentItem - 1, true)
     }
 
     fun goToNextFragment() {
-        goToFragment(currentItem + 1, true)
+        goToPosition(currentItem + 1, true)
     }
 
     /**
@@ -528,11 +524,16 @@ open class FragmentNavigator : ViewGroup {
             setCurrentItemInternal(item, !mFirstLayout, false)
         }
 
-    fun setCurrentItemInternal(item: Int, smoothScroll: Boolean, always: Boolean) {
+    private fun setCurrentItemInternal(item: Int, smoothScroll: Boolean, always: Boolean) {
         setCurrentItemInternal(item, smoothScroll, always, 0)
     }
 
-    fun setCurrentItemInternal(item: Int, smoothScroll: Boolean, always: Boolean, velocity: Int) {
+    private fun setCurrentItemInternal(
+        item: Int,
+        smoothScroll: Boolean,
+        always: Boolean,
+        velocity: Int
+    ) {
         var item = item
         if (mAdapter == null || mAdapter!!.count <= 0) {
             setScrollingCacheEnabled(false)
@@ -1850,9 +1851,9 @@ open class FragmentNavigator : ViewGroup {
         if (event.action == MotionEvent.ACTION_MOVE) {
             tryCatch {
                 val diffX = event.x - initialXValue
-                if (diffX > 0 && direction === SwipeDirection.RIGHT) {
+                if (diffX > 0 && direction === SwipeDirection.LEFT) {
                     return false
-                } else if (diffX < 0 && direction === SwipeDirection.LEFT) {
+                } else if (diffX < 0 && direction === SwipeDirection.RIGHT) {
                     return false
                 }
             }
@@ -2612,7 +2613,7 @@ open class FragmentNavigator : ViewGroup {
 
     fun pageLeft(): Boolean {
         if (mCurItem > 0) {
-            goToFragment(mCurItem - 1, true)
+            goToPosition(mCurItem - 1, true)
             return true
         }
         return false
@@ -2620,7 +2621,7 @@ open class FragmentNavigator : ViewGroup {
 
     fun pageRight(): Boolean {
         if (mAdapter != null && mCurItem < mAdapter!!.count - 1) {
-            goToFragment(mCurItem + 1, true)
+            goToPosition(mCurItem + 1, true)
             return true
         }
         return false

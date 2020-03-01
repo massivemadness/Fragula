@@ -12,6 +12,7 @@ import androidx.lifecycle.LifecycleObserver
 import com.fragulo.adapter.NavigatorAdapter
 import com.fragulo.common.Arg
 import com.fragulo.common.FragmentNavigator
+import com.fragulo.common.SwipeDirection
 import com.fragulo.listener.OnFragmentNavigatorListener
 import java.io.Serializable
 
@@ -32,7 +33,7 @@ class Navigator : FragmentNavigator, LifecycleObserver {
 
     var onPageScrollStateChanged: ((state: Int) -> Unit)? = null
     var onPageSelected: ((position: Int) -> Unit)? = null
-    var onNotifyDataChanged: ((itemCount: Int) -> Unit)? = null
+    var onNotifyDataChanged: ((fragmentCount: Int) -> Unit)? = null
     var onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null
 
     fun init(fragmentManager: FragmentManager) {
@@ -59,8 +60,6 @@ class Navigator : FragmentNavigator, LifecycleObserver {
         navigatorAdapter!!.addFragment(fragment)
         Handler().postDelayed({
             goToNextFragment()
-            setCurrentFragment()
-            setPreviousFragment()
         }, 30)
     }
 
@@ -112,8 +111,8 @@ class Navigator : FragmentNavigator, LifecycleObserver {
                 when (state) {
                     SCROLL_STATE_IDLE -> {
                         if (navigatorAdapter == null) return
-                        if (swipeDirection == SwipeDirection.RIGHT) {
-                            while ((navigatorAdapter!!.getSizeListOfFragments() - 1) > (currentItem ?: 0)) {
+                        if (swipeDirection == SwipeDirection.LEFT) {
+                            while ((navigatorAdapter!!.getSizeListOfFragments() - 1) > currentItem) {
                                 navigatorAdapter?.removeLastFragment()
                             }
                             if (currentFragment != null && currentFragment is OnFragmentNavigatorListener) {
@@ -129,8 +128,9 @@ class Navigator : FragmentNavigator, LifecycleObserver {
                 onPageScrollStateChanged?.invoke(state)
             }
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                swipeDirection = if (position + positionOffset < sumPositionAndPositionOffset) SwipeDirection.RIGHT
-                else SwipeDirection.LEFT
+                swipeDirection =
+                    if (position + positionOffset < sumPositionAndPositionOffset) SwipeDirection.LEFT
+                    else SwipeDirection.RIGHT
                 sumPositionAndPositionOffset = position + positionOffset
                 onPageScrolled?.invoke(position, positionOffset, positionOffsetPixels)
             }
