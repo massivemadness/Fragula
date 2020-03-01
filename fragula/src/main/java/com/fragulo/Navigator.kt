@@ -23,6 +23,7 @@ class Navigator : FragmentNavigator, LifecycleObserver {
 
     private lateinit var fragmentManager: FragmentManager
     private var navigatorAdapter: NavigatorAdapter? = null
+    private var onPageChangeListener: OnPageChangeListener? = null
 
     var currentFragment: Fragment? = null
         private set
@@ -95,7 +96,7 @@ class Navigator : FragmentNavigator, LifecycleObserver {
 
 
     private fun setNavigatorChangeListener() {
-        addOnPageChangeListener(object : OnPageChangeListener {
+        onPageChangeListener = object : OnPageChangeListener {
             var sumPositionAndPositionOffset = 0f
             var swipeDirection: SwipeDirection = SwipeDirection.NONE
             override fun onPageSelected(position: Int) {
@@ -134,7 +135,8 @@ class Navigator : FragmentNavigator, LifecycleObserver {
                 sumPositionAndPositionOffset = position + positionOffset
                 onPageScrolled?.invoke(position, positionOffset, positionOffsetPixels)
             }
-        })
+        }
+        addOnPageChangeListener(onPageChangeListener!!)
     }
 
     private fun setCurrentFragment() {
@@ -152,6 +154,10 @@ class Navigator : FragmentNavigator, LifecycleObserver {
     }
 
     fun release() {
+        onPageChangeListener?.let {
+            removeOnPageChangeListener(it)
+        }
+        onPageChangeListener = null
         onPageScrollStateChanged = null
         onPageSelected = null
         onNotifyDataChanged = null
