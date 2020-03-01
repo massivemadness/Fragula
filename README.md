@@ -66,23 +66,35 @@ You can pass an unlimited number of arguments in the function parameters:
 navigator.addFragment(
     BlankFragment(),
     Arg(ARG_PARAM1, "Add fragment arg"),
-    Arg(ARG_PARAM2, "New arg"))
+    Arg(ARG_PARAM2, 12345))
 ```
 And get them in an opened fragment:
 ```kotlin
 class BlankFragment : Fragment() {
 
     private var param1: String? = null
-    private var param2: String? = null
+    private var param2: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            param2 = it.getInt(ARG_PARAM2)
         }
     }
 }
+```
+
+#### Replace fragment
+```kotlin
+navigator.replaceCurrentFragment(newFragment)
+```
+Or replace by position with arguments
+```kotlin
+navigator.replaceFragmentByPosition(
+   newFragment, 
+   position, 
+   Arg(ARG_PARAM1, "Replace fragment arg"))
 ```
 
 ![](20200301_131439.gif)
