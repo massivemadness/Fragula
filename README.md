@@ -9,6 +9,7 @@ A simple and customizable Android fragments navigator with support "swipe to dis
 
 ### Demo Application
 [![Get it on Google Play](https://play.google.com/intl/en_us/badges/images/badge_new.png)](https://play.google.com/store/apps/details?id=info.yamm.project2&hl=ru)
+
 (The app requires vk.com registration)
 
 ### Install
