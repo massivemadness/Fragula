@@ -60,6 +60,31 @@ override fun onDestroy() {
 }
 ```
 
+#### Passing arguments to a fragment
+You can pass an unlimited number of arguments in the function parameters:
+```kotlin
+navigator.addFragment(
+    BlankFragment(),
+    Arg(ARG_PARAM1, "Add fragment arg"),
+    Arg(ARG_PARAM2, "New arg"))
+```
+And get them in an opened fragment:
+```kotlin
+class BlankFragment : Fragment() {
+
+    private var param1: String? = null
+    private var param2: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+        }
+    }
+}
+```
+
 ![](20200301_131439.gif)
 ![](20200301_133838.gif)
 ![](20200301_133937.gif)
