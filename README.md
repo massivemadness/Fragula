@@ -97,6 +97,58 @@ navigator.replaceFragmentByPosition(
    Arg(ARG_PARAM1, "Replace fragment arg"))
 ```
 
+#### Intercept events
+Intercept the youch event while the fragment transaction is in progress.
+In your Activity:
+```kotlin
+override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+    return if (navigator.isBlockTouchEvent)
+        true
+    else
+        super.dispatchTouchEvent(ev)
+}
+```
+Intercept onBackPressed:
+```kotlin
+override fun onBackPressed() {
+    if (navigator.fragmentsCount() > 1) {
+        navigator.goToPreviousFragmentAndRemoveLast()
+    } else {
+        super.onBackPressed()
+    }
+}
+```
+
+#### Fragment transition callback
+The fragment opening transaction is executed synchronously and starts after onViewCreated finishes in the fragment being torn off. If you have asynchronous code that displays the results in a fragment, this may affect the arbitrariness of the fragment's opening animation. For such cases, you need to use an interface in your fragment that will report that the fragment transaction is complete.
+```kotlin
+class BlankFragment : Fragment(), OnFragmentNavigatorListener {
+    override fun onOpenedFragment() {
+        //This is called when the animation for opening a new fragment is complete
+    }
+    override fun onReturnedFragment() {
+        //This will be called when you return to this fragment from the previous one
+    }
+}
+```
+You can also use other callbacks:
+```kotlin
+navigator.onPageScrolled = {position, positionOffset, positionOffsetPixels ->  }
+
+navigator.onNotifyDataChanged = {fragmentCount ->  
+// Called after a new fragment is added to the stack or when the fragment is removed from the stack
+}
+
+navigator.onPageScrollStateChanged = {state -> 
+// SCROLL_STATE_IDLE, SCROLL_STATE_SETTLING, SCROLL_STATE_DRAGGING
+}
+```
+
+#### Additionally
+```kotlin
+navigator
+```
+
 ![](20200301_131439.gif)
 ![](20200301_133838.gif)
 ![](20200301_133937.gif)
