@@ -44,7 +44,7 @@ All you need to do is create a Navigator in the xml of your activity:
     tools:context=".MainActivity"/>
 ```
 
-And init navigator in onCreate of your activity:
+And init Navigator in your activity:
 ```kotlin
 override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -53,6 +53,10 @@ override fun onCreate(savedInstanceState: Bundle?) {
     if (savedInstanceState == null) {
         navigator.addFragment(BlankFragment())
     }
+}
+override fun onDestroy() {
+    navigator.release()
+    super.onDestroy()
 }
 ```
 
