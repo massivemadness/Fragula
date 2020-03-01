@@ -35,7 +35,7 @@ implementation 'com.github.shikleyev:fragula:1.0'
 All you need to do is create a Navigator in the xml of your activity:
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-<com.fragulo.Navigator
+<com.fragulo.navigator.Navigator
     android:id="@+id/navigator"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -46,7 +46,14 @@ All you need to do is create a Navigator in the xml of your activity:
 
 And init navigator in onCreate of your activity:
 ```kotlin
-navigator.init(supportFragmentManager)
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+    navigator.init(supportFragmentManager)
+    if (savedInstanceState == null) {
+        navigator.addFragment(BlankFragment())
+    }
+}
 ```
 
 ![](20200301_131439.gif)
