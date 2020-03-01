@@ -144,11 +144,57 @@ navigator.onPageScrollStateChanged = {state ->
 }
 ```
 
-#### Additionally
+#### Fragment stack
+You can get a stack of fragments by accessing the Navigator:
 ```kotlin
-navigator
+val fragments: ArrayList<Fragment> = navigator.fragments()
+```
+Or using the Fragment Manager to search for a fragment by tag
+(The Navigator assigns a tag to each fragment depending on the position in the Navigator):
+```kotlin
+val fragment = supportFragmentManager.findFragmentByTag("0")
+if (fragment != null && fragment is MainFragment) {
+    mainFragment = tempFragment
+}
 ```
 
-![](20200301_131439.gif)
+
+#### Issues
+#### 1
+The Navigator cannot delete a fragment in the middle or beginning of the fragment stack. This leads to the violation of the order of the fragments and unexpected errors. Use onBackPressed to delete the last fragment or 
+```kotlin
+navigator.goToPreviousFragmentAndRemoveLast()
+```
+If you want to remove the last few fragments, use:
+```kotlin
+navigator.goToPosition(position)
+```
+This will also remove all closed fragments from the stack
+#### 2
+Gestures conflict when using Motion Layout
+
 ![](20200301_133838.gif)
+
+If there is a conflict of gestures you can disable the swipe gestures in the Navigator and then turn them back on
+```kotlin
+MotionLayout.setOnTouchListener { view, motionEvent ->
+    when (motionEvent.action) {
+        MotionEvent.ACTION_DOWN -> {
+            navigator.setAllowedSwipeDirection(SwipeDirection.NONE)
+        }
+        MotionEvent.ACTION_UP -> {
+            navigator.setAllowedSwipeDirection(SwipeDirection.RIGHT)
+        }
+        MotionEvent.ACTION_CANCEL -> {
+            navigator.setAllowedSwipeDirection(SwipeDirection.RIGHT)
+        }
+    }
+    return@setOnTouchListener false
+}
+```
 ![](20200301_133937.gif)
+
+
+![](20200301_131439.gif)
+
+
