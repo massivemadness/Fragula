@@ -1,3 +1,5 @@
+[![](https://jitpack.io/v/shikleyev/fragula.svg)](https://jitpack.io/#shikleyev/fragula)
+
 # Fragula
 A simple and customizable Android fragments navigator with support "swipe to dismiss" gestures and saving a stack of fragments when changing the screen orientation
 
