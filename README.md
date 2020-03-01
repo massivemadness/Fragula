@@ -156,7 +156,7 @@ Or using the Fragment Manager to search for a fragment by tag
 ```kotlin
 val fragment = supportFragmentManager.findFragmentByTag("0")
 if (fragment != null && fragment is MainFragment) {
-    mainFragment = tempFragment
+    mainFragment = fragment
 }
 ```
 
