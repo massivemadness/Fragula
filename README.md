@@ -56,10 +56,6 @@ override fun onCreate(savedInstanceState: Bundle?) {
         navigator.addFragment(BlankFragment())
     }
 }
-override fun onDestroy() {
-    navigator.release()
-    super.onDestroy()
-}
 ```
 
 #### Passing arguments to a fragment
