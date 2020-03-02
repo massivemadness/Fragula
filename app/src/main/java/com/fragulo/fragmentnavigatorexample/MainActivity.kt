@@ -31,11 +31,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        navigator.release()
-        super.onDestroy()
-    }
-
     fun addFragment(
         fragment: Fragment,
         vararg args: Arg<*, *>) {

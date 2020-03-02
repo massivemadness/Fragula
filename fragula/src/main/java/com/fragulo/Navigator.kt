@@ -8,7 +8,6 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.LifecycleObserver
 import com.fragulo.adapter.NavigatorAdapter
 import com.fragulo.common.Arg
 import com.fragulo.common.FragmentNavigator
@@ -16,7 +15,7 @@ import com.fragulo.common.SwipeDirection
 import com.fragulo.listener.OnFragmentNavigatorListener
 import java.io.Serializable
 
-class Navigator : FragmentNavigator, LifecycleObserver {
+class Navigator : FragmentNavigator {
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attributeSet: AttributeSet) : super(context, attributeSet)
@@ -203,6 +202,11 @@ class Navigator : FragmentNavigator, LifecycleObserver {
             }
         }
         return bundle
+    }
+
+    override fun onDetachedFromWindow() {
+        release()
+        super.onDetachedFromWindow()
     }
 
     companion object {
