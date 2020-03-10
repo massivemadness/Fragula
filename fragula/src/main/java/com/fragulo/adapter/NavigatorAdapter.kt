@@ -16,7 +16,11 @@ internal class NavigatorAdapter(private val fragmentManager: FragmentManager) :
     }
 
     fun replaceFragment(position: Int, fragment: Fragment) {
-        fragments[position] = fragment
+        if (fragments.isNotEmpty()) {
+            fragments[position] = fragment
+        } else {
+            fragments.add(fragment)
+        }
         notifyDataSetChanged()
     }
 
