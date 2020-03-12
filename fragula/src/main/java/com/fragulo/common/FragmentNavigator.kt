@@ -864,13 +864,13 @@ open class FragmentNavigator : ViewGroup {
         } else {
             val pageWidth = width * mAdapter!!.getPageWidth(mCurItem)
             val pageDelta = Math.abs(dx).toFloat() / (pageWidth + mPageMargin)
-            ((pageDelta + 1) * 140 * durationFactor).toInt()  // TODO shikleev 100
+            ((pageDelta + 1) * 140).toInt()  // TODO shikleev 100
         }
         duration = max(100, min(duration, MAX_SETTLE_DURATION))
         // Reset the "scroll started" flag. It will be flipped to true in all places
         // where we call computeScrollOffset().
         mIsScrollStarted = false
-        mScroller!!.startScroll(sx, sy, dx, dy, duration)
+        mScroller!!.startScroll(sx, sy, dx, dy, (duration * durationFactor).toInt())
         ViewCompat.postInvalidateOnAnimation(this)
     }
 

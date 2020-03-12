@@ -15,7 +15,7 @@ class NavigatorPageTransformer : FragmentNavigator.PageTransformer {
                     alpha = 1f
                     translationX = 0f
                 }
-                position <= 0 -> {
+                position > -1 && position <= 0 -> {
                     alpha = 1.0f - abs(position * 0.7f)
                     translationX = -pageWidth * position / 1.3F
                 }

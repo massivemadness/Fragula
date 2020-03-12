@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import com.fragulo.common.Arg
 import kotlinx.android.synthetic.main.activity_main.*
 
+
 private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +29,9 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             navigator.addFragment(BlankFragment())
         }
+
+        navigator.setPageTransformer(false, CustomPageTransformer())
+        navigator.setDurationFactor(2f)
     }
 
     fun addFragment(
