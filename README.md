@@ -185,6 +185,7 @@ And in your activity:
 ```kotlin
 navigator.setPageTransformer(false, CustomPageTransformer())
 ```
+![](20200312_143526.gif)
 
 
 #### Change the animation duration
