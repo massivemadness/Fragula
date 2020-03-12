@@ -181,6 +181,11 @@ class CustomPageTransformer: FragmentNavigator.PageTransformer {
     }
 }
 ```
+And in your activity:
+```kotlin
+navigator.setPageTransformer(false, CustomPageTransformer())
+```
+
 
 #### Change the animation duration
 ```kotlin
