@@ -11,7 +11,7 @@ class NavigatorPageTransformer : FragmentNavigator.PageTransformer {
         view.apply {
             val pageWidth = width
             when {
-                position > 0 && position < 0.99 -> {
+                position > 0 && position < 1 -> {
                     alpha = 1f
                     translationX = 0f
                 }

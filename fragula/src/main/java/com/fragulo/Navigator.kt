@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.fragulo.adapter.NavigatorAdapter
 import com.fragulo.common.Arg
+import com.fragulo.common.BundleBuilder
 import com.fragulo.common.FragmentNavigator
 import com.fragulo.common.SwipeDirection
 import com.fragulo.listener.OnFragmentNavigatorListener
@@ -34,7 +35,8 @@ class Navigator : FragmentNavigator {
     var onPageScrollStateChanged: ((state: Int) -> Unit)? = null
     var onPageSelected: ((position: Int) -> Unit)? = null
     var onNotifyDataChanged: ((fragmentCount: Int) -> Unit)? = null
-    var onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? = null
+    var onPageScrolled: ((position: Int, positionOffset: Float, positionOffsetPixels: Int) -> Unit)? =
+        null
 
     fun init(fragmentManager: FragmentManager) {
         this.fragmentManager = fragmentManager
@@ -43,14 +45,33 @@ class Navigator : FragmentNavigator {
         setBackgroundColor(Color.BLACK)
     }
 
+    /**
+     * Adds a fragment to the Navigator. Can be used with Bundle arguments.
+     * Use [com.fragulo.common.BundleBuilder].
+     *
+     * For example:
+     *  Navigator.addFragment(BlankFragment()) {
+     *       "ARGUMENT_KEY_1" to "Example string"
+     *       "ARGUMENTS_KEY_2" to 12345
+     *  }
+     */
     fun addFragment(
         fragment: Fragment,
-        vararg args: Arg<*, *>) {
-        fragment.arguments = getBundle(*args)
+        builder: (BundleBuilder.() -> Unit)? = null
+    ) {
+        builder?.let {
+            val bb = BundleBuilder()
+            bb.builder()
+            fragment.arguments = bb.bundle
+        }
         addFragment(fragment)
     }
 
-    fun addFragment(fragment: Fragment) {
+    /**
+     * Adds a fragment to the [com.fragulo.adapter.NavigatorAdapter]
+     * and goes to this fragment.
+     */
+    private fun addFragment(fragment: Fragment) {
         if (fragment.isAdded || navigatorAdapter == null)
             return
 
@@ -58,27 +79,46 @@ class Navigator : FragmentNavigator {
             isBlockTouchEvent = true
         }
         navigatorAdapter!!.addFragment(fragment)
-        Handler().postDelayed({
+        post {
             goToNextFragment()
-        }, 30)
+        }
     }
 
-    fun replaceCurrentFragment(newFragment: Fragment, vararg args: Arg<*, *>) {
-        newFragment.arguments = getBundle(*args)
-        replaceCurrentFragment(newFragment)
-    }
-
-    fun replaceCurrentFragment(newFragment: Fragment) {
-        navigatorAdapter?.replaceFragment((navigatorAdapter?.count ?: 1) - 1, newFragment)
-    }
-
-    fun replaceFragmentByPosition(newFragment: Fragment, position: Int, vararg args: Arg<*, *>) {
-        newFragment.arguments = getBundle(*args)
-        navigatorAdapter?.replaceFragment(position, newFragment)
-    }
-
-    fun replaceFragmentByPosition(newFragment: Fragment, position: Int) {
-        navigatorAdapter?.replaceFragment(position, newFragment)
+    /**
+     * Replaces a fragment in the Navigator. Can be used with Bundle arguments.
+     * Use [com.fragulo.common.BundleBuilder].
+     *
+     * Example of replacing the current fragment:
+     *  Navigator.replaceFragment(BlankFragment()) {
+     *       "ARGUMENT_KEY_1" to "Example string"
+     *       "ARGUMENTS_KEY_2" to 12345
+     *  }
+     *
+     *
+     * Example of replacing the target fragment:
+     *  Navigator.replaceFragment(
+     *       fragment = BlankFragment(),
+     *       position = 2,
+     *       builder = {
+     *           "ARGUMENT_KEY_1" to "Example string"
+     *           "ARGUMENTS_KEY_2" to 12345
+     *       }
+     *   )
+     */
+    fun replaceFragment(
+        fragment: Fragment,
+        position: Int? = null,
+        builder: (BundleBuilder.() -> Unit)? = null
+    ) {
+        builder?.let {
+            val bb = BundleBuilder()
+            bb.builder()
+            fragment.arguments = bb.bundle
+        }
+        navigatorAdapter?.replaceFragment(
+            position ?: (navigatorAdapter?.count ?: 1) - 1,
+            fragment
+        )
     }
 
     private fun initAdapter() {
@@ -87,7 +127,7 @@ class Navigator : FragmentNavigator {
         adapter = navigatorAdapter
     }
 
-    fun fragments() : ArrayList<Fragment>? {
+    fun fragments(): ArrayList<Fragment>? {
         return navigatorAdapter?.fragments
     }
 
@@ -100,11 +140,13 @@ class Navigator : FragmentNavigator {
             override fun onPageSelected(position: Int) {
                 onPageSelected?.invoke(position)
             }
+
             override fun onNotifyDataChanged(itemCount: Int) {
                 setCurrentFragment()
                 setPreviousFragment()
                 onNotifyDataChanged?.invoke(itemCount)
             }
+
             override fun onPageScrollStateChanged(state: Int) {
                 isBlockTouchEvent = state == SCROLL_STATE_SETTLING
                 when (state) {
@@ -126,7 +168,12 @@ class Navigator : FragmentNavigator {
                 }
                 onPageScrollStateChanged?.invoke(state)
             }
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
                 swipeDirection =
                     if (position + positionOffset < sumPositionAndPositionOffset) SwipeDirection.LEFT
                     else SwipeDirection.RIGHT
@@ -164,6 +211,7 @@ class Navigator : FragmentNavigator {
         previousFragment = null
     }
 
+    @Deprecated("Use BundleBuilder")
     private fun getBundle(vararg args: Arg<*, *>): Bundle {
         val bundle = Bundle()
         for (arg in args) {
@@ -202,6 +250,67 @@ class Navigator : FragmentNavigator {
             }
         }
         return bundle
+    }
+
+    @Deprecated(
+        message = "Use addFragment with BundleBuilder",
+        replaceWith = ReplaceWith(
+            expression = "addFragment(fragment) { }",
+            imports = ["com.fragulo.Navigator"]
+        )
+    )
+    fun addFragment(
+        fragment: Fragment,
+        vararg args: Arg<*, *>
+    ) {
+        fragment.arguments = getBundle(*args)
+        addFragment(fragment)
+    }
+
+    @Deprecated(
+        message = "Use replaceFragment with BundleBuilder",
+        replaceWith = ReplaceWith(
+            expression = "replaceFragment(newFragment) { }",
+            imports = ["com.fragulo.Navigator"]
+        )
+    )
+    fun replaceCurrentFragment(newFragment: Fragment, vararg args: Arg<*, *>) {
+        newFragment.arguments = getBundle(*args)
+        replaceCurrentFragment(newFragment)
+    }
+
+    @Deprecated(
+        message = "Use replaceFragment with BundleBuilder",
+        replaceWith = ReplaceWith(
+            expression = "replaceFragment(newFragment)",
+            imports = ["com.fragulo.Navigator"]
+        )
+    )
+    fun replaceCurrentFragment(newFragment: Fragment) {
+        navigatorAdapter?.replaceFragment((navigatorAdapter?.count ?: 1) - 1, newFragment)
+    }
+
+    @Deprecated(
+        message = "Use replaceFragment with BundleBuilder",
+        replaceWith = ReplaceWith(
+            expression = "replaceFragment(newFragment, position) { }",
+            imports = ["com.fragulo.Navigator"]
+        )
+    )
+    fun replaceFragmentByPosition(newFragment: Fragment, position: Int, vararg args: Arg<*, *>) {
+        newFragment.arguments = getBundle(*args)
+        navigatorAdapter?.replaceFragment(position, newFragment)
+    }
+
+    @Deprecated(
+        message = "Use replaceFragment with BundleBuilder",
+        replaceWith = ReplaceWith(
+            expression = "replaceFragment(newFragment, position)",
+            imports = ["com.fragulo.Navigator"]
+        )
+    )
+    fun replaceFragmentByPosition(newFragment: Fragment, position: Int) {
+        navigatorAdapter?.replaceFragment(position, newFragment)
     }
 
     override fun onDetachedFromWindow() {

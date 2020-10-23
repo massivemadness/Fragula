@@ -20,6 +20,8 @@ class BlankFragment : Fragment(), OnFragmentNavigatorListener {
     private var param1: String? = null
     private var param2: Int? = null
 
+    lateinit var rootActivity: MainActivity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -35,6 +37,8 @@ class BlankFragment : Fragment(), OnFragmentNavigatorListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        rootActivity = activity as MainActivity
+
         retainInstance = true
 
         param1?.let {
@@ -45,34 +49,38 @@ class BlankFragment : Fragment(), OnFragmentNavigatorListener {
             tv_args_2.text = it.toString()
         }
 
-        val count = (activity as MainActivity).navigator.fragmentsCount().toString()
+        val count = rootActivity.navigator.fragmentsCount().toString()
 
         tv_number.text = count
 
         btn_add_fragment.setOnClickListener {
-            (activity as MainActivity).addFragment(BlankFragment())
+            rootActivity.addFragment(BlankFragment())
         }
 
         btn_add_fragment_args.setOnClickListener {
-            (activity as MainActivity).addFragment(
-                BlankFragment(),
-                Arg(ARG_PARAM1, "Add fragment arg"),
-                Arg(ARG_PARAM2, 12345)
-            )
+            rootActivity.addFragment(BlankFragment()) {
+                ARG_PARAM1 to "Add fragment arg"
+                ARG_PARAM2 to 12345
+            }
         }
 
         btn_replace_fragment.setOnClickListener {
-            (activity as MainActivity).replaceCurrentFragment(BlankFragment())
+            rootActivity.replaceFragment(BlankFragment())
         }
 
         btn_replace_fragment_args.setOnClickListener {
-            (activity as MainActivity).replaceCurrentFragment(
-                BlankFragment(),
-                Arg(ARG_PARAM1, "Replace Fragment arg"),
-                Arg(ARG_PARAM2, 6789)
-            )
+            rootActivity.replaceFragment(BlankFragment()) {
+                ARG_PARAM1 to "Replace Fragment arg"
+                ARG_PARAM2 to 6789
+            }
         }
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(ARG_PARAM1, outState.getString(ARG_PARAM1))
+        outState.putInt(ARG_PARAM2, outState.getInt(ARG_PARAM2))
     }
 
     override fun onOpenedFragment() {

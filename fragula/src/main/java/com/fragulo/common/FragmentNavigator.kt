@@ -1702,10 +1702,10 @@ open class FragmentNavigator : ViewGroup {
 
     private fun setChangingChildVisibility(child: View, position: Float) {
         when {
-            position <= -0.99 -> {
+            position <= -1 -> {
                 child.invisible()
             }
-            position > 0 && position < 0.99 -> {
+            position > 0 && position < 1 -> {
                 child.visible()
             }
             position <= 0 -> {

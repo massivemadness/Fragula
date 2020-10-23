@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.fragulo.common.Arg
+import com.fragulo.common.BundleBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -26,38 +27,25 @@ class MainActivity : AppCompatActivity() {
         }
         navigator.onNotifyDataChanged = { fragmentCount -> }
         navigator.onPageScrollStateChanged = { state -> }
+
         if (savedInstanceState == null) {
             navigator.addFragment(BlankFragment())
         }
-
-        navigator.setPageTransformer(false, CustomPageTransformer())
-        navigator.setDurationFactor(2f)
     }
 
     fun addFragment(
         fragment: Fragment,
-        vararg args: Arg<*, *>) {
-        navigator.addFragment(fragment, *args)
+        builder: (BundleBuilder.() -> Unit)? = null
+    ) {
+        navigator.addFragment(fragment, builder)
     }
 
-    fun addFragment(fragment: Fragment) {
-        navigator.addFragment(fragment)
-    }
-
-    fun replaceCurrentFragment(newFragment: Fragment, vararg args: Arg<*, *>) {
-        navigator.replaceCurrentFragment(newFragment, *args)
-    }
-
-    fun replaceCurrentFragment(newFragment: Fragment) {
-        navigator.replaceCurrentFragment(newFragment)
-    }
-
-    fun replaceFragmentByPosition(newFragment: Fragment, position: Int, vararg args: Arg<*, *>) {
-        navigator.replaceFragmentByPosition(newFragment, position, *args)
-    }
-
-    fun replaceFragmentByPosition(newFragment: Fragment, position: Int) {
-        navigator.replaceFragmentByPosition(newFragment, position)
+    fun replaceFragment(
+        fragment: Fragment,
+        position: Int? = null,
+        builder: (BundleBuilder.() -> Unit)? = null
+    ) {
+        navigator.replaceFragment(fragment, position, builder)
     }
 
     // Intercept and block touch event when the new fragment is opening
