@@ -61,10 +61,10 @@ override fun onCreate(savedInstanceState: Bundle?) {
 #### Passing arguments to a fragment
 You can pass an unlimited number of arguments in the function parameters:
 ```kotlin
-navigator.addFragment(
-    BlankFragment(),
-    Arg(ARG_PARAM1, "Add fragment arg"),
-    Arg(ARG_PARAM2, 12345))
+navigator.addFragment(BlankFragment()) {
+    "ARG_KEY_1" to "Add fragment arg"
+    "ARG_KEY_2" to 12345
+}
 ```
 And get them in an opened fragment:
 ```kotlin
@@ -76,8 +76,8 @@ class BlankFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getInt(ARG_PARAM2)
+            param1 = it.getString("ARG_KEY_1")
+            param2 = it.getInt("ARG_KEY_2")
         }
     }
 }
@@ -85,14 +85,17 @@ class BlankFragment : Fragment() {
 
 #### Replace fragment
 ```kotlin
-navigator.replaceCurrentFragment(newFragment)
+navigator.replaceFragment(newFragment)
 ```
 Or replace by position with arguments
 ```kotlin
-navigator.replaceFragmentByPosition(
-   newFragment, 
-   position, 
-   Arg(ARG_PARAM1, "Replace fragment arg"))
+navigator.replaceFragment(
+   fragment = newFragment, 
+   position = position,
+   builder = {
+        "ARG_KEY_1" to "Replace fragment arg"
+   }
+)
 ```
 
 #### Intercept events
