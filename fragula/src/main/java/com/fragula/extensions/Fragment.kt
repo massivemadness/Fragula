@@ -1,9 +1,6 @@
 package com.fragula.extensions
 
-import android.app.Activity
-import android.util.Log
-import android.view.View
-import android.view.ViewGroup
+import android.view.ViewParent
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -125,19 +122,19 @@ inline fun <reified T> Fragment.getCallback(@IdRes navigatorId: Int? = null): T 
  */
 val Fragment.parentNavigator: Navigator
     get() {
-        when {
-            view?.parent is Navigator -> {
-                return view?.parent as Navigator
-            }
-            view == null -> {
-                throw NullPointerException(
-                    "View of the fragment is null. " +
-                            "Maybe the view hasn't been created yet? Make sure that " +
-                            "you call this method after creating the view."
-                )
-            }
-            else -> {
-                throw IllegalStateException("The fragment is not attached to the Navigator.")
-            }
+        if (view == null) {
+            throw NullPointerException(
+                "View of the fragment is null. " +
+                        "Maybe the view hasn't been created yet? Make sure that " +
+                        "you call this method after creating the view."
+            )
         }
+        val navigator = checkParent(view!!.parent)
+        return navigator as Navigator
     }
+
+private fun checkParent(viewParent: ViewParent?): ViewParent? {
+    return if (viewParent != null && viewParent is Navigator) return viewParent
+    else if (viewParent != null && viewParent !is Navigator) checkParent(viewParent.parent)
+    else throw IllegalStateException("The fragment is not attached to the Navigator.")
+}
