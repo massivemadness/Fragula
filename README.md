@@ -275,9 +275,9 @@ MotionLayout.setOnTouchListener { view, motionEvent ->
 Also, you can take a look at the [sample project](https://github.com/shikleyev/fragula/tree/master/app) for more information.
 
 ![](20200301_131439.gif)
-https://github.com/shikleev/fragula/tree/master/bottomnavigationexample
-[Sample project for bottom navigation](https://github.com/shikleev/fragula/tree/master/bottomnavigationexample) for more information.
 
+
+[Sample project for bottom navigation](https://github.com/shikleev/fragula/tree/master/bottomnavigationexample) for more information.
 
 ![](ezgif-6-50786136c405.gif)
 
