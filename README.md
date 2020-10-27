@@ -43,15 +43,16 @@ All you need to do is create a Navigator in the xml of your activity:
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     tools:context=".MainActivity"/>
 ```
 
-And init Navigator in your activity:
+And add a first fragment:
 ```kotlin
 override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    navigator.init(supportFragmentManager)
+    
     if (savedInstanceState == null) {
         navigator.addFragment(BlankFragment())
     }
@@ -59,13 +60,21 @@ override fun onCreate(savedInstanceState: Bundle?) {
 ```
 
 #### Passing arguments to a fragment
-You can pass an unlimited number of arguments in the function parameters:
+You can pass arguments in the function parameters:
 ```kotlin
 navigator.addFragment(BlankFragment()) {
     "ARG_KEY_1" to "Add fragment arg"
     "ARG_KEY_2" to 12345
 }
 ```
+Or using kotlin-extensions:
+```kotlin
+addFragment<BlankFragment> {
+    "ARG_KEY_1" to "Add fragment arg"
+    "ARG_KEY_2" to 12345
+}
+```
+
 And get them in an opened fragment:
 ```kotlin
 class BlankFragment : Fragment() {
@@ -85,21 +94,24 @@ class BlankFragment : Fragment() {
 
 #### Replace fragment
 ```kotlin
-navigator.replaceFragment(newFragment)
+navigator.replaceFragment(BlankFragment())
+```
+With kotlin-extensions
+```kotlin
+replaceFragment<BlankFragment>()
 ```
 Or replace by position with arguments
 ```kotlin
-navigator.replaceFragment(
-   fragment = newFragment, 
+replaceFragment<BlankFragment>(
    position = position,
-   builder = {
+   bundleBuilder = {
         "ARG_KEY_1" to "Replace fragment arg"
    }
 )
 ```
 
 #### Intercept events
-Intercept the youch event while the fragment transaction is in progress.
+Intercept the touch event while the fragment transaction is in progress.
 In your Activity:
 ```kotlin
 override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
@@ -112,7 +124,7 @@ override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
 Intercept onBackPressed:
 ```kotlin
 override fun onBackPressed() {
-    if (navigator.fragmentsCount() > 1) {
+    if (navigator.fragmentCount > 1) {
         navigator.goToPreviousFragmentAndRemoveLast()
     } else {
         super.onBackPressed()
@@ -148,7 +160,7 @@ navigator.onPageScrollStateChanged = {state ->
 #### Fragment stack
 You can get a stack of fragments by accessing the Navigator:
 ```kotlin
-val fragments: ArrayList<Fragment> = navigator.fragments()
+val fragments: List<Fragment> = navigator.fragments
 ```
 Or using the Fragment Manager to search for a fragment by tag
 (The Navigator assigns a tag to each fragment depending on the position in the Navigator):
@@ -156,6 +168,32 @@ Or using the Fragment Manager to search for a fragment by tag
 val fragment = supportFragmentManager.findFragmentByTag("0")
 if (fragment != null && fragment is MainFragment) {
     mainFragment = fragment
+}
+```
+
+#### Information transfer between fragments
+You can implement your own interface in the target fragment and call its callbacks in the current fragment:
+```kotlin
+interface ExampleCallback {
+    fun onReceive()
+}
+
+class TargetFragment : Fragment(), ExampleCallback {
+
+    override fun onReceive() {
+        // do something
+    }
+}
+```
+Then, on the current fragment, call the getCallback<T> function and call the desired function:
+```kotlin
+class CurrentFragment : Fragment() {
+    
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    
+        getCallback<ExampleCallback>.onReceive()
+    }
 }
 ```
 
@@ -237,5 +275,10 @@ MotionLayout.setOnTouchListener { view, motionEvent ->
 Also, you can take a look at the [sample project](https://github.com/shikleyev/fragula/tree/master/app) for more information.
 
 ![](20200301_131439.gif)
+
+
+[Sample project for bottom navigation](https://github.com/shikleev/fragula/tree/master/bottomnavigationexample)
+
+![](ezgif-6-50786136c405.gif)
 
 
