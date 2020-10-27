@@ -175,12 +175,12 @@ if (fragment != null && fragment is MainFragment) {
 You can implement your own interface in the target fragment and call its callbacks in the current fragment:
 ```kotlin
 interface ExampleCallback {
-    fun onSuccess()
+    fun onReceive()
 }
 
 class TargetFragment : Fragment(), ExampleCallback {
 
-override fun onReceive() {
+    override fun onReceive() {
         // do something
     }
 }
@@ -275,5 +275,7 @@ MotionLayout.setOnTouchListener { view, motionEvent ->
 Also, you can take a look at the [sample project](https://github.com/shikleyev/fragula/tree/master/app) for more information.
 
 ![](20200301_131439.gif)
+
+![](2020-10-27 14.26.59.mp4)
 
 
