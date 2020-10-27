@@ -277,7 +277,7 @@ Also, you can take a look at the [sample project](https://github.com/shikleyev/f
 ![](20200301_131439.gif)
 
 
-[Sample project for bottom navigation](https://github.com/shikleev/fragula/tree/master/bottomnavigationexample) for more information.
+[Sample project for bottom navigation](https://github.com/shikleev/fragula/tree/master/bottomnavigationexample)
 
 ![](ezgif-6-50786136c405.gif)
 
