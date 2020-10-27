@@ -37,7 +37,7 @@ implementation 'com.github.shikleev:fragula:latest_version'
 All you need to do is create a Navigator in the xml of your activity:
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-<com.fragulo.Navigator
+<com.fragula.Navigator
     android:id="@+id/navigator"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
