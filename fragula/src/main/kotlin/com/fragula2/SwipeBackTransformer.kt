@@ -21,7 +21,7 @@ class SwipeBackTransformer : ViewPager2.PageTransformer {
                 page.visibility = View.VISIBLE
                 page.translationX = -page.width * position / 1.3F
             }
-            // Все врагменты слева от текущего, убираем их из отрисовки
+            // Все фрагменты слева от текущего, убираем их из отрисовки
             else -> {
                 page.visibility = View.INVISIBLE
             }

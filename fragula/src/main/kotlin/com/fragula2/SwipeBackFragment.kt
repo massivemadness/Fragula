@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 
 class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
@@ -42,6 +43,10 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
             viewPager.setPageTransformer(SwipeBackTransformer())
             viewPager.adapter = SwipeBackAdapter(this).also { adapter ->
                 swipeBackAdapter = adapter
+            }
+            val child = viewPager.getChildAt(0)
+            if (child is RecyclerView) {
+                child.overScrollMode = View.OVER_SCROLL_NEVER
             }
         }
 
