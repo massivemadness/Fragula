@@ -26,8 +26,13 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
             }
         }
         override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            super.onPageScrolled(position, positionOffset, positionOffsetPixels)
             shouldPop = position + positionOffset < scrollOffset
             scrollOffset = position + positionOffset
+        }
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            viewPager?.requestTransform()
         }
     }
 
@@ -51,8 +56,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
         }
 
         if (initialClassName != null) {
-            navigate(initialClassName ?: throw IllegalArgumentException("Invalid fragment"))
-            arguments?.clear()
+            navigate(initialClassName!!)
         } else {
             for (entry in navController.backQueue) {
                 if (entry.destination is NavGraph) continue
@@ -64,6 +68,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
                 navigate(className)
             }
         }
+        arguments?.clear()
     }
 
     override fun onDestroy() {
