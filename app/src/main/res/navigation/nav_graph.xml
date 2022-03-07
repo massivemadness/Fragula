@@ -5,7 +5,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/blankFragment">
 
-    <swipeback
+    <swipeable
         android:id="@+id/blankFragment"
         android:name="com.blacksquircle.fragula.sample.BlankFragment"
         android:label="BlankFragment"
@@ -13,6 +13,6 @@
         <action
             android:id="@+id/action_blankFragment_self"
             app:destination="@id/blankFragment" />
-    </swipeback>
+    </swipeable>
 
 </navigation>
