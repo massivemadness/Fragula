@@ -30,7 +30,6 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.customview.view.AbsSavedState
 import com.fragula.adapter.base.PagerAdapter
 import com.fragula.extensions.invisible
-import com.fragula.extensions.tryCatch
 import com.fragula.extensions.visible
 import com.fragula.transformer.NavigatorPageTransformer
 import java.lang.annotation.Inherited
@@ -95,7 +94,12 @@ import kotlin.math.min
  * You can find examples of using ViewPager in the API 4+ Support Demos and API 13+ Support Demos
  * sample code.
  */
-open class FragmentNavigator : ViewGroup {
+open class FragmentNavigator @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : ViewGroup(context, attrs, defStyleAttr) {
+
     /**
      * Used to track what the expected number of items in the adapter should be.
      * If the app changes this when we don't expect it, we'll throw a big obnoxious exception.
@@ -271,8 +275,11 @@ open class FragmentNavigator : ViewGroup {
          * @param oldAdapter the previously set adapter
          * @param newAdapter the newly set adapter
          */
-        fun onAdapterChanged(fragmentNavigator: FragmentNavigator,
-                             oldAdapter: PagerAdapter?, newAdapter: PagerAdapter?)
+        fun onAdapterChanged(
+            fragmentNavigator: FragmentNavigator,
+            oldAdapter: PagerAdapter?,
+            newAdapter: PagerAdapter?
+        )
     }
 
     /**
@@ -290,13 +297,9 @@ open class FragmentNavigator : ViewGroup {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(AnnotationTarget.ANNOTATION_CLASS, AnnotationTarget.CLASS)
     @Inherited
-    annotation class DecorView {}
+    annotation class DecorView
 
-    constructor(context: Context) : super(context) {
-        initViewPager()
-    }
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+    init {
         initViewPager()
     }
 
@@ -325,8 +328,10 @@ open class FragmentNavigator : ViewGroup {
         ViewCompat.setOnApplyWindowInsetsListener(this,
                 object : androidx.core.view.OnApplyWindowInsetsListener {
                     private val mTempRect = Rect()
-                    override fun onApplyWindowInsets(v: View,
-                                                     originalInsets: WindowInsetsCompat): WindowInsetsCompat { // First let the ViewPager itself try and consume them...
+                    override fun onApplyWindowInsets(
+                        v: View,
+                        originalInsets: WindowInsetsCompat
+                    ): WindowInsetsCompat { // First let the ViewPager itself try and consume them...
                         val applied = ViewCompat.onApplyWindowInsets(v, originalInsets)
                         if (applied.isConsumed) { // If the ViewPager consumed all insets, return now
                             return applied
@@ -407,7 +412,7 @@ open class FragmentNavigator : ViewGroup {
      * Retrieve the current adapter supplying pages.
      *
      * @return The currently registered PagerAdapter
-     */// Dispatch the change to any listeners
+     */ // Dispatch the change to any listeners
     /**
      * Set a PagerAdapter that will supply views for this pager as needed.
      *
@@ -570,8 +575,12 @@ open class FragmentNavigator : ViewGroup {
         }
     }
 
-    private fun scrollToItem(item: Int, smoothScroll: Boolean, velocity: Int,
-                             dispatchSelected: Boolean) {
+    private fun scrollToItem(
+        item: Int,
+        smoothScroll: Boolean,
+        velocity: Int,
+        dispatchSelected: Boolean
+    ) {
         val curInfo = infoForPosition(item)
         var destX = 0
         if (curInfo != null) {
@@ -593,7 +602,6 @@ open class FragmentNavigator : ViewGroup {
             pageScrolled(destX)
         }
     }
-
 
     /**
      * Add a listener that will be invoked whenever the page changes or is incrementally
@@ -652,8 +660,10 @@ open class FragmentNavigator : ViewGroup {
      * to be drawn from last to first instead of first to last.
      * @param transformer PageTransformer that will modify each page's animation properties
      */
-    fun setPageTransformer(reverseDrawingOrder: Boolean,
-                           transformer: PageTransformer?) {
+    fun setPageTransformer(
+        reverseDrawingOrder: Boolean,
+        transformer: PageTransformer?
+    ) {
         setPageTransformer(reverseDrawingOrder, transformer, View.LAYER_TYPE_HARDWARE)
     }
 
@@ -670,8 +680,11 @@ open class FragmentNavigator : ViewGroup {
      * [View.LAYER_TYPE_SOFTWARE], or
      * [View.LAYER_TYPE_NONE].
      */
-    fun setPageTransformer(reverseDrawingOrder: Boolean,
-                           transformer: PageTransformer?, pageLayerType: Int) {
+    fun setPageTransformer(
+        reverseDrawingOrder: Boolean,
+        transformer: PageTransformer?,
+        pageLayerType: Int
+    ) {
         val hasTransformer = transformer != null
         val needsPopulate = hasTransformer != (mPageTransformer != null)
         mPageTransformer = transformer
@@ -733,8 +746,8 @@ open class FragmentNavigator : ViewGroup {
         set(limit) {
             var limit = limit
             if (limit < DEFAULT_OFFSCREEN_PAGES) {
-                Log.w(TAG, "Requested offscreen page limit " + limit + " too small; defaulting to "
-                        + DEFAULT_OFFSCREEN_PAGES)
+                Log.w(TAG, "Requested offscreen page limit " + limit + " too small; defaulting to " +
+                        DEFAULT_OFFSCREEN_PAGES)
                 limit = DEFAULT_OFFSCREEN_PAGES
             }
             if (limit != mOffscreenPageLimit) {
@@ -864,7 +877,7 @@ open class FragmentNavigator : ViewGroup {
         } else {
             val pageWidth = width * mAdapter!!.getPageWidth(mCurItem)
             val pageDelta = Math.abs(dx).toFloat() / (pageWidth + mPageMargin)
-            ((pageDelta + 1) * 140).toInt()  // TODO shikleev 100
+            ((pageDelta + 1) * 140).toInt() // TODO shikleev 100
         }
         duration = max(100, min(duration, MAX_SETTLE_DURATION))
         // Reset the "scroll started" flag. It will be flipped to true in all places
@@ -894,8 +907,8 @@ open class FragmentNavigator : ViewGroup {
     fun dataSetChanged() { // This method only gets called if our observer is attached, so mAdapter is non-null.
         val adapterCount = mAdapter!!.count
         mExpectedAdapterCount = adapterCount
-        var needPopulate = (mItems.size < mOffscreenPageLimit * 2 + 1
-                && mItems.size < adapterCount)
+        var needPopulate = (mItems.size < mOffscreenPageLimit * 2 + 1 &&
+                mItems.size < adapterCount)
         var newCurrItem = mCurItem
         var isUpdating = false
         var i = 0
@@ -988,12 +1001,12 @@ open class FragmentNavigator : ViewGroup {
             } catch (e: NotFoundException) {
                 Integer.toHexString(id)
             }
-            throw IllegalStateException("The application's PagerAdapter changed the adapter's"
-                    + " contents without calling PagerAdapter#notifyDataSetChanged!"
-                    + " Expected adapter item count: " + mExpectedAdapterCount + ", found: " + N
-                    + " Pager id: " + resName
-                    + " Pager class: " + javaClass
-                    + " Problematic adapter: " + mAdapter?.javaClass)
+            throw IllegalStateException("The application's PagerAdapter changed the adapter's" +
+                    " contents without calling PagerAdapter#notifyDataSetChanged!" +
+                    " Expected adapter item count: " + mExpectedAdapterCount + ", found: " + N +
+                    " Pager id: " + resName +
+                    " Pager class: " + javaClass +
+                    " Problematic adapter: " + mAdapter?.javaClass)
         }
         // Locate the currently focused item or add it if needed.
         var curIndex = -1
@@ -1028,8 +1041,8 @@ open class FragmentNavigator : ViewGroup {
                         mItems.removeAt(itemIndex)
                         mAdapter!!.destroyItem(this, pos, ii.`object`!!)
                         if (DEBUG) {
-                            Log.i(TAG, "populate() - destroyItem() with pos: " + pos
-                                    + " view: " + ii.`object` as View?)
+                            Log.i(TAG, "populate() - destroyItem() with pos: " + pos +
+                                    " view: " + ii.`object` as View?)
                         }
                         itemIndex--
                         curIndex--
@@ -1060,8 +1073,8 @@ open class FragmentNavigator : ViewGroup {
                             mItems.removeAt(itemIndex)
                             mAdapter!!.destroyItem(this, pos, ii.`object`!!)
                             if (DEBUG) {
-                                Log.i(TAG, "populate() - destroyItem() with pos: " + pos
-                                        + " view: " + ii.`object` as View?)
+                                Log.i(TAG, "populate() - destroyItem() with pos: " + pos +
+                                        " view: " + ii.`object` as View?)
                             }
                             ii = if (itemIndex < mItems.size) mItems[itemIndex] else null
                         }
@@ -1247,9 +1260,9 @@ open class FragmentNavigator : ViewGroup {
         }
 
         override fun toString(): String {
-            return ("FragmentPager.SavedState{"
-                    + Integer.toHexString(System.identityHashCode(this))
-                    + " position=" + position + "}")
+            return ("FragmentPager.SavedState{" +
+                    Integer.toHexString(System.identityHashCode(this)) +
+                    " position=" + position + "}")
         }
 
         internal constructor(`in`: Parcel, loader: ClassLoader?) : super(`in`, loader) {
@@ -1474,8 +1487,8 @@ open class FragmentNavigator : ViewGroup {
                 mScroller!!.finalX = currentItem * clientWidth
             } else {
                 val widthWithMargin = width - paddingLeft - paddingRight + margin
-                val oldWidthWithMargin = (oldWidth - paddingLeft - paddingRight
-                        + oldMargin)
+                val oldWidthWithMargin = (oldWidth - paddingLeft - paddingRight +
+                        oldMargin)
                 val xpos = scrollX
                 val pageOffset = xpos.toFloat() / oldWidthWithMargin
                 val newOffsetPixels = (pageOffset * widthWithMargin).toInt()
@@ -1570,9 +1583,9 @@ open class FragmentNavigator : ViewGroup {
                         child.measure(widthSpec, heightSpec)
                     }
                     if (DEBUG) {
-                        Log.v(TAG, "Positioning #" + i + " " + child + " f=" + ii.`object`
-                                + ":" + childLeft + "," + childTop + " " + child.measuredWidth
-                                + "x" + child.measuredHeight)
+                        Log.v(TAG, "Positioning #" + i + " " + child + " f=" + ii.`object` +
+                                ":" + childLeft + "," + childTop + " " + child.measuredWidth +
+                                "x" + child.measuredHeight)
                     }
                     child.layout(childLeft, childTop,
                             childLeft + child.measuredWidth,
@@ -1627,8 +1640,8 @@ open class FragmentNavigator : ViewGroup {
         val widthWithMargin = width + mPageMargin
         val marginOffset = mPageMargin.toFloat() / width
         val currentPage = ii!!.position
-        val pageOffset = ((xpos.toFloat() / width - ii.offset)
-                / (ii.widthFactor + marginOffset))
+        val pageOffset = ((xpos.toFloat() / width - ii.offset) /
+                (ii.widthFactor + marginOffset))
         val offsetPixels = (pageOffset * widthWithMargin).toInt()
         mCalledSuper = false
         onPageScrolled(currentPage, pageOffset, offsetPixels)
@@ -1849,15 +1862,16 @@ open class FragmentNavigator : ViewGroup {
         }
 
         if (event.action == MotionEvent.ACTION_MOVE) {
-            tryCatch {
+            try {
                 val diffX = event.x - initialXValue
                 if (diffX > 0 && direction === SwipeDirection.LEFT) {
                     return false
                 } else if (diffX < 0 && direction === SwipeDirection.RIGHT) {
                     return false
                 }
+            } catch (e: Exception) {
+                // ignore
             }
-
         }
         return true
     }
@@ -1913,8 +1927,8 @@ open class FragmentNavigator : ViewGroup {
                 val y = ev.getY(pointerIndex)
                 val yDiff = Math.abs(y - mInitialMotionY)
                 if (DEBUG) Log.v(TAG, "Moved x to $x,$y diff=$xDiff,$yDiff")
-                if (dx != 0f && !isGutterDrag(mLastMotionX, dx)
-                        && canScroll(this, false, dx.toInt(), x.toInt(), y.toInt())) { // Nested view has scrollable area under this point. Let it be handled there.
+                if (dx != 0f && !isGutterDrag(mLastMotionX, dx) &&
+                        canScroll(this, false, dx.toInt(), x.toInt(), y.toInt())) { // Nested view has scrollable area under this point. Let it be handled there.
                     mLastMotionX = x
                     mLastMotionY = y
                     mIsUnableToDrag = true
@@ -1953,8 +1967,8 @@ open class FragmentNavigator : ViewGroup {
                 mIsUnableToDrag = false
                 mIsScrollStarted = true
                 mScroller!!.computeScrollOffset()
-                if (mScrollState == SCROLL_STATE_SETTLING
-                        && Math.abs(mScroller!!.finalX - mScroller!!.currX) > mCloseEnough) { // Let the user 'catch' the pager as it animates.
+                if (mScrollState == SCROLL_STATE_SETTLING &&
+                        Math.abs(mScroller!!.finalX - mScroller!!.currX) > mCloseEnough) { // Let the user 'catch' the pager as it animates.
                     mScroller!!.abortAnimation()
                     mPopulatePending = false
                     populate()
@@ -1966,9 +1980,9 @@ open class FragmentNavigator : ViewGroup {
                     mIsBeingDragged = false
                 }
                 if (DEBUG) {
-                    Log.v(TAG, "Down at " + mLastMotionX + "," + mLastMotionY
-                            + " mIsBeingDragged=" + mIsBeingDragged
-                            + "mIsUnableToDrag=" + mIsUnableToDrag)
+                    Log.v(TAG, "Down at " + mLastMotionX + "," + mLastMotionY +
+                            " mIsBeingDragged=" + mIsBeingDragged +
+                            "mIsUnableToDrag=" + mIsUnableToDrag)
                 }
             }
             MotionEvent.ACTION_POINTER_UP -> onSecondaryPointerUp(ev)
@@ -2059,8 +2073,8 @@ open class FragmentNavigator : ViewGroup {
                 val ii = infoForCurrentScrollPosition()
                 val marginOffset = mPageMargin.toFloat() / width
                 val currentPage = ii!!.position
-                val pageOffset = ((scrollX.toFloat() / width - ii.offset)
-                        / (ii.widthFactor + marginOffset))
+                val pageOffset = ((scrollX.toFloat() / width - ii.offset) /
+                        (ii.widthFactor + marginOffset))
                 val activePointerIndex = ev.findPointerIndex(mActivePointerId)
                 val x = ev.getX(activePointerIndex)
                 val totalDelta = (x - mInitialMotionX).toInt()
@@ -2213,8 +2227,8 @@ open class FragmentNavigator : ViewGroup {
         super.draw(canvas)
         var needsInvalidate = false
         val overScrollMode = overScrollMode
-        if (overScrollMode == View.OVER_SCROLL_ALWAYS
-                || overScrollMode == View.OVER_SCROLL_IF_CONTENT_SCROLLS && mAdapter != null && mAdapter!!.count > 1) {
+        if (overScrollMode == View.OVER_SCROLL_ALWAYS ||
+                overScrollMode == View.OVER_SCROLL_IF_CONTENT_SCROLLS && mAdapter != null && mAdapter!!.count > 1) {
             if (!mLeftEdge!!.isFinished) {
                 val restoreCount = canvas.save()
                 val height = height - paddingTop - paddingBottom
@@ -2547,8 +2561,8 @@ open class FragmentNavigator : ViewGroup {
                     sb.append(" => ").append(parent.javaClass.simpleName)
                     parent = parent.getParent()
                 }
-                Log.e(TAG, "arrowScroll tried to find focus based on non-child "
-                        + "current focused view " + sb.toString())
+                Log.e(TAG, "arrowScroll tried to find focus based on non-child " +
+                        "current focused view " + sb.toString())
                 currentFocused = null
             }
         }
@@ -2648,8 +2662,8 @@ open class FragmentNavigator : ViewGroup {
         // FOCUS_AFTER_DESCENDANTS and there are some descendants focusable.  this is
         // to avoid the focus search finding layouts when a more precise search
         // among the focusable children would be more interesting.
-        if (descendantFocusability != FOCUS_AFTER_DESCENDANTS
-                || focusableCount == views.size) { // No focusable descendants
+        if (descendantFocusability != FOCUS_AFTER_DESCENDANTS ||
+                focusableCount == views.size) { // No focusable descendants
             // Note that we can't call the superclass here, because it will
             // add all views in.  So we need to do the same thing View does.
             if (!isFocusable) {
@@ -2682,8 +2696,10 @@ open class FragmentNavigator : ViewGroup {
     /**
      * We only want the current page that is being shown to be focusable.
      */
-    override fun onRequestFocusInDescendants(direction: Int,
-                                             previouslyFocusedRect: Rect?): Boolean {
+    override fun onRequestFocusInDescendants(
+        direction: Int,
+        previouslyFocusedRect: Rect?
+    ): Boolean {
         val index: Int
         val increment: Int
         val end: Int

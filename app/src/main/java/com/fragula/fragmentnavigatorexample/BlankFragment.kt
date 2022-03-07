@@ -5,12 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.fragula.extensions.*
 import com.fragula.listener.OnFragmentNavigatorListener
-import kotlinx.android.synthetic.main.fragment_blank.*
-
 
 const val ARG_PARAM1 = "param1"
 const val ARG_PARAM2 = "param2"
@@ -38,35 +36,35 @@ class BlankFragment : Fragment(), OnFragmentNavigatorListener {
         retainInstance = true
 
         param1?.let {
-            tv_args_1.text = it
+            view.findViewById<TextView>(R.id.tv_args_1).text = it
         }
 
         param2?.let {
-            tv_args_2.text = it.toString()
+            view.findViewById<TextView>(R.id.tv_args_2).text = it.toString()
         }
 
         view.post {
             val count = parentNavigator.fragmentCount.toString()
-            tv_number.text = count
+            view.findViewById<TextView>(R.id.tv_number).text = count
         }
 
-        btn_add_fragment.setOnClickListener {
+        view.findViewById<TextView>(R.id.btn_add_fragment).setOnClickListener {
             addFragment<BlankFragment>()
             getCallback<ExampleCallback>().onSuccess()
         }
 
-        btn_add_fragment_args.setOnClickListener {
+        view.findViewById<TextView>(R.id.btn_add_fragment_args).setOnClickListener {
             addFragment<BlankFragment> {
                 ARG_PARAM1 to "Add fragment arg"
                 ARG_PARAM2 to 12345
             }
         }
 
-        btn_replace_fragment.setOnClickListener {
+        view.findViewById<TextView>(R.id.btn_replace_fragment).setOnClickListener {
             replaceFragment<BlankFragment>()
         }
 
-        btn_replace_fragment_args.setOnClickListener {
+        view.findViewById<TextView>(R.id.btn_replace_fragment_args).setOnClickListener {
             replaceFragment<BlankFragment> {
                 ARG_PARAM1 to "Replace Fragment arg"
                 ARG_PARAM2 to 6789
@@ -87,10 +85,10 @@ class BlankFragment : Fragment(), OnFragmentNavigatorListener {
     }
 
     override fun onOpenedFragment() {
-        Log.i("TEST","OPENED_FRAGMENT")
+        Log.i("TEST", "OPENED_FRAGMENT")
     }
 
     override fun onReturnedFragment() {
-        Log.i("TEST","RETURNED_FRAGMENT")
+        Log.i("TEST", "RETURNED_FRAGMENT")
     }
 }

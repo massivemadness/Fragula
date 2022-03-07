@@ -1,28 +1,33 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
-    ext.kotlin_version = '1.3.61'
+    apply from: rootProject.file("gradle/versions.gradle")
     repositories {
         google()
-        jcenter()
-        
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        classpath plugin.android_gradle_plugin
+        classpath plugin.kotlin_gradle_plugin
+        classpath plugin.hilt_gradle_plugin
+        classpath plugin.safeargs_gradle_plugin
     }
 }
 
 allprojects {
+    apply from: rootProject.file("gradle/ktlint.gradle")
     repositories {
         google()
-        jcenter()
-        maven { url 'https://jitpack.io' }
-        
+        mavenCentral()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+task installGitHook(type: Copy) {
+    from new File(rootProject.rootDir, 'pre-commit')
+    into { new File(rootProject.rootDir, '.git/hooks') }
+    fileMode 0777
+}
+
+tasks.getByPath(':app:preBuild').dependsOn installGitHook

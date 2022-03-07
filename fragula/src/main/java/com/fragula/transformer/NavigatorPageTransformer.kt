@@ -4,7 +4,6 @@ import android.view.View
 import com.fragula.common.FragmentNavigator
 import kotlin.math.abs
 
-
 class NavigatorPageTransformer : FragmentNavigator.PageTransformer {
 
     override fun transformPage(view: View, position: Float) {

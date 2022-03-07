@@ -5,10 +5,11 @@ import android.util.Log
 import android.view.MotionEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
-
+import com.fragula.Navigator
 
 class MainActivity : AppCompatActivity(), ExampleCallback {
+
+    private val navigator by lazy { findViewById<Navigator>(R.id.navigator) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity(), ExampleCallback {
             navigator.addFragment(BlankFragment())
         }
 
-        navigator.onPageScrolled = {position, positionOffset, positionOffsetPixels ->
+        navigator.onPageScrolled = { position, positionOffset, positionOffsetPixels ->
             Log.i(TAG, "position: $position  positionOffset: $positionOffset  positionOffsetPixels: $positionOffsetPixels")
         }
         navigator.onNotifyDataChanged = { fragmentCount -> }

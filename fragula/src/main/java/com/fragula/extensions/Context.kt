@@ -6,20 +6,17 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import com.fragula.navigator.R
 
-
 internal fun Context.getColorCompat(@ColorRes colorRes: Int) =
     ContextCompat.getColor(this, colorRes)
 
 internal fun Context.getDrawableCompat(@DrawableRes drawableRes: Int) =
     ContextCompat.getDrawable(this, drawableRes)
 
-
 internal inline val Context.displayWidth: Int
     get() = resources.displayMetrics.widthPixels
 
 internal inline val Context.displayHeight: Int
     get() = resources.displayMetrics.heightPixels
-
 
 internal fun Context?.getStatusBarHeight(): Int {
     this?.let {
@@ -40,4 +37,3 @@ internal fun Context?.getToolbarHeight(): Int {
         return toolBarHeight
     } ?: run { return 0 }
 }
-

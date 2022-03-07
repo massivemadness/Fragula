@@ -7,7 +7,6 @@ import com.fragula.adapter.base.FragmentStatePagerAdapter
 internal class NavigatorAdapter(private val fragmentManager: FragmentManager) :
     FragmentStatePagerAdapter(fragmentManager) {
 
-
     val fragments: ArrayList<Fragment> = ArrayList()
 
     fun addFragment(fragment: Fragment) {
@@ -23,7 +22,6 @@ internal class NavigatorAdapter(private val fragmentManager: FragmentManager) :
         }
         notifyDataSetChanged()
     }
-
 
     fun removeLastFragment() {
         fragmentManager.beginTransaction().remove(fragments.last()).commitNowAllowingStateLoss()
@@ -54,7 +52,6 @@ internal class NavigatorAdapter(private val fragmentManager: FragmentManager) :
     override val count: Int
         get() = fragments.size
 
-
     override fun onRestoredFragments(fragments: ArrayList<Fragment?>?) {
         this.fragments.clear()
         fragments?.forEach {
@@ -65,4 +62,3 @@ internal class NavigatorAdapter(private val fragmentManager: FragmentManager) :
         notifyDataSetChanged()
     }
 }
-

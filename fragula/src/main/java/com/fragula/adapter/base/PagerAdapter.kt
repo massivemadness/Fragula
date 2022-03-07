@@ -322,4 +322,3 @@ abstract class PagerAdapter {
         const val POSITION_NONE = -2
     }
 }
-

@@ -1,6 +1,5 @@
 package com.fragula.adapter.base
 
-
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
@@ -11,8 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Lifecycle
-import com.fragula.extensions.log
-import com.fragula.extensions.simpleName
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy
 
@@ -71,8 +68,9 @@ internal abstract class FragmentStatePagerAdapter
  * @param fm fragment manager that will interact with this adapter
  * @param behavior determines if only current fragments are in a resumed state
  */
-@JvmOverloads constructor(private val mFragmentManager: FragmentManager,
-                          @param:Behavior private val mBehavior: Int = BEHAVIOR_SET_USER_VISIBLE_HINT
+@JvmOverloads constructor(
+    private val mFragmentManager: FragmentManager,
+    @param:Behavior private val mBehavior: Int = BEHAVIOR_SET_USER_VISIBLE_HINT
 ) : PagerAdapter() {
     private var mCurTransaction: FragmentTransaction? = null
 
@@ -94,8 +92,8 @@ internal abstract class FragmentStatePagerAdapter
 
     override fun startUpdate(container: ViewGroup) {
         check(container.id != View.NO_ID) {
-            ("ViewPager with adapter " + this
-                    + " requires a view id")
+            ("ViewPager with adapter " + this +
+                    " requires a view id")
         }
     }
 
@@ -226,7 +224,7 @@ internal abstract class FragmentStatePagerAdapter
     }
 
     override fun restoreState(state: Parcelable?, loader: ClassLoader?) {
-        log("RESTORED_FRAGMENTS___: state ${state} ")
+        Log.e("FRAGULA", "RESTORED_FRAGMENTS___: state $state ")
         if (state != null) {
             val bundle = state as Bundle?
             bundle!!.classLoader = loader
@@ -239,12 +237,12 @@ internal abstract class FragmentStatePagerAdapter
                 }
             }
             val keys = bundle.keySet()
-            log("RESTORED_FRAGMENTS___: keys ${keys} ")
+            Log.e("FRAGULA", "RESTORED_FRAGMENTS___: keys $keys ")
             for (key in keys) {
                 if (key.startsWith("f")) {
                     val index = Integer.parseInt(key.substring(1))
                     val f = mFragmentManager.getFragment(bundle, key)
-                    log("RESTORED_FRAGMENTS___: ROOT ${f?.simpleName} ")
+                    Log.e("FRAGULA", "RESTORED_FRAGMENTS___: ROOT ${f?.javaClass?.simpleName} ")
                     if (f != null) {
                         while (mFragments.size <= index) {
                             mFragments.add(null)

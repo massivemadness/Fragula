@@ -2,7 +2,6 @@ package com.fragula.extensions
 
 import android.view.View
 
-
 internal fun View.visible() {
     if (visibility != View.VISIBLE) {
         visibility = View.VISIBLE
