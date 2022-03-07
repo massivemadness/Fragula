@@ -3,8 +3,8 @@ package com.blacksquircle.fragula.sample
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.blacksquircle.fragula.sample.databinding.FragmentBlankBinding
-import com.fragula2.findNavController
 
 class BlankFragment : Fragment(R.layout.fragment_blank) {
 
