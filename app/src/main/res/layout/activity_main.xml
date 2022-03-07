@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.fragula.Navigator
+<com.blacksquircle.fragula.Navigator
     android:id="@+id/navigator"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"

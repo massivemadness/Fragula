@@ -8,7 +8,7 @@ ext {
 
             // Library
             publishVersionName: '2.0',
-            publishVersionCode: 10
+            publishVersionCode: 1
     ]
 
     // Plugins

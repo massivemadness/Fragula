@@ -10,7 +10,7 @@ android {
     buildToolsVersion versions.buildTools
 
     defaultConfig {
-        applicationId "com.blacksquircle.fragula"
+        applicationId "com.blacksquircle.fragula.sample"
 
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
