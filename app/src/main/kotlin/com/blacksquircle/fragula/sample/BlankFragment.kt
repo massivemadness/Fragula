@@ -3,9 +3,8 @@ package com.blacksquircle.fragula.sample
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.blacksquircle.fragula.extensions.addFragment
-import com.blacksquircle.fragula.extensions.parentNavigator
 import com.blacksquircle.fragula.sample.databinding.FragmentBlankBinding
+import com.fragula2.findNavController
 
 class BlankFragment : Fragment(R.layout.fragment_blank) {
 
@@ -13,6 +12,7 @@ class BlankFragment : Fragment(R.layout.fragment_blank) {
     private val binding: FragmentBlankBinding
         get() = _binding!!
 
+    private val navController by lazy { findNavController() }
     private val param1 by lazy { arguments?.getString(ARG_PARAM_1) }
     private val param2 by lazy { arguments?.getInt(ARG_PARAM_2) }
 
@@ -23,18 +23,13 @@ class BlankFragment : Fragment(R.layout.fragment_blank) {
         param1?.let { binding.arg1.text = it }
         param2?.let { binding.arg2.text = it.toString() }
 
+        binding.counter.text = (navController.backQueue.size - 1).toString()
+
         binding.actionNavigate.setOnClickListener {
-            addFragment<BlankFragment>()
+            navController.navigate(R.id.blankFragment)
         }
         binding.actionPop.setOnClickListener {
-            addFragment<BlankFragment> {
-                ARG_PARAM_1 to "Add fragment arg"
-                ARG_PARAM_2 to 12345
-            }
-        }
-
-        view.post {
-            binding.counter.text = parentNavigator.fragmentCount.toString()
+            navController.popBackStack()
         }
     }
 

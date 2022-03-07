@@ -46,6 +46,10 @@ dependencies {
     // UI
     implementation library.appcompat
 
+    // AAC
+    implementation library.navigation_ui
+    implementation library.navigation_fragment
+
     // Tests
     testImplementation testLibrary.junit
 }

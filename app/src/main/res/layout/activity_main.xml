@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.blacksquircle.fragula.Navigator
-    android:id="@+id/navigator"
+<androidx.fragment.app.FragmentContainerView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    tools:context=".MainActivity"/>
+    android:id="@+id/nav_host"
+    android:name="com.fragula2.FragulaNavHostFragment"
+    app:navGraph="@navigation/nav_graph"
+    app:defaultNavHost="true" />
