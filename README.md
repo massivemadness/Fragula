@@ -3,7 +3,7 @@
 # Fragula
 A simple and customizable Android fragments navigator with support "swipe to dismiss" gestures and saving a stack of fragments when changing the screen orientation
 
-![](20200301_131107.gif)
+![](.github/20200301_131107.gif)
 
 ### Requirements
 * A project configured with the AndroidX
@@ -226,7 +226,7 @@ And in your activity:
 ```kotlin
 navigator.setPageTransformer(false, CustomPageTransformer())
 ```
-![](20200312_143526.gif)
+![](.github/20200312_143526.gif)
 
 
 #### Change the animation duration
@@ -250,7 +250,7 @@ This will also remove all closed fragments from the stack
 #### 2.
 Gestures conflict when using Motion Layout
 
-![](20200301_133838.gif)
+![](.github/20200301_133838.gif)
 
 If there is a conflict of gestures you can disable the swipe gestures in the Navigator and then turn them back on
 ```kotlin
@@ -269,16 +269,16 @@ MotionLayout.setOnTouchListener { view, motionEvent ->
     return@setOnTouchListener false
 }
 ```
-![](20200301_133937.gif)
+![](.github/20200301_133937.gif)
 
 
 Also, you can take a look at the [sample project](https://github.com/shikleyev/fragula/tree/master/app) for more information.
 
-![](20200301_131439.gif)
+![](.github/20200301_131439.gif)
 
 
 [Sample project for bottom navigation](https://github.com/shikleev/fragula/tree/master/bottomnavigationexample)
 
-![](ezgif-6-50786136c405.gif)
+![](.github/ezgif-6-50786136c405.gif)
 
 

@@ -1,4 +1,1 @@
-include ':bottomnavigationexample'
-rootProject.name='Fragment Navigator Example'
-include ':app'
-include ':fragula'
+include ':app', ':fragula'
