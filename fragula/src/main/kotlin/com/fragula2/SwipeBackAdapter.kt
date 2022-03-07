@@ -16,10 +16,6 @@ class SwipeBackAdapter(private val fragment: Fragment) : FragmentStateAdapter(fr
         return currentList.size
     }
 
-    fun contains(className: String): Boolean {
-        return currentList.contains(className)
-    }
-
     fun push(className: String) {
         currentList.add(className)
         notifyItemInserted(currentList.size - 1)

@@ -25,8 +25,6 @@ class BlankFragment : Fragment(R.layout.fragment_blank) {
         param1?.let { binding.arg1.text = it.toString() }
         param2?.let { binding.arg2.text = it.toString() }
 
-        binding.counter.text = (navController.backQueue.size - 1).toString()
-
         binding.actionNavigate.setOnClickListener {
             navController.navigate(R.id.blankFragment, bundleOf(
                 ARG_PARAM_1 to Random().nextInt(),
@@ -35,6 +33,10 @@ class BlankFragment : Fragment(R.layout.fragment_blank) {
         }
         binding.actionPop.setOnClickListener {
             navController.popBackStack()
+        }
+
+        view.post {
+            binding.counter.text = (navController.backQueue.size - 1).toString()
         }
     }
 
