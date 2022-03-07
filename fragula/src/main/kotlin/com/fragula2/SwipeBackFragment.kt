@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavGraph
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 
 class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
 
     private val initialClassName by lazy { arguments?.getString(ARG_CLASSNAME) }
+    private val navController by lazy { findNavController() }
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageScrollStateChanged(state: Int) {
             super.onPageScrollStateChanged(state)
@@ -16,7 +20,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
                 val itemCount = swipeBackAdapter?.itemCount ?: 0
                 val currentItem = viewPager?.currentItem ?: 0
                 if (itemCount - 1 > currentItem) {
-                    internalPopBackStack()
+                    navController.popBackStack()
                 }
             }
         }
@@ -28,7 +32,6 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
 
     private var viewPager: ViewPager2? = null
     private var swipeBackAdapter: SwipeBackAdapter? = null
-
     private var shouldPop = false
     private var scrollOffset = 0.0f
 
@@ -45,6 +48,16 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
         if (initialClassName != null) {
             navigate(initialClassName ?: throw IllegalArgumentException("Invalid fragment"))
             arguments?.clear()
+        } else {
+            for (entry in navController.backQueue) {
+                if (entry.destination is NavGraph) continue
+                val destination = entry.destination as FragmentNavigator.Destination
+                var className = destination.className
+                if (className[0] == '.') {
+                    className = requireContext().packageName + className
+                }
+                navigate(className)
+            }
         }
     }
 
@@ -64,12 +77,6 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
 
     fun popBackStack() {
         swipeBackAdapter?.pop()
-    }
-
-    private fun internalPopBackStack() {
-        (parentFragment as? FragulaNavHostFragment)?.run {
-            navController.popBackStack()
-        }
     }
 
     companion object {
