@@ -3,8 +3,8 @@ plugins {
     id 'kotlin-android'
 }
 
-ext.libraryGroupId = "com.blacksquircle.fragula"
-ext.libraryArtifactId = "fragula-core"
+ext.libraryGroupId = "com.fragula2"
+ext.libraryArtifactId = "core"
 
 android {
     compileSdkVersion versions.compileSdk

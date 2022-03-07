@@ -1,11 +1,11 @@
-package com.blacksquircle.fragula.sample
+package com.fragula2.sample
 
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.blacksquircle.fragula.sample.databinding.FragmentBlankBinding
+import com.fragula2.sample.databinding.FragmentBlankBinding
 import java.util.*
 
 class BlankFragment : Fragment(R.layout.fragment_blank) {

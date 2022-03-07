@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.blacksquircle.fragula.sample">
+    package="com.fragula2.sample">
 
     <application
         android:allowBackup="true"
@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.blacksquircle.fragula.sample.MainActivity"
+            android:name="com.fragula2.sample.MainActivity"
             android:windowSoftInputMode="adjustResize|stateHidden"
             android:launchMode="singleTop"
             android:exported="true">

@@ -4,7 +4,6 @@ import android.view.View
 import androidx.navigation.NavHostController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.plusAssign
-import com.blacksquircle.fragula.R
 
 class FragulaNavHostFragment : NavHostFragment() {
 
