@@ -1,67 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:fillViewport="true"
-    android:orientation="vertical"
-    tools:context=".BlankFragment">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="56dp"
+        android:textSize="72sp"
+        android:id="@+id/counter"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="0" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:textSize="18sp"
+        android:id="@+id/arg_1"
+        app:layout_constraintTop_toBottomOf="@id/counter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
+        android:textSize="18sp"
+        android:id="@+id/arg_2"
+        app:layout_constraintTop_toBottomOf="@id/arg_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:textSize="16sp"
+        android:text="@string/action_navigate"
+        android:id="@+id/action_navigate"
+        app:layout_constraintTop_toBottomOf="@id/arg_2"
+        app:layout_constraintBottom_toTopOf="@id/action_pop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="30dp"
-            android:text="0"
-            android:textSize="100sp" />
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:textSize="16sp"
+        android:text="@string/action_pop"
+        android:id="@+id/action_pop"
+        app:layout_constraintTop_toBottomOf="@id/action_navigate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_args_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:textSize="20sp"
-            android:text="---" />
-
-        <TextView
-            android:id="@+id/tv_args_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:textSize="20sp"
-            android:text="---" />
-
-        <Button
-            android:id="@+id/btn_add_fragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add fragment" />
-
-        <Button
-            android:id="@+id/btn_add_fragment_args"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add fragment with args" />
-
-        <Button
-            android:id="@+id/btn_replace_fragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Replace fragment" />
-
-        <Button
-            android:id="@+id/btn_replace_fragment_args"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Replace fragment with args" />
-
-    </LinearLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

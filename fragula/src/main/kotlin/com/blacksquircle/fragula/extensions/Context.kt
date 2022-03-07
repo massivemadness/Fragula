@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import com.blacksquircle.navigator.R
+import com.blacksquircle.fragula.R
 
 internal fun Context.getColorCompat(@ColorRes colorRes: Int) =
     ContextCompat.getColor(this, colorRes)

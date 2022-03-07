@@ -1,5 +1,8 @@
 <resources>
 
     <string name="app_name">Fragula</string>
+    
+    <string name="action_navigate">Navigate</string>
+    <string name="action_pop">Pop Backstack</string>
 
 </resources>

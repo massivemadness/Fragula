@@ -3,52 +3,46 @@ package com.blacksquircle.fragula.sample
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.blacksquircle.fragula.Navigator
+import com.blacksquircle.fragula.sample.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity(), ExampleCallback {
+class MainActivity : AppCompatActivity() {
 
-    private val navigator by lazy { findViewById<Navigator>(R.id.navigator) }
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         if (savedInstanceState == null) {
-            navigator.addFragment(BlankFragment())
+            binding.navigator.addFragment(BlankFragment())
         }
 
-        navigator.onPageScrolled = { position, positionOffset, positionOffsetPixels ->
+        binding.navigator.onPageScrolled = { position, positionOffset, positionOffsetPixels ->
             Log.i(TAG, "position: $position  positionOffset: $positionOffset  positionOffsetPixels: $positionOffsetPixels")
         }
-        navigator.onNotifyDataChanged = { fragmentCount -> }
-        navigator.onPageScrollStateChanged = { state -> }
+        binding.navigator.onNotifyDataChanged = { fragmentCount -> }
+        binding.navigator.onPageScrollStateChanged = { state -> }
     }
 
     // Intercept and block touch event when the new fragment is opening
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        return if (navigator.isBlockTouchEvent)
+        return if (binding.navigator.isBlockTouchEvent)
             true
         else
             super.dispatchTouchEvent(ev)
     }
 
     override fun onBackPressed() {
-        if (navigator.fragmentCount > 1) {
-            navigator.goToPreviousFragmentAndRemoveLast()
+        if (binding.navigator.fragmentCount > 1) {
+            binding.navigator.goToPreviousFragmentAndRemoveLast()
         } else {
             super.onBackPressed()
         }
     }
 
-    override fun onSuccess() {
-        Toast.makeText(this, "CALLBACK", Toast.LENGTH_SHORT).show()
+    companion object {
+        private const val TAG = "MainActivity"
     }
 }
-
-interface ExampleCallback {
-    fun onSuccess()
-}
-
-private const val TAG = "MainActivity"
