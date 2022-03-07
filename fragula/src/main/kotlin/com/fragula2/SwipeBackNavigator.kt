@@ -41,12 +41,15 @@ class SwipeBackNavigator(
 
         if (initialNavigation) {
             val swipeBackFragment = SwipeBackFragment.newInstance(className)
-            fragmentManager.beginTransaction()
-                .replace(containerId, swipeBackFragment, FRAGMENT_TAG)
-                .setPrimaryNavigationFragment(swipeBackFragment)
-                .addToBackStack(entry.id)
-                .setReorderingAllowed(true)
-                .commit()
+            fragmentManager.beginTransaction().apply {
+                replace(containerId, swipeBackFragment, FRAGMENT_TAG)
+                setPrimaryNavigationFragment(swipeBackFragment)
+                if (!initialNavigation) {
+                    addToBackStack(entry.id)
+                }
+                setReorderingAllowed(true)
+                commit()
+            }
         } else {
             val swipeBackFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG)
             if (swipeBackFragment is SwipeBackFragment) {
@@ -61,19 +64,16 @@ class SwipeBackNavigator(
             Log.i(TAG, "Ignoring popBackStack() call: FragmentManager has already saved its state")
             return
         }
-        when {
-            backStack.size > 1 -> {
-                val swipeBackFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG)
-                if (swipeBackFragment is SwipeBackFragment) {
-                    swipeBackFragment.popBackStack()
-                }
+        if (backStack.size > 1) {
+            val swipeBackFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG)
+            if (swipeBackFragment is SwipeBackFragment) {
+                swipeBackFragment.popBackStack()
             }
-            else -> {
-                fragmentManager.popBackStack(
-                    popUpTo.id,
-                    FragmentManager.POP_BACK_STACK_INCLUSIVE
-                )
-            }
+        } else {
+            fragmentManager.popBackStack(
+                popUpTo.id,
+                FragmentManager.POP_BACK_STACK_INCLUSIVE
+            )
         }
         state.pop(popUpTo, savedState)
     }
