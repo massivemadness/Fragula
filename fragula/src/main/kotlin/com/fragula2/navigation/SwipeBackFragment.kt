@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.fragula2.R
@@ -91,7 +90,7 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeB
 
     private fun restoreBackStack() {
         viewPager?.currentItem = navController?.backQueue.orEmpty()
-            .filterNot { it.destination is NavGraph }
+            .filter { it.destination is SwipeBackNavigator.Destination }
             .map(NavBackStackEntry::toFragulaEntry)
             .also { swipeBackAdapter?.addAll(it) }
             .size

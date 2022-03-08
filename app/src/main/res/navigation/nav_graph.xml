@@ -3,16 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/blankFragment">
+    app:startDestination="@id/homeFragment">
 
-    <swipeable
-        android:id="@+id/blankFragment"
-        android:name="com.fragula2.sample.BlankFragment"
-        android:label="BlankFragment"
-        tools:layout="@layout/fragment_blank">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.fragula2.sample.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_blankFragment_self"
-            app:destination="@id/blankFragment" />
-    </swipeable>
+            android:id="@+id/action_homeFragment_to_simple_nav_graph"
+            app:destination="@id/simple_nav_graph" />
+    </fragment>
+
+    <include app:graph="@navigation/simple_nav_graph" />
 
 </navigation>

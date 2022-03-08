@@ -1,12 +1,12 @@
-package com.fragula2.sample
+package com.fragula2.sample.simple
 
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.fragula2.sample.R
 import com.fragula2.sample.databinding.FragmentBlankBinding
-import java.util.*
 
 class BlankFragment : Fragment(R.layout.fragment_blank) {
 
@@ -30,7 +30,8 @@ class BlankFragment : Fragment(R.layout.fragment_blank) {
         }
 
         binding.actionNavigate.setOnClickListener {
-            navController.navigate(R.id.blankFragment, bundleOf(
+            navController.navigate(
+                R.id.blankFragment, bundleOf(
                 ARG_INT to intArg + 1,
                 ARG_STRING to "Hello World!",
             ))

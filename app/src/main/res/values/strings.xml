@@ -1,7 +1,12 @@
 <resources>
 
     <string name="app_name">Fragula</string>
-    
+
+    <string name="simple_flow">Simple Flow</string>
+    <string name="chat_flow">Chat Flow</string>
+    <string name="bottomnav_flow">Bottom Navigation Flow</string>
+
+    <!-- simple flow -->
     <string name="action_navigate">Navigate</string>
     <string name="action_pop">Pop Backstack</string>
 

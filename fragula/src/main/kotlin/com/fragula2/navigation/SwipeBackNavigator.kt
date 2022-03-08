@@ -1,17 +1,21 @@
 package com.fragula2.navigation
 
+import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
+import androidx.core.content.res.use
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.*
-import androidx.navigation.fragment.FragmentNavigator
+import com.fragula2.R
 import com.fragula2.utils.toFragulaEntry
 
 @Navigator.Name("swipeable")
 internal class SwipeBackNavigator(
     private val fragmentManager: FragmentManager,
     private val containerId: Int,
-) : Navigator<FragmentNavigator.Destination>() {
+) : Navigator<SwipeBackNavigator.Destination>() {
 
     private val backStack: List<NavBackStackEntry>
         get() = state.backStack.value
@@ -62,17 +66,17 @@ internal class SwipeBackNavigator(
             if (swipeBackFragment is SwipeBackInterface) {
                 swipeBackFragment.popBackStack()
             }
-            state.pop(popUpTo, savedState)
         } else {
             fragmentManager.popBackStack(
                 popUpTo.id,
                 FragmentManager.POP_BACK_STACK_INCLUSIVE
             )
         }
+        state.pop(popUpTo, savedState)
     }
 
-    override fun createDestination(): FragmentNavigator.Destination {
-        return FragmentNavigator.Destination(this)
+    override fun createDestination(): Destination {
+        return Destination(this)
     }
 
     override fun onSaveState(): Bundle? {
@@ -81,6 +85,40 @@ internal class SwipeBackNavigator(
 
     override fun onRestoreState(savedState: Bundle) {
         // FIXME do I really need this?
+    }
+
+    @NavDestination.ClassType(Fragment::class)
+    class Destination constructor(
+        swipeBackNavigator: Navigator<out Destination>,
+    ) : NavDestination(swipeBackNavigator) {
+
+        private var _className: String? = null
+        val className: String
+            get() {
+                checkNotNull(_className) { "Fragment class was not set" }
+                return _className as String
+            }
+
+        override fun onInflate(context: Context, attrs: AttributeSet) {
+            super.onInflate(context, attrs)
+            context.resources.obtainAttributes(attrs, R.styleable.SwipeBackNavigator).use { array ->
+                val className = array.getString(R.styleable.SwipeBackNavigator_android_name)
+                if (className != null) {
+                    _className = className
+                }
+            }
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (other == null || other !is Destination) return false
+            return super.equals(other) && _className == other._className
+        }
+
+        override fun hashCode(): Int {
+            var result = super.hashCode()
+            result = 31 * result + _className.hashCode()
+            return result
+        }
     }
 
     private companion object {
