@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 
 internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
 
-    private val navController by lazy { findNavController() }
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageScrollStateChanged(state: Int) {
             super.onPageScrollStateChanged(state)
@@ -18,7 +18,7 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
                 val itemCount = swipeBackAdapter?.itemCount ?: 0
                 val currentItem = viewPager?.currentItem ?: 0
                 if (itemCount - 1 > currentItem && !running) {
-                    navController.popBackStack()
+                    navController?.popBackStack()
                 }
             }
         }
@@ -38,12 +38,15 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
 
     private var viewPager: ViewPager2? = null
     private var swipeBackAdapter: SwipeBackAdapter? = null
+    private var navController: NavController? = null
+
     private var running = false
     private var shouldPop = false
     private var scrollOffset = 0.0f
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = findNavController()
         viewPager = view.findViewById<ViewPager2?>(R.id.viewPager).also { viewPager ->
             viewPager.registerOnPageChangeCallback(onPageChangeCallback)
             viewPager.setPageTransformer(SwipeBackTransformer())
@@ -59,6 +62,7 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
         super.onDestroy()
         viewPager?.unregisterOnPageChangeCallback(onPageChangeCallback)
         swipeBackAdapter = null
+        navController = null
         viewPager = null
     }
 
@@ -83,7 +87,7 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
     }
 
     private fun restoreBackStack() {
-        viewPager?.currentItem = navController.backQueue
+        viewPager?.currentItem = navController?.backQueue.orEmpty()
             .filterNot { it.destination is NavGraph }
             .map(NavBackStackEntry::toFragulaEntry)
             .also { swipeBackAdapter?.addAll(it) }
