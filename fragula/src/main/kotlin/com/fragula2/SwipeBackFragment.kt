@@ -20,7 +20,9 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
                 val itemCount = swipeBackAdapter?.itemCount ?: 0
                 val currentItem = viewPager?.currentItem ?: 0
                 if (itemCount - 1 > currentItem) {
-                    navController.popBackStack()
+                    if (!running) {
+                        navController.popBackStack()
+                    }
                 }
             }
         }
@@ -42,6 +44,7 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
 
     private var viewPager: ViewPager2? = null
     private var swipeBackAdapter: SwipeBackAdapter? = null
+    private var running = false
     private var shouldPop = false
     private var scrollOffset = 0.0f
 
@@ -83,8 +86,12 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
     }
 
     fun popBackStack() {
-        viewPager?.setCurrentItemInternal(prevItem) {
-            swipeBackAdapter?.pop()
+        if (!running) {
+            running = true
+            viewPager?.setCurrentItemInternal(prevItem) {
+                running = false
+                swipeBackAdapter?.pop()
+            }
         }
     }
 
