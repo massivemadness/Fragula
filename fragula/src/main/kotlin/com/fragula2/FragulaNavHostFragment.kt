@@ -7,12 +7,11 @@ import androidx.navigation.plusAssign
 
 class FragulaNavHostFragment : NavHostFragment() {
 
-    private val navContainerId: Int
+    private val containerId: Int
         get() = if (id != 0 && id != View.NO_ID) id else R.id.nav_host_fragment_container
 
     override fun onCreateNavHostController(navHostController: NavHostController) {
         super.onCreateNavHostController(navHostController)
-        navHostController.navigatorProvider +=
-            SwipeBackNavigator(requireContext(), childFragmentManager, navContainerId)
+        navHostController.navigatorProvider += SwipeBackNavigator(childFragmentManager, containerId)
     }
 }

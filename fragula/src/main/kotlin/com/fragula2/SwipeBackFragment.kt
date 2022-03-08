@@ -7,8 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 
 class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
@@ -37,6 +35,11 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
         }
     }
 
+    private val nextItem: Int
+        get() = viewPager?.currentItem?.plus(1) ?: 0
+    private val prevItem: Int
+        get() = viewPager?.currentItem?.minus(1) ?: 0
+
     private var viewPager: ViewPager2? = null
     private var swipeBackAdapter: SwipeBackAdapter? = null
     private var shouldPop = false
@@ -47,13 +50,9 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
         viewPager = view.findViewById<ViewPager2?>(R.id.viewPager).also { viewPager ->
             viewPager.registerOnPageChangeCallback(onPageChangeCallback)
             viewPager.setPageTransformer(SwipeBackTransformer())
+            viewPager.pageOverScrollMode = View.OVER_SCROLL_NEVER
             viewPager.adapter = SwipeBackAdapter(this).also { adapter ->
                 swipeBackAdapter = adapter
-            }
-            val child = viewPager.getChildAt(0)
-            if (child is RecyclerView) {
-                child.overScrollMode = View.OVER_SCROLL_NEVER
-                child.itemAnimator = DefaultItemAnimator()
             }
         }
 
@@ -78,13 +77,15 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
 
     fun navigate(className: String) {
         swipeBackAdapter?.push(className)
-        viewPager?.also { viewPager ->
-            viewPager.currentItem = viewPager.currentItem + 1
+        viewPager?.setCurrentItemInternal(nextItem) {
+            // nothing
         }
     }
 
     fun popBackStack() {
-        swipeBackAdapter?.pop()
+        viewPager?.setCurrentItemInternal(prevItem) {
+            swipeBackAdapter?.pop()
+        }
     }
 
     companion object {

@@ -1,6 +1,5 @@
 package com.fragula2
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.FragmentManager
@@ -9,7 +8,6 @@ import androidx.navigation.fragment.FragmentNavigator
 
 @Navigator.Name("swipeable")
 class SwipeBackNavigator(
-    private val context: Context,
     private val fragmentManager: FragmentManager,
     private val containerId: Int,
 ) : Navigator<FragmentNavigator.Destination>() {
