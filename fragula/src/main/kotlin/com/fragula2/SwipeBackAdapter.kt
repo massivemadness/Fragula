@@ -8,8 +8,13 @@ class SwipeBackAdapter(private val fragment: Fragment) : FragmentStateAdapter(fr
     private val currentList = mutableListOf<String>()
 
     override fun createFragment(position: Int): Fragment {
+        val context = fragment.requireContext()
+        var className = currentList[position]
+        if (className[0] == '.') {
+            className = context.packageName + className
+        }
         return fragment.childFragmentManager.fragmentFactory
-            .instantiate(fragment.requireContext().classLoader, currentList[position])
+            .instantiate(context.classLoader, className)
     }
 
     override fun getItemCount(): Int {

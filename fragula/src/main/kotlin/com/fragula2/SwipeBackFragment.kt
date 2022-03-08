@@ -7,12 +7,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 
 class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
 
-    private val initialClassName by lazy { arguments?.getString(ARG_CLASSNAME) }
+    private val initialNavigation by lazy { arguments?.getString(ARG_CLASSNAME) }
     private val navController by lazy { findNavController() }
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageScrollStateChanged(state: Int) {
@@ -52,20 +53,17 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
             val child = viewPager.getChildAt(0)
             if (child is RecyclerView) {
                 child.overScrollMode = View.OVER_SCROLL_NEVER
+                child.itemAnimator = DefaultItemAnimator()
             }
         }
 
-        if (initialClassName != null) {
-            navigate(initialClassName!!)
+        if (initialNavigation != null) {
+            navigate(initialNavigation!!)
         } else {
             for (entry in navController.backQueue) {
                 if (entry.destination is NavGraph) continue
                 val destination = entry.destination as FragmentNavigator.Destination
-                var className = destination.className
-                if (className[0] == '.') {
-                    className = requireContext().packageName + className
-                }
-                navigate(className)
+                navigate(destination.className)
             }
         }
         arguments?.clear()

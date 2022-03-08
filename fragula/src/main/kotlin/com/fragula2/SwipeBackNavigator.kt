@@ -34,10 +34,7 @@ class SwipeBackNavigator(
     private fun navigate(entry: NavBackStackEntry) {
         val initialNavigation = backStack.isEmpty()
         val destination = entry.destination as FragmentNavigator.Destination
-        var className = destination.className
-        if (className[0] == '.') {
-            className = context.packageName + className
-        }
+        val className = destination.className
 
         if (initialNavigation) {
             val swipeBackFragment = SwipeBackFragment.newInstance(className)
