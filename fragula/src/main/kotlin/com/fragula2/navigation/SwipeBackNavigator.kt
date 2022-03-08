@@ -36,12 +36,13 @@ internal class SwipeBackNavigator(
 
     private fun navigate(entry: NavBackStackEntry) {
         val initialNavigation = backStack.isEmpty()
+        val hasFragments = fragmentManager.fragments.isNotEmpty()
         if (initialNavigation) {
             val swipeBackFragment = SwipeBackFragment()
             fragmentManager.beginTransaction().apply {
                 replace(containerId, swipeBackFragment, FRAGMENT_TAG)
                 setPrimaryNavigationFragment(swipeBackFragment)
-                if (!initialNavigation) {
+                if (!initialNavigation || hasFragments) {
                     addToBackStack(entry.id)
                 }
                 setReorderingAllowed(true)
@@ -79,13 +80,8 @@ internal class SwipeBackNavigator(
         return Destination(this)
     }
 
-    override fun onSaveState(): Bundle? {
-        return null // FIXME do I really need this?
-    }
-
-    override fun onRestoreState(savedState: Bundle) {
-        // FIXME do I really need this?
-    }
+    override fun onSaveState(): Bundle? = null
+    override fun onRestoreState(savedState: Bundle) = Unit
 
     @NavDestination.ClassType(Fragment::class)
     class Destination constructor(
