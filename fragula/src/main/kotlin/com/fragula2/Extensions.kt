@@ -3,6 +3,8 @@ package com.fragula2
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.viewpager2.widget.ViewPager2
 
 private const val SCROLL_DURATION = 300L
@@ -36,4 +38,12 @@ internal fun ViewPager2.setCurrentItemInternal(moveTo: Int, onAnimationEnd: () -
         duration = SCROLL_DURATION
         start()
     }
+}
+
+internal fun NavBackStackEntry.toFragulaEntry(): FragulaEntry {
+    val destination = destination as FragmentNavigator.Destination
+    return FragulaEntry(
+        className = destination.className,
+        arguments = this.arguments
+    )
 }

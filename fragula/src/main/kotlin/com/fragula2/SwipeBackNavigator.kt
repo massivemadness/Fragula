@@ -31,7 +31,6 @@ internal class SwipeBackNavigator(
 
     private fun navigate(entry: NavBackStackEntry) {
         val initialNavigation = backStack.isEmpty()
-        val destination = entry.destination as FragmentNavigator.Destination
         if (initialNavigation) {
             val swipeBackFragment = SwipeBackFragment()
             fragmentManager.beginTransaction().apply {
@@ -47,11 +46,7 @@ internal class SwipeBackNavigator(
 
         val swipeBackFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG)
         if (swipeBackFragment is SwipeBackFragment) {
-            val fragulaEntry = FragulaEntry(
-                className = destination.className,
-                arguments = entry.arguments
-            )
-            swipeBackFragment.navigate(fragulaEntry)
+            swipeBackFragment.navigate(entry.toFragulaEntry())
         }
         state.push(entry)
     }

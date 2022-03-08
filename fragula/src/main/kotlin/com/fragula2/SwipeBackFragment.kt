@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavGraph
-import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 
@@ -55,13 +54,9 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
             }
         }
         for (entry in navController.backQueue) {
-            if (entry.destination is NavGraph) continue
-            val destination = entry.destination as FragmentNavigator.Destination
-            val fragulaEntry = FragulaEntry(
-                className = destination.className,
-                arguments = entry.arguments
-            )
-            navigate(fragulaEntry)
+            if (entry.destination is NavGraph)
+                continue
+            navigate(entry.toFragulaEntry())
         }
     }
 
