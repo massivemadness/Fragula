@@ -54,7 +54,7 @@ dependencies {
     implementation library.livedata
     implementation library.viewmodel
     implementation library.lifecycle
-    implementation library.navigation_fragment
+    implementation library.navigation
 
     // DI
     implementation library.hilt

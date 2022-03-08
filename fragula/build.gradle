@@ -33,7 +33,6 @@ android {
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
-        test.java.srcDirs += 'src/test/kotlin'
     }
 }
 
@@ -41,15 +40,10 @@ dependencies {
 
     // Core
     implementation library.kotlin
-    implementation library.core
 
     // UI
-    implementation library.appcompat
+    implementation library.viewpager2
 
     // AAC
-    implementation library.navigation_ui
-    implementation library.navigation_fragment
-
-    // Tests
-    testImplementation testLibrary.junit
+    implementation library.navigation
 }
