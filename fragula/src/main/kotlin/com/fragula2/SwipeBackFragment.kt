@@ -3,6 +3,7 @@ package com.fragula2
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -32,10 +33,8 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
         }
     }
 
-    private val nextItem: Int
-        get() = viewPager?.currentItem?.plus(1) ?: 0
-    private val prevItem: Int
-        get() = viewPager?.currentItem?.minus(1) ?: 0
+    private val currentItem: Int
+        get() = viewPager?.currentItem ?: 0
 
     private var viewPager: ViewPager2? = null
     private var swipeBackAdapter: SwipeBackAdapter? = null
@@ -53,11 +52,7 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
                 swipeBackAdapter = adapter
             }
         }
-        for (entry in navController.backQueue) {
-            if (entry.destination is NavGraph)
-                continue
-            navigate(entry.toFragulaEntry())
-        }
+        restoreBackStack()
     }
 
     override fun onDestroy() {
@@ -70,7 +65,7 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
     fun navigate(fragulaEntry: FragulaEntry) {
         swipeBackAdapter?.push(fragulaEntry)
         viewPager?.isUserInputEnabled = false
-        viewPager?.setCurrentItemInternal(nextItem) {
+        viewPager?.setCurrentItemInternal(currentItem + 1) {
             viewPager?.isUserInputEnabled = true
         }
     }
@@ -79,11 +74,19 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
         if (!running) {
             running = true
             viewPager?.isUserInputEnabled = false
-            viewPager?.setCurrentItemInternal(prevItem) {
+            viewPager?.setCurrentItemInternal(currentItem - 1) {
                 swipeBackAdapter?.pop()
                 viewPager?.isUserInputEnabled = true
                 running = false
             }
         }
+    }
+
+    private fun restoreBackStack() {
+        viewPager?.currentItem = navController.backQueue
+            .filterNot { it.destination is NavGraph }
+            .map(NavBackStackEntry::toFragulaEntry)
+            .also { swipeBackAdapter?.addAll(it) }
+            .size
     }
 }

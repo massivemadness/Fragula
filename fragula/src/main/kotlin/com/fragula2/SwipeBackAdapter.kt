@@ -1,5 +1,6 @@
 package com.fragula2
 
+import android.annotation.SuppressLint
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
@@ -33,5 +34,11 @@ internal class SwipeBackAdapter(private val fragment: Fragment) : FragmentStateA
         val index = currentList.size - 1
         currentList.removeAt(index)
         notifyItemRemoved(index)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun addAll(entries: List<FragulaEntry>) {
+        currentList.addAll(entries)
+        notifyDataSetChanged()
     }
 }
