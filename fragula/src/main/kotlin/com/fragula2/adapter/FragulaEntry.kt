@@ -1,4 +1,4 @@
-package com.fragula2
+package com.fragula2.adapter
 
 import android.os.Bundle
 

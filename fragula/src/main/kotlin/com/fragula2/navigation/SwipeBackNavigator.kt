@@ -1,10 +1,11 @@
-package com.fragula2
+package com.fragula2.navigation
 
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.*
 import androidx.navigation.fragment.FragmentNavigator
+import com.fragula2.utils.toFragulaEntry
 
 @Navigator.Name("swipeable")
 internal class SwipeBackNavigator(
@@ -45,7 +46,7 @@ internal class SwipeBackNavigator(
         }
 
         val swipeBackFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG)
-        if (swipeBackFragment is FragulaInterface) {
+        if (swipeBackFragment is SwipeBackInterface) {
             swipeBackFragment.navigate(entry.toFragulaEntry())
         }
         state.push(entry)
@@ -58,7 +59,7 @@ internal class SwipeBackNavigator(
         }
         if (backStack.size > 1) {
             val swipeBackFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG)
-            if (swipeBackFragment is FragulaInterface) {
+            if (swipeBackFragment is SwipeBackInterface) {
                 swipeBackFragment.popBackStack()
             }
             state.pop(popUpTo, savedState)

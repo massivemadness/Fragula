@@ -1,4 +1,4 @@
-package com.fragula2
+package com.fragula2.navigation
 
 import android.os.Bundle
 import android.view.View
@@ -8,8 +8,15 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.fragula2.R
+import com.fragula2.adapter.FragulaEntry
+import com.fragula2.adapter.SwipeBackAdapter
+import com.fragula2.adapter.SwipeBackTransformer
+import com.fragula2.utils.pageOverScrollMode
+import com.fragula2.utils.setCurrentItemInternal
+import com.fragula2.utils.toFragulaEntry
 
-internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), FragulaInterface {
+internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeBackInterface {
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageScrollStateChanged(state: Int) {
@@ -26,10 +33,6 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Fragul
             super.onPageScrolled(position, positionOffset, positionOffsetPixels)
             shouldPop = position + positionOffset < scrollOffset
             scrollOffset = position + positionOffset
-        }
-        override fun onPageSelected(position: Int) {
-            super.onPageSelected(position)
-            viewPager?.requestTransform()
         }
     }
 

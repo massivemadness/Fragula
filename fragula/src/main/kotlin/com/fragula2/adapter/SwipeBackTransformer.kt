@@ -1,4 +1,4 @@
-package com.fragula2
+package com.fragula2.adapter
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2

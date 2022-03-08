@@ -4,6 +4,7 @@ import android.view.View
 import androidx.navigation.NavHostController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.plusAssign
+import com.fragula2.navigation.SwipeBackNavigator
 
 class FragulaNavHostFragment : NavHostFragment() {
 

@@ -1,4 +1,4 @@
-package com.fragula2
+package com.fragula2.utils
 
 import android.animation.Animator
 import android.animation.ValueAnimator
@@ -6,6 +6,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.viewpager2.widget.ViewPager2
+import com.fragula2.adapter.FragulaEntry
 
 private const val SCROLL_DURATION = 300L
 
