@@ -49,7 +49,6 @@ internal class SwipeBackNavigator(
                 commit()
             }
         }
-
         val swipeBackFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG)
         if (swipeBackFragment is SwipeBackInterface) {
             swipeBackFragment.navigate(entry.toFragulaEntry())

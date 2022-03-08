@@ -1,8 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -55,10 +53,6 @@ dependencies {
     implementation library.viewmodel
     implementation library.lifecycle
     implementation library.navigation
-
-    // DI
-    implementation library.hilt
-    kapt library.hilt_compiler
 
     // Modules
     implementation project(':fragula')
