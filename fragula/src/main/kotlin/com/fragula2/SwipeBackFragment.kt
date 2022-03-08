@@ -9,7 +9,7 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 
-class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
+internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
 
     private val initialNavigation by lazy { arguments?.getString(ARG_CLASSNAME) }
     private val navController by lazy { findNavController() }

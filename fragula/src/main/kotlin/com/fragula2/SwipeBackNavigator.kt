@@ -7,7 +7,7 @@ import androidx.navigation.*
 import androidx.navigation.fragment.FragmentNavigator
 
 @Navigator.Name("swipeable")
-class SwipeBackNavigator(
+internal class SwipeBackNavigator(
     private val fragmentManager: FragmentManager,
     private val containerId: Int,
 ) : Navigator<FragmentNavigator.Destination>() {

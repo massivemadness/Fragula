@@ -8,11 +8,11 @@ import androidx.viewpager2.widget.ViewPager2
 private const val SCROLL_DURATION = 300L
 
 // RecyclerView overscroll
-var ViewPager2.pageOverScrollMode: Int
+internal var ViewPager2.pageOverScrollMode: Int
     get() = getChildAt(0).overScrollMode
     set(value) { getChildAt(0).overScrollMode = value }
 
-fun ViewPager2.setCurrentItemInternal(moveTo: Int, onAnimationEnd: () -> Unit) {
+internal fun ViewPager2.setCurrentItemInternal(moveTo: Int, onAnimationEnd: () -> Unit) {
     ValueAnimator.ofInt(0, width * (moveTo - currentItem)).apply {
         var previousValue = 0
         addUpdateListener { valueAnimator ->
