@@ -58,8 +58,8 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Fragul
         restoreBackStack()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         viewPager?.unregisterOnPageChangeCallback(onPageChangeCallback)
         swipeBackAdapter = null
         navController = null
