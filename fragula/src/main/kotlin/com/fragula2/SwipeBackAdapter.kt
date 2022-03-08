@@ -25,8 +25,8 @@ internal class SwipeBackAdapter(private val fragment: Fragment) : FragmentStateA
         return currentList.size
     }
 
-    fun push(fragulaEntry: FragulaEntry) {
-        currentList.add(fragulaEntry)
+    fun push(entry: FragulaEntry) {
+        currentList.add(entry)
         notifyItemInserted(currentList.size - 1)
     }
 

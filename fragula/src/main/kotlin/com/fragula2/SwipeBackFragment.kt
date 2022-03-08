@@ -9,7 +9,7 @@ import androidx.navigation.NavGraph
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 
-internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
+internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), FragulaInterface {
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageScrollStateChanged(state: Int) {
@@ -66,15 +66,15 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
         viewPager = null
     }
 
-    fun navigate(fragulaEntry: FragulaEntry) {
-        swipeBackAdapter?.push(fragulaEntry)
+    override fun navigate(entry: FragulaEntry) {
+        swipeBackAdapter?.push(entry)
         viewPager?.isUserInputEnabled = false
         viewPager?.setCurrentItemInternal(currentItem + 1) {
             viewPager?.isUserInputEnabled = true
         }
     }
 
-    fun popBackStack() {
+    override fun popBackStack() {
         if (!running) {
             running = true
             viewPager?.isUserInputEnabled = false
