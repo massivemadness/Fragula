@@ -2,7 +2,6 @@ package com.fragula2
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavGraph
 import androidx.navigation.fragment.FragmentNavigator
@@ -11,7 +10,6 @@ import androidx.viewpager2.widget.ViewPager2
 
 internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
 
-    private val initialNavigation by lazy { arguments?.getString(ARG_CLASSNAME) }
     private val navController by lazy { findNavController() }
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageScrollStateChanged(state: Int) {
@@ -56,17 +54,15 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
                 swipeBackAdapter = adapter
             }
         }
-
-        if (initialNavigation != null) {
-            navigate(initialNavigation!!)
-        } else {
-            for (entry in navController.backQueue) {
-                if (entry.destination is NavGraph) continue
-                val destination = entry.destination as FragmentNavigator.Destination
-                navigate(destination.className)
-            }
+        for (entry in navController.backQueue) {
+            if (entry.destination is NavGraph) continue
+            val destination = entry.destination as FragmentNavigator.Destination
+            val fragulaEntry = FragulaEntry(
+                className = destination.className,
+                arguments = entry.arguments
+            )
+            navigate(fragulaEntry)
         }
-        arguments?.clear()
     }
 
     override fun onDestroy() {
@@ -76,8 +72,8 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
         viewPager = null
     }
 
-    fun navigate(className: String) {
-        swipeBackAdapter?.push(className)
+    fun navigate(fragulaEntry: FragulaEntry) {
+        swipeBackAdapter?.push(fragulaEntry)
         viewPager?.isUserInputEnabled = false
         viewPager?.setCurrentItemInternal(nextItem) {
             viewPager?.isUserInputEnabled = true
@@ -89,20 +85,9 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
             running = true
             viewPager?.isUserInputEnabled = false
             viewPager?.setCurrentItemInternal(prevItem) {
-                running = false
-                viewPager?.isUserInputEnabled = true
                 swipeBackAdapter?.pop()
-            }
-        }
-    }
-
-    companion object {
-
-        private const val ARG_CLASSNAME = "className"
-
-        fun newInstance(className: String): SwipeBackFragment {
-            return SwipeBackFragment().apply {
-                arguments = bundleOf(ARG_CLASSNAME to className)
+                viewPager?.isUserInputEnabled = true
+                running = false
             }
         }
     }

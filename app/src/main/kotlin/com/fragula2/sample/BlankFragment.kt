@@ -15,28 +15,28 @@ class BlankFragment : Fragment(R.layout.fragment_blank) {
         get() = _binding!!
 
     private val navController by lazy { findNavController() }
-    private val param1 by lazy { arguments?.getInt(ARG_PARAM_1) }
-    private val param2 by lazy { arguments?.getInt(ARG_PARAM_2) }
+    private val intArg by lazy { arguments?.getInt(ARG_INT, 1) ?: 1 }
+    private val stringArg by lazy { arguments?.getString(ARG_STRING) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentBlankBinding.bind(view)
 
-        param1?.let { binding.arg1.text = it.toString() }
-        param2?.let { binding.arg2.text = it.toString() }
+        intArg.let {
+            binding.intArg.text = it.toString()
+        }
+        stringArg?.let {
+            binding.stringArg.text = it
+        }
 
         binding.actionNavigate.setOnClickListener {
             navController.navigate(R.id.blankFragment, bundleOf(
-                ARG_PARAM_1 to Random().nextInt(),
-                ARG_PARAM_2 to Random().nextInt(),
+                ARG_INT to intArg + 1,
+                ARG_STRING to "Hello World!",
             ))
         }
         binding.actionPop.setOnClickListener {
             navController.popBackStack()
-        }
-
-        view.post {
-            binding.counter.text = (navController.backQueue.size - 1).toString()
         }
     }
 
@@ -46,7 +46,7 @@ class BlankFragment : Fragment(R.layout.fragment_blank) {
     }
 
     companion object {
-        private const val ARG_PARAM_1 = "param1"
-        private const val ARG_PARAM_2 = "param2"
+        private const val ARG_INT = "int_arg"
+        private const val ARG_STRING = "string_arg"
     }
 }

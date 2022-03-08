@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:padding="56dp"
         android:textSize="72sp"
-        android:id="@+id/counter"
+        android:id="@+id/int_arg"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,18 +23,8 @@
         android:layout_height="wrap_content"
         android:padding="24dp"
         android:textSize="18sp"
-        android:id="@+id/arg_1"
-        app:layout_constraintTop_toBottomOf="@id/counter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="24dp"
-        android:textSize="18sp"
-        android:id="@+id/arg_2"
-        app:layout_constraintTop_toBottomOf="@id/arg_1"
+        android:id="@+id/string_arg"
+        app:layout_constraintTop_toBottomOf="@id/int_arg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -45,7 +35,7 @@
         android:textSize="16sp"
         android:text="@string/action_navigate"
         android:id="@+id/action_navigate"
-        app:layout_constraintTop_toBottomOf="@id/arg_2"
+        app:layout_constraintTop_toBottomOf="@id/string_arg"
         app:layout_constraintBottom_toTopOf="@id/action_pop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

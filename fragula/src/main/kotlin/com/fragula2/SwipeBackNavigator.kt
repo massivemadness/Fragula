@@ -32,10 +32,8 @@ internal class SwipeBackNavigator(
     private fun navigate(entry: NavBackStackEntry) {
         val initialNavigation = backStack.isEmpty()
         val destination = entry.destination as FragmentNavigator.Destination
-        val className = destination.className
-
         if (initialNavigation) {
-            val swipeBackFragment = SwipeBackFragment.newInstance(className)
+            val swipeBackFragment = SwipeBackFragment()
             fragmentManager.beginTransaction().apply {
                 replace(containerId, swipeBackFragment, FRAGMENT_TAG)
                 setPrimaryNavigationFragment(swipeBackFragment)
@@ -45,11 +43,15 @@ internal class SwipeBackNavigator(
                 setReorderingAllowed(true)
                 commit()
             }
-        } else {
-            val swipeBackFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG)
-            if (swipeBackFragment is SwipeBackFragment) {
-                swipeBackFragment.navigate(className)
-            }
+        }
+
+        val swipeBackFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG)
+        if (swipeBackFragment is SwipeBackFragment) {
+            val fragulaEntry = FragulaEntry(
+                className = destination.className,
+                arguments = entry.arguments
+            )
+            swipeBackFragment.navigate(fragulaEntry)
         }
         state.push(entry)
     }

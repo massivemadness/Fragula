@@ -5,24 +5,27 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 internal class SwipeBackAdapter(private val fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-    private val currentList = mutableListOf<String>()
+    private val currentList = mutableListOf<FragulaEntry>()
 
     override fun createFragment(position: Int): Fragment {
         val context = fragment.requireContext()
-        var className = currentList[position]
+        val entry = currentList[position]
+        var className = entry.className
         if (className[0] == '.') {
             className = context.packageName + className
         }
         return fragment.childFragmentManager.fragmentFactory
-            .instantiate(context.classLoader, className)
+            .instantiate(context.classLoader, className).apply {
+                arguments = entry.arguments
+            }
     }
 
     override fun getItemCount(): Int {
         return currentList.size
     }
 
-    fun push(className: String) {
-        currentList.add(className)
+    fun push(fragulaEntry: FragulaEntry) {
+        currentList.add(fragulaEntry)
         notifyItemInserted(currentList.size - 1)
     }
 
