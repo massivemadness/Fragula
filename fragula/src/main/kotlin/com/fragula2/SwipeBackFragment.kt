@@ -80,8 +80,9 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
 
     fun navigate(className: String) {
         swipeBackAdapter?.push(className)
+        viewPager?.isUserInputEnabled = false
         viewPager?.setCurrentItemInternal(nextItem) {
-            // nothing
+            viewPager?.isUserInputEnabled = true
         }
     }
 
