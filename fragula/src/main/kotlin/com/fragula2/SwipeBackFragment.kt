@@ -88,8 +88,10 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
     fun popBackStack() {
         if (!running) {
             running = true
+            viewPager?.isUserInputEnabled = false
             viewPager?.setCurrentItemInternal(prevItem) {
                 running = false
+                viewPager?.isUserInputEnabled = true
                 swipeBackAdapter?.pop()
             }
         }
