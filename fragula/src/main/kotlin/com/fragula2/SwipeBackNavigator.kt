@@ -64,13 +64,13 @@ internal class SwipeBackNavigator(
             if (swipeBackFragment is SwipeBackFragment) {
                 swipeBackFragment.popBackStack()
             }
+            state.pop(popUpTo, savedState)
         } else {
             fragmentManager.popBackStack(
                 popUpTo.id,
                 FragmentManager.POP_BACK_STACK_INCLUSIVE
             )
         }
-        state.pop(popUpTo, savedState)
     }
 
     override fun createDestination(): FragmentNavigator.Destination {

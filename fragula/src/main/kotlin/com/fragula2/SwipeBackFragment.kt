@@ -19,10 +19,8 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback) {
             if (state == ViewPager2.SCROLL_STATE_IDLE && shouldPop) {
                 val itemCount = swipeBackAdapter?.itemCount ?: 0
                 val currentItem = viewPager?.currentItem ?: 0
-                if (itemCount - 1 > currentItem) {
-                    if (!running) {
-                        navController.popBackStack()
-                    }
+                if (itemCount - 1 > currentItem && !running) {
+                    navController.popBackStack()
                 }
             }
         }
