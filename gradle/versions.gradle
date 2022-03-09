@@ -7,7 +7,7 @@ ext {
             buildTools: '31.0.0',
 
             // Library
-            publishVersionName: '2.4.1-alpha01',
+            publishVersionName: '2.0-alpha01',
             publishVersionCode: 1
     ]
 

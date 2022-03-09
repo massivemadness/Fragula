@@ -4,7 +4,7 @@ plugins {
 }
 
 ext.libraryGroupId = "com.fragula2"
-ext.libraryArtifactId = "core"
+ext.libraryArtifactId = "fragula-core"
 
 android {
     compileSdkVersion versions.compileSdk
