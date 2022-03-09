@@ -60,7 +60,8 @@ publishing {
             version versions.publishVersionName
 
             if (project.plugins.findPlugin("com.android.library")) {
-                artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+                // artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+                artifact("$buildDir/outputs/aar/${project.getName()}-core-release.aar") // FIXME fragula-core
             } else {
                 artifact("$buildDir/libs/${project.getName()}-${version}.jar")
             }

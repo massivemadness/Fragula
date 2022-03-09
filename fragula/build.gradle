@@ -6,6 +6,8 @@ plugins {
 ext.libraryGroupId = "com.fragula2"
 ext.libraryArtifactId = "fragula-core"
 
+apply from: rootProject.file("gradle/publish.gradle")
+
 android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
