@@ -59,7 +59,6 @@ ext {
             viewpager2: "androidx.viewpager2:viewpager2:$viewpager2_version",
 
             // AAC
-            livedata: "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version",
             viewmodel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version",
             lifecycle: "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version",
             navigation: "androidx.navigation:navigation-fragment-ktx:$navigation_version",
