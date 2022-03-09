@@ -20,17 +20,17 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeB
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageScrollStateChanged(state: Int) {
             super.onPageScrollStateChanged(state)
-            if (state == ViewPager2.SCROLL_STATE_IDLE && shouldPop) {
+            if (state == ViewPager2.SCROLL_STATE_IDLE && scrollToEnd) {
                 val itemCount = swipeBackAdapter?.itemCount ?: 0
                 val currentItem = viewPager?.currentItem ?: 0
-                if (itemCount - 1 > currentItem && !running) {
+                if (itemCount - 1 > currentItem && !fakeScroll) {
                     navController?.popBackStack()
                 }
             }
         }
         override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
             super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-            shouldPop = position + positionOffset < scrollOffset
+            scrollToEnd = position + positionOffset < scrollOffset
             scrollOffset = position + positionOffset
         }
     }
@@ -42,8 +42,8 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeB
     private var swipeBackAdapter: SwipeBackAdapter? = null
     private var navController: NavController? = null
 
-    private var running = false
-    private var shouldPop = false
+    private var fakeScroll = false
+    private var scrollToEnd = false
     private var scrollOffset = 0.0f
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,13 +77,13 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeB
     }
 
     override fun popBackStack() {
-        if (!running) {
-            running = true
+        if (!fakeScroll) {
+            fakeScroll = true
             viewPager?.isUserInputEnabled = false
             viewPager?.setCurrentItemInternal(currentItem - 1) {
                 swipeBackAdapter?.pop()
                 viewPager?.isUserInputEnabled = true
-                running = false
+                fakeScroll = false
             }
         }
     }

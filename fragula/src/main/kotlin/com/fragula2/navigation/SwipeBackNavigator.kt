@@ -12,7 +12,7 @@ import com.fragula2.R
 import com.fragula2.utils.toFragulaEntry
 
 @Navigator.Name("swipeable")
-internal class SwipeBackNavigator(
+class SwipeBackNavigator(
     private val fragmentManager: FragmentManager,
     private val containerId: Int,
 ) : Navigator<SwipeBackNavigator.Destination>() {
