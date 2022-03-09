@@ -12,7 +12,7 @@
 
 1. [Gradle Dependency](#gradle-dependency)
 2. [The Basics](#the-basics)
-3. [Arguments](#arguments)
+3. [Pass data between destinations](#pass-data-between-destinations)
 
 ---
 
@@ -51,7 +51,7 @@ The `fragula-core` module contains everything you need to get started with the l
 **Second,** you need to change your `<fragment>` destinations in graph with `<swipeable>` as shown below:
 
 ```xml
-<?xml version="1.0" encoding="utf-8"?>
+<!-- nav_graph.xml -->
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -69,16 +69,30 @@ The `fragula-core` module contains everything you need to get started with the l
 </navigation>
 ```
 
-And that's it! If you open your app now you'll see that you can swipe fragments like in Telegram, 
-Slack and many other apps.
+**Finally**, you need to set opaque background to your fragment's root layout to avoid any issues with swipe animation.
+
+```xml
+<!-- fragment_detail.xml -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:colorBackground">
+    
+    ...
+    
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+Now if you open the app you'll see that you can swipe fragments like in Telegram,  Slack and many 
+other messaging apps.
 
 ---
 
-## Arguments
+## Pass data between destinations
 
 In general, you should work with Fragula as if you would work with normal fragments. You should 
-strongly prefer passing only the minimal amount of data between destinations. For example, you 
-should pass a key to retrieve an object rather than passing the object itself, as the total space 
+strongly prefer passing only the minimal amount of data between destinations, as the total space
 for all saved states is limited on Android.
 
 *If you need to pass large amounts of data, consider using a ViewModel.*
