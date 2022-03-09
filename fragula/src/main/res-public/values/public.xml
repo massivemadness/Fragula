@@ -1,0 +1,3 @@
+<resources>
+    <attr name="fgl_dim_color" format="color" />
+</resources>

@@ -133,12 +133,26 @@ It's strongly recommended to use [Safe Args](https://developer.android.com/jetpa
 
 ### Transitions
 
-Currently shared element transitions between destinations is not supported at any form.  
+Currently shared element transitions between destinations is not supported in any form.  
 Stay tuned for updates 🤞😉
 
 ---
 
 ## Theming
 
-Currently theming is not supported at any form.  
-Stay tuned for updates 🤞😉
+In most of the cases there is no need to change any of these values, but if you really need to you 
+can override these attributes in your activity theme.
+
+```xml
+<style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <item name="colorPrimary">...</item>
+    <item name="colorPrimaryDark">...</item>
+    <item name="colorAccent">...</item>
+
+    <!--
+        This overrides the color used for the dimming when fragment is being dragged.
+        The default value is #323232 for both light and dark themes.
+    -->
+    <item name="fgl_dim_color">#323232</item>
+</style>
+```
