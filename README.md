@@ -1,7 +1,7 @@
 # Fragula 2
 
-**Fragula** is a simple swipe-back extension for [navigation component library](https://developer.android.com/jetpack/androidx/releases/navigation) for Android.  
-It is an adaptation of an earlier version created by @shikleev and now maintained in this repository.
+**Fragula** is a simple swipe-to-dismiss extension for [navigation component library](https://developer.android.com/jetpack/androidx/releases/navigation) for Android.  
+It is an adaptation of an earlier version created by [@shikleev](https://github.com/shikleev) and now maintained in this repository.
 
 ![Android CI](https://github.com/massivemadness/Fragula/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![MavenCentral](https://img.shields.io/maven-central/v/com.fragula2/fragula-core?label=Download)](https://repo1.maven.org/maven2/com/fragula2/fragula-core/)
 
@@ -85,7 +85,7 @@ The `fragula-core` module contains everything you need to get started with the l
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-Now if you open the app you'll see that you can swipe fragments like in Telegram,  Slack and many 
+Now if you open the app you'll see that you can swipe fragments like in Telegram, Slack and many 
 other messaging apps.
 
 ---
@@ -110,7 +110,7 @@ for all saved states is limited on Android.
  </swipeable>
 ```
 
-**Second**, create a Bundle object and pass it to the destination using `navigate()`, as shown below: 
+**Second**, create a Bundle object and pass it to the destination using `navigate()` as shown below: 
 
 ```kotlin
 val bundle = bundleOf("itemId" to "123")
