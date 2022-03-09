@@ -2,7 +2,7 @@
 
 **Fragula** is a simple swipe-back extension for [navigation component library](https://developer.android.com/jetpack/androidx/releases/navigation) for Android.
 
-![Android CI](https://github.com/massivemadness/Fragula/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+![Android CI](https://github.com/massivemadness/Fragula/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![MavenCentral](https://img.shields.io/maven-central/v/com.fragula2/fragula-core?label=Download)](https://repo1.maven.org/maven2/com/fragula2/fragula-core/)
 
 ![](.github/images/showcase.gif)
 
@@ -123,4 +123,4 @@ val textView = view.findViewById<TextView>(R.id.textViewItemId)
 textView.text = arguments?.getString("itemId")
 ```
 
-It's strongly recommend to use [Safe Args](https://developer.android.com/jetpack/androidx/releases/navigation#safe_args) plugin for navigating and passing data, because it ensures type-safety.
+It's strongly recommended to use [Safe Args](https://developer.android.com/jetpack/androidx/releases/navigation#safe_args) plugin for navigating and passing data, because it ensures type-safety.
