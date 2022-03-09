@@ -4,7 +4,7 @@
 
 ![Android CI](https://github.com/massivemadness/Fragula/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-![](.github/images/20200301_131107.gif)
+![](.github/images/showcase.gif)
 
 ---
 
@@ -48,7 +48,7 @@ The `fragula-core` module contains everything you need to get started with the l
     app:defaultNavHost="true" />
 ```
 
-**Second,** you need to change all your `<fragment>` destinations in graph with `<swipeable>` as shown below:
+**Second,** you need to change your `<fragment>` destinations in graph with `<swipeable>` as shown below:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -56,13 +56,13 @@ The `fragula-core` module contains everything you need to get started with the l
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/detailFragment">
 
     <swipeable
-        android:id="@+id/homeFragment"
-        android:name="com.example.fragula.HomeFragment"
-        android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/detailFragment"
+        android:name="com.example.fragula.DetailFragment"
+        android:label="DetailFragment"
+        tools:layout="@layout/fragment_detail" />
 
     ...
     
@@ -81,7 +81,7 @@ strongly prefer passing only the minimal amount of data between destinations. Fo
 should pass a key to retrieve an object rather than passing the object itself, as the total space 
 for all saved states is limited on Android.
 
-***If you need to pass large amounts of data, consider using a ViewModel.***
+*If you need to pass large amounts of data, consider using a ViewModel.*
 
 **First**, add an argument to the destination:
 
@@ -91,15 +91,14 @@ for all saved states is limited on Android.
     android:name="com.example.fragula.DetailFragment">
      <argument
          android:name="itemId"
-         app:argType="integer"
-         android:defaultValue="0" />
+         app:argType="string" />
  </swipeable>
 ```
 
 **Second**, create a Bundle object and pass it to the destination using `navigate()`, as shown below: 
 
 ```kotlin
-val bundle = bundleOf("itemId" to 123)
+val bundle = bundleOf("itemId" to "123")
 findNavController().navigate(R.id.detailFragment, bundle)
 ```
 
@@ -109,3 +108,5 @@ findNavController().navigate(R.id.detailFragment, bundle)
 val textView = view.findViewById<TextView>(R.id.textViewItemId)
 textView.text = arguments?.getString("itemId")
 ```
+
+It's strongly recommend to use [Safe Args](https://developer.android.com/jetpack/androidx/releases/navigation#safe_args) plugin for navigating and passing data, because it ensures type-safety.
