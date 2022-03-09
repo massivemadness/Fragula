@@ -18,7 +18,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             navController.navigate(R.id.simple_nav_graph)
         }
 
-        val chatFlow = view.findViewById<MaterialButton>(R.id.chat_flow)
+        /*val chatFlow = view.findViewById<MaterialButton>(R.id.chat_flow)
         chatFlow.setOnClickListener {
             // navController.navigate(R.id.chat_nav_graph)
         }
@@ -26,6 +26,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val bottomNavFlow = view.findViewById<MaterialButton>(R.id.bottomnav_flow)
         bottomNavFlow.setOnClickListener {
             // navController.navigate(R.id.bottomnav_nav_graph)
-        }
+        }*/
     }
 }

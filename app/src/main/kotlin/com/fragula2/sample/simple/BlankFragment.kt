@@ -30,11 +30,11 @@ class BlankFragment : Fragment(R.layout.fragment_blank) {
         }
 
         binding.actionNavigate.setOnClickListener {
-            navController.navigate(
-                R.id.blankFragment, bundleOf(
+            val bundle = bundleOf(
                 ARG_INT to intArg + 1,
                 ARG_STRING to "Hello World!",
-            ))
+            )
+            navController.navigate(R.id.blankFragment, bundle)
         }
         binding.actionPop.setOnClickListener {
             navController.popBackStack()
