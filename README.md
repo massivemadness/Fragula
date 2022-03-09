@@ -12,7 +12,7 @@
 
 1. [Gradle Dependency](#gradle-dependency)
 2. [The Basics](#the-basics)
-3. [Pass data between destinations](#pass-data-between-destinations)
+3. [Arguments](#arguments)
 
 ---
 
@@ -48,7 +48,7 @@ The `fragula-core` module contains everything you need to get started with the l
     app:defaultNavHost="true" />
 ```
 
-**Second,** you need to change your `<fragment>` destinations in graph with `<swipeable>` as shown below:
+**Second,** you need to replace your `<fragment>` destinations in graph with `<swipeable>` as shown below:
 
 ```xml
 <!-- nav_graph.xml -->
@@ -89,13 +89,13 @@ other messaging apps.
 
 ---
 
-## Pass data between destinations
+## Arguments
 
 In general, you should work with Fragula as if you would work with normal fragments. You should 
 strongly prefer passing only the minimal amount of data between destinations, as the total space
 for all saved states is limited on Android.
 
-*If you need to pass large amounts of data, consider using a ViewModel.*
+*If you need to pass large amounts of data, consider using a [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel).*
 
 **First**, add an argument to the destination:
 
