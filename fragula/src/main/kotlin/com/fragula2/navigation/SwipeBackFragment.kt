@@ -20,11 +20,20 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeB
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageScrollStateChanged(state: Int) {
             super.onPageScrollStateChanged(state)
-            if (state == ViewPager2.SCROLL_STATE_IDLE && scrollToEnd) {
-                val itemCount = swipeBackAdapter?.itemCount ?: 0
-                val currentItem = viewPager?.currentItem ?: 0
-                if (itemCount - 1 > currentItem && !fakeScroll) {
-                    navController?.popBackStack()
+            when (state) {
+                ViewPager2.SCROLL_STATE_DRAGGING -> Unit
+                ViewPager2.SCROLL_STATE_IDLE -> {
+                    if (scrollToEnd) {
+                        val itemCount = swipeBackAdapter?.itemCount ?: 0
+                        val currentItem = viewPager?.currentItem ?: 0
+                        if (itemCount - 1 > currentItem && !fakeScroll) {
+                            navController?.popBackStack()
+                        }
+                    }
+                    viewPager?.isUserInputEnabled = true
+                }
+                ViewPager2.SCROLL_STATE_SETTLING -> {
+                    viewPager?.isUserInputEnabled = false
                 }
             }
         }
@@ -69,22 +78,24 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeB
     }
 
     override fun navigate(entry: FragulaEntry) {
+        if (fakeScroll) return
+        fakeScroll = true
         swipeBackAdapter?.push(entry)
         viewPager?.isUserInputEnabled = false
         viewPager?.setCurrentItemInternal(currentItem + 1) {
             viewPager?.isUserInputEnabled = true
+            fakeScroll = false
         }
     }
 
     override fun popBackStack() {
-        if (!fakeScroll) {
-            fakeScroll = true
-            viewPager?.isUserInputEnabled = false
-            viewPager?.setCurrentItemInternal(currentItem - 1) {
-                swipeBackAdapter?.pop()
-                viewPager?.isUserInputEnabled = true
-                fakeScroll = false
-            }
+        if (fakeScroll) return
+        fakeScroll = true
+        viewPager?.isUserInputEnabled = false
+        viewPager?.setCurrentItemInternal(currentItem - 1) {
+            swipeBackAdapter?.pop()
+            viewPager?.isUserInputEnabled = true
+            fakeScroll = false
         }
     }
 
