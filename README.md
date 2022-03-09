@@ -13,7 +13,10 @@ It is an adaptation of an earlier version created by [@shikleev](https://github.
 
 1. [Gradle Dependency](#gradle-dependency)
 2. [The Basics](#the-basics)
-3. [Arguments](#arguments)
+3. [More Options](#more-options)
+    1. [Arguments](#arguments)
+    2. [Transitions](#transitions)
+4. [Theming](#theming)
 
 ---
 
@@ -90,7 +93,9 @@ other messaging apps.
 
 ---
 
-## Arguments
+## More Options
+
+### Arguments
 
 In general, you should work with Fragula as if you would work with normal fragments. You should 
 strongly prefer passing only the minimal amount of data between destinations, as the total space
@@ -125,3 +130,15 @@ textView.text = arguments?.getString("itemId")
 ```
 
 It's strongly recommended to use [Safe Args](https://developer.android.com/jetpack/androidx/releases/navigation#safe_args) plugin for navigating and passing data, because it ensures type-safety.
+
+### Transitions
+
+Currently shared element transitions between destinations is not supported at any form.  
+Stay tuned for updates 🤞😉
+
+---
+
+## Theming
+
+Currently theming is not supported at any form.  
+Stay tuned for updates 🤞😉
