@@ -4,7 +4,7 @@ import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 import kotlin.math.abs
 
-class SwipeBackTransformer : ViewPager2.PageTransformer {
+internal class SwipeBackTransformer : ViewPager2.PageTransformer {
 
     override fun transformPage(page: View, position: Float) {
         when {
