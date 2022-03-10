@@ -4,11 +4,10 @@ import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.view.animation.AccelerateDecelerateInterpolator
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorRes
-import androidx.annotation.RestrictTo
+import androidx.annotation.*
 import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.NavBackStackEntry
 import androidx.viewpager2.widget.ViewPager2
 import com.fragula2.adapter.FragulaEntry
@@ -61,15 +60,29 @@ internal fun NavBackStackEntry.toFragulaEntry(): FragulaEntry {
 internal fun resolveColor(
     context: Context,
     @AttrRes attr: Int,
-    @ColorRes fallbackRes: Int,
+    @ColorRes defaultValue: Int,
 ): Int {
     val attributes = context.theme.obtainStyledAttributes(intArrayOf(attr))
     try {
         val result = attributes.getColor(0, 0)
         if (result == 0) {
-            return ContextCompat.getColor(context, fallbackRes)
+            return ContextCompat.getColor(context, defaultValue)
         }
         return result
+    } finally {
+        attributes.recycle()
+    }
+}
+
+@RestrictTo(LIBRARY_GROUP)
+fun resolveFloat(
+    context: Context,
+    @AttrRes attr: Int,
+    @DimenRes defaultValue: Int,
+): Float {
+    val attributes = context.theme.obtainStyledAttributes(intArrayOf(attr))
+    try {
+        return attributes.getFloat(0, ResourcesCompat.getFloat(context.resources, defaultValue))
     } finally {
         attributes.recycle()
     }

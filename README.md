@@ -154,5 +154,12 @@ can override these attributes in your activity theme.
         The default value is #323232 for both light and dark themes.
     -->
     <item name="fgl_dim_color">#323232</item>
+
+    <!--
+        This overrides the amount of dimming when fragment is being dragged.
+        Think of it as a `fgl_dim_color` alpha multiplier.
+    -->
+    <item name="fgl_dim_amount">0.2</item>
+   
 </style>
 ```

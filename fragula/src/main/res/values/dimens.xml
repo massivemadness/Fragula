@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="dim_color_default">#323232</color>
+    <dimen name="dim_amount_default">0.2</dimen>
 </resources>

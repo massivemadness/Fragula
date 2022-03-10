@@ -12,6 +12,7 @@ import com.fragula2.R
 import com.fragula2.adapter.FragulaEntry
 import com.fragula2.adapter.SwipeBackAdapter
 import com.fragula2.adapter.SwipeBackTransformer
+import com.fragula2.utils.*
 import com.fragula2.utils.pageOverScrollMode
 import com.fragula2.utils.resolveColor
 import com.fragula2.utils.setCurrentItemInternal
@@ -69,9 +70,11 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeBackInterf
         viewLock = view.findViewById(R.id.viewLock)
         viewPager = view.findViewById<ViewPager2?>(R.id.viewPager).also { viewPager ->
             viewPager.registerOnPageChangeCallback(onPageChangeCallback)
-            viewPager.setPageTransformer(SwipeBackTransformer())
+            viewPager.setPageTransformer(SwipeBackTransformer(
+                resolveFloat(requireContext(), R.attr.fgl_dim_amount, R.dimen.dim_amount_default)
+            ))
             viewPager.setBackgroundColor(
-                resolveColor(requireContext(), R.attr.fgl_dim_color, R.color.fgl_dim_default)
+                resolveColor(requireContext(), R.attr.fgl_dim_color, R.color.dim_color_default)
             )
             viewPager.pageOverScrollMode = View.OVER_SCROLL_NEVER
             viewPager.adapter = SwipeBackAdapter(this).also { adapter ->

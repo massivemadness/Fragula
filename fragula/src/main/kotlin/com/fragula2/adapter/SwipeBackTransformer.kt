@@ -4,7 +4,7 @@ import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 import kotlin.math.abs
 
-class SwipeBackTransformer : ViewPager2.PageTransformer {
+class SwipeBackTransformer(private val multiplier: Float) : ViewPager2.PageTransformer {
 
     override fun transformPage(page: View, position: Float) {
         when {
@@ -23,7 +23,7 @@ class SwipeBackTransformer : ViewPager2.PageTransformer {
             position > -1 && position <= 0 -> {
                 page.visibility = View.VISIBLE
                 page.translationX = -page.width * position / 1.3F
-                page.alpha = 1.0f - abs(position * 0.7f)
+                page.alpha = 1.0f - abs(position * multiplier)
             }
             // Все фрагменты слева от текущего, убираем их из отрисовки
             else -> {

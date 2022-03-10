@@ -1,3 +1,4 @@
 <resources>
     <attr name="fgl_dim_color" format="color" />
+    <attr name="fgl_dim_amount" format="float" />
 </resources>
