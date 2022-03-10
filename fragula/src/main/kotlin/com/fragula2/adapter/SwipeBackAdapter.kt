@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-internal class SwipeBackAdapter(private val fragment: Fragment) : FragmentStateAdapter(fragment) {
+class SwipeBackAdapter(private val fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     private val currentList = mutableListOf<FragulaEntry>()
 
