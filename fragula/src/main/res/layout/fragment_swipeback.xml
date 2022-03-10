@@ -9,6 +9,14 @@
         android:id="@+id/viewPager" />
 
     <View
+        android:layout_width="3dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:visibility="gone"
+        android:background="@drawable/bg_elevation"
+        android:id="@+id/viewElevation" />
+
+    <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"

@@ -43,6 +43,8 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeBackInterf
             super.onPageScrolled(position, positionOffset, positionOffsetPixels)
             scrollToEnd = position + positionOffset < scrollOffset
             scrollOffset = position + positionOffset
+            viewElevation?.translationX = -positionOffsetPixels.toFloat()
+            viewElevation?.isVisible = scrollOffset % 1 > 0
         }
     }
 
@@ -50,7 +52,9 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeBackInterf
         get() = viewPager?.currentItem ?: 0
 
     private var viewPager: ViewPager2? = null
+    private var viewElevation: View? = null
     private var viewLock: View? = null
+
     private var swipeBackAdapter: SwipeBackAdapter? = null
     private var navController: NavController? = null
 
@@ -61,16 +65,13 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeBackInterf
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
+        viewElevation = view.findViewById(R.id.viewElevation)
         viewLock = view.findViewById(R.id.viewLock)
         viewPager = view.findViewById<ViewPager2?>(R.id.viewPager).also { viewPager ->
             viewPager.registerOnPageChangeCallback(onPageChangeCallback)
             viewPager.setPageTransformer(SwipeBackTransformer())
             viewPager.setBackgroundColor(
-                resolveColor(
-                    requireContext(),
-                    R.attr.fgl_dim_color,
-                    R.color.fgl_dim_default
-                )
+                resolveColor(requireContext(), R.attr.fgl_dim_color, R.color.fgl_dim_default)
             )
             viewPager.pageOverScrollMode = View.OVER_SCROLL_NEVER
             viewPager.adapter = SwipeBackAdapter(this).also { adapter ->
@@ -85,6 +86,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeBackInterf
         viewPager?.unregisterOnPageChangeCallback(onPageChangeCallback)
         swipeBackAdapter = null
         navController = null
+        viewElevation = null
         viewPager = null
         viewLock = null
     }
