@@ -1,6 +1,6 @@
 # Fragula 2
 
-**Fragula** is a simple swipe-to-dismiss extension for [navigation component library](https://developer.android.com/jetpack/androidx/releases/navigation) for Android.  
+**Fragula** is a simple swipe-to-dismiss extension for [navigation component](https://developer.android.com/guide/navigation/navigation-getting-started) library for Android.  
 It is an adaptation of an earlier version created by [@shikleev](https://github.com/shikleev) and now maintained in this repository.
 
 ![Android CI](https://github.com/massivemadness/Fragula/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![MavenCentral](https://img.shields.io/maven-central/v/com.fragula2/fragula-core?label=Download)](https://repo1.maven.org/maven2/com/fragula2/fragula-core/)
@@ -14,9 +14,9 @@ It is an adaptation of an earlier version created by [@shikleev](https://github.
 1. [Gradle Dependency](#gradle-dependency)
 2. [The Basics](#the-basics)
 3. [More Options](#more-options)
-    1. [Arguments](#arguments)
-    2. [Transitions](#transitions)
-4. [Theming](#theming)
+    1. [Destination Arguments](#destination-arguments)
+    2. [Custom Transitions](#custom-transitions)
+4. [Global Theming](#global-theming)
 
 ---
 
@@ -27,7 +27,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
   ...
-  implementation 'com.fragula2:fragula-core:2.0-alpha01'
+  implementation 'com.fragula2:fragula-core:2.0-alpha02'
 }
 ```
 
@@ -95,7 +95,7 @@ other messaging apps.
 
 ## More Options
 
-### Arguments
+### Destination Arguments
 
 In general, you should work with Fragula as if you would work with normal fragments. You should 
 strongly prefer passing only the minimal amount of data between destinations, as the total space
@@ -131,14 +131,14 @@ textView.text = arguments?.getString("itemId")
 
 It's strongly recommended to use [Safe Args](https://developer.android.com/jetpack/androidx/releases/navigation#safe_args) plugin for navigating and passing data, because it ensures type-safety.
 
-### Transitions
+### Custom Transitions
 
 Currently shared element transitions between destinations is not supported in any form.  
 Stay tuned for updates 🤞😉
 
 ---
 
-## Theming
+## Global Theming
 
 In most of the cases there is no need to change any of these values, but if you really need to you 
 can override these attributes in your activity theme.
