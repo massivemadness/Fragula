@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="fgl_dim_default">#323232</color>
+    <color name="dim_color_default">#323232</color>
 </resources>

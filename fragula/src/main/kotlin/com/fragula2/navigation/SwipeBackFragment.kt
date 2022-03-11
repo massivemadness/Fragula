@@ -2,6 +2,7 @@ package com.fragula2.navigation
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
@@ -11,18 +12,22 @@ import com.fragula2.R
 import com.fragula2.adapter.FragulaEntry
 import com.fragula2.adapter.SwipeBackAdapter
 import com.fragula2.adapter.SwipeBackTransformer
+import com.fragula2.utils.*
 import com.fragula2.utils.pageOverScrollMode
 import com.fragula2.utils.resolveColor
 import com.fragula2.utils.setCurrentItemInternal
 import com.fragula2.utils.toFragulaEntry
 
-internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeBackInterface {
+class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeBackInterface {
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageScrollStateChanged(state: Int) {
             super.onPageScrollStateChanged(state)
             when (state) {
                 ViewPager2.SCROLL_STATE_DRAGGING -> Unit
+                ViewPager2.SCROLL_STATE_SETTLING -> {
+                    requestViewLock(true)
+                }
                 ViewPager2.SCROLL_STATE_IDLE -> {
                     if (scrollToEnd) {
                         val itemCount = swipeBackAdapter?.itemCount ?: 0
@@ -31,10 +36,7 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeB
                             navController?.popBackStack()
                         }
                     }
-                    viewPager?.isUserInputEnabled = true
-                }
-                ViewPager2.SCROLL_STATE_SETTLING -> {
-                    viewPager?.isUserInputEnabled = false
+                    requestViewLock(false)
                 }
             }
         }
@@ -42,6 +44,8 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeB
             super.onPageScrolled(position, positionOffset, positionOffsetPixels)
             scrollToEnd = position + positionOffset < scrollOffset
             scrollOffset = position + positionOffset
+            viewElevation?.translationX = -positionOffsetPixels.toFloat()
+            viewElevation?.isVisible = scrollOffset % 1 > 0
         }
     }
 
@@ -49,6 +53,9 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeB
         get() = viewPager?.currentItem ?: 0
 
     private var viewPager: ViewPager2? = null
+    private var viewElevation: View? = null
+    private var viewLock: View? = null
+
     private var swipeBackAdapter: SwipeBackAdapter? = null
     private var navController: NavController? = null
 
@@ -59,15 +66,15 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
-        viewPager = view.findViewById<ViewPager2?>(R.id.viewPager).also { viewPager ->
+        viewElevation = view.findViewById(R.id.viewElevation)
+        viewLock = view.findViewById(R.id.viewLock)
+        viewPager = view.findViewById<ViewPager2>(R.id.viewPager).also { viewPager ->
             viewPager.registerOnPageChangeCallback(onPageChangeCallback)
-            viewPager.setPageTransformer(SwipeBackTransformer())
+            viewPager.setPageTransformer(SwipeBackTransformer(
+                requireContext().resolveFloat(R.attr.fgl_dim_amount, R.dimen.dim_amount_default)
+            ))
             viewPager.setBackgroundColor(
-                resolveColor(
-                    requireContext(),
-                    R.attr.fgl_dim_color,
-                    R.color.fgl_dim_default
-                )
+                requireContext().resolveColor(R.attr.fgl_dim_color, R.color.dim_color_default)
             )
             viewPager.pageOverScrollMode = View.OVER_SCROLL_NEVER
             viewPager.adapter = SwipeBackAdapter(this).also { adapter ->
@@ -82,16 +89,18 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeB
         viewPager?.unregisterOnPageChangeCallback(onPageChangeCallback)
         swipeBackAdapter = null
         navController = null
+        viewElevation = null
         viewPager = null
+        viewLock = null
     }
 
     override fun navigate(entry: FragulaEntry) {
         if (fakeScroll) return
         fakeScroll = true
+        requestViewLock(true)
         swipeBackAdapter?.push(entry)
-        viewPager?.isUserInputEnabled = false
         viewPager?.setCurrentItemInternal(currentItem + 1) {
-            viewPager?.isUserInputEnabled = true
+            requestViewLock(false)
             fakeScroll = false
         }
     }
@@ -99,10 +108,10 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeB
     override fun popBackStack() {
         if (fakeScroll) return
         fakeScroll = true
-        viewPager?.isUserInputEnabled = false
+        requestViewLock(true)
         viewPager?.setCurrentItemInternal(currentItem - 1) {
             swipeBackAdapter?.pop()
-            viewPager?.isUserInputEnabled = true
+            requestViewLock(false)
             fakeScroll = false
         }
     }
@@ -113,5 +122,9 @@ internal class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeB
             .map(NavBackStackEntry::toFragulaEntry)
             .also { swipeBackAdapter?.addAll(it) }
             .size
+    }
+
+    private fun requestViewLock(locked: Boolean) {
+        viewLock?.isVisible = locked
     }
 }

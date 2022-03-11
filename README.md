@@ -1,6 +1,6 @@
 # Fragula 2
 
-**Fragula** is a simple swipe-to-dismiss extension for [navigation component](https://developer.android.com/guide/navigation/navigation-getting-started) library for Android.  
+**Fragula** is a swipe-to-dismiss extension for [navigation component](https://developer.android.com/guide/navigation/navigation-getting-started) library for Android.  
 It is an adaptation of an earlier version created by [@shikleev](https://github.com/shikleev) and now maintained in this repository.
 
 ![Android CI](https://github.com/massivemadness/Fragula/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![MavenCentral](https://img.shields.io/maven-central/v/com.fragula2/fragula-core?label=Download)](https://repo1.maven.org/maven2/com/fragula2/fragula-core/)
@@ -27,7 +27,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
   ...
-  implementation 'com.fragula2:fragula-core:2.0-alpha02'
+  implementation 'com.fragula2:fragula-core:2.0-alpha03'
 }
 ```
 
@@ -154,5 +154,12 @@ can override these attributes in your activity theme.
         The default value is #323232 for both light and dark themes.
     -->
     <item name="fgl_dim_color">#323232</item>
+
+    <!--
+        This overrides the amount of dimming when fragment is being dragged.
+        Think of it as a `fgl_dim_color` alpha multiplier.
+    -->
+    <item name="fgl_dim_amount">0.2</item>
+   
 </style>
 ```
