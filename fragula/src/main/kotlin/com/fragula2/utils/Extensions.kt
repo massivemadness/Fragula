@@ -57,16 +57,15 @@ internal fun NavBackStackEntry.toFragulaEntry(): FragulaEntry {
 }
 
 @RestrictTo(LIBRARY_GROUP)
-internal fun resolveColor(
-    context: Context,
+internal fun Context.resolveColor(
     @AttrRes attr: Int,
     @ColorRes defaultValue: Int,
 ): Int {
-    val attributes = context.theme.obtainStyledAttributes(intArrayOf(attr))
+    val attributes = theme.obtainStyledAttributes(intArrayOf(attr))
     try {
         val result = attributes.getColor(0, 0)
         if (result == 0) {
-            return ContextCompat.getColor(context, defaultValue)
+            return ContextCompat.getColor(this, defaultValue)
         }
         return result
     } finally {
@@ -75,14 +74,13 @@ internal fun resolveColor(
 }
 
 @RestrictTo(LIBRARY_GROUP)
-fun resolveFloat(
-    context: Context,
+internal fun Context.resolveFloat(
     @AttrRes attr: Int,
     @DimenRes defaultValue: Int,
 ): Float {
-    val attributes = context.theme.obtainStyledAttributes(intArrayOf(attr))
+    val attributes = theme.obtainStyledAttributes(intArrayOf(attr))
     try {
-        return attributes.getFloat(0, ResourcesCompat.getFloat(context.resources, defaultValue))
+        return attributes.getFloat(0, ResourcesCompat.getFloat(resources, defaultValue))
     } finally {
         attributes.recycle()
     }

@@ -27,7 +27,7 @@ Add this to your module's `build.gradle` file:
 ```gradle
 dependencies {
   ...
-  implementation 'com.fragula2:fragula-core:2.0-alpha02'
+  implementation 'com.fragula2:fragula-core:2.0-alpha03'
 }
 ```
 

@@ -68,13 +68,13 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeBackInterf
         navController = findNavController()
         viewElevation = view.findViewById(R.id.viewElevation)
         viewLock = view.findViewById(R.id.viewLock)
-        viewPager = view.findViewById<ViewPager2?>(R.id.viewPager).also { viewPager ->
+        viewPager = view.findViewById<ViewPager2>(R.id.viewPager).also { viewPager ->
             viewPager.registerOnPageChangeCallback(onPageChangeCallback)
             viewPager.setPageTransformer(SwipeBackTransformer(
-                resolveFloat(requireContext(), R.attr.fgl_dim_amount, R.dimen.dim_amount_default)
+                requireContext().resolveFloat(R.attr.fgl_dim_amount, R.dimen.dim_amount_default)
             ))
             viewPager.setBackgroundColor(
-                resolveColor(requireContext(), R.attr.fgl_dim_color, R.color.dim_color_default)
+                requireContext().resolveColor(R.attr.fgl_dim_color, R.color.dim_color_default)
             )
             viewPager.pageOverScrollMode = View.OVER_SCROLL_NEVER
             viewPager.adapter = SwipeBackAdapter(this).also { adapter ->
