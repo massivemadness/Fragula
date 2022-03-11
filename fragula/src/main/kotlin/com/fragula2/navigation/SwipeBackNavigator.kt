@@ -14,6 +14,7 @@ import com.fragula2.utils.toFragulaEntry
 @Navigator.Name("swipeable")
 class SwipeBackNavigator(
     private val fragmentManager: FragmentManager,
+    private val fragmentTag: String,
     private val containerId: Int,
 ) : Navigator<SwipeBackNavigator.Destination>() {
 
@@ -40,7 +41,7 @@ class SwipeBackNavigator(
         if (initialNavigation) {
             val swipeBackFragment = SwipeBackFragment()
             fragmentManager.beginTransaction().apply {
-                replace(containerId, swipeBackFragment, FRAGMENT_TAG)
+                replace(containerId, swipeBackFragment, fragmentTag)
                 setPrimaryNavigationFragment(swipeBackFragment)
                 if (!initialNavigation || hasFragments) {
                     addToBackStack(entry.id)
@@ -49,7 +50,7 @@ class SwipeBackNavigator(
                 commit()
             }
         }
-        val swipeBackFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG)
+        val swipeBackFragment = fragmentManager.findFragmentByTag(fragmentTag)
         if (swipeBackFragment is Navigable) {
             swipeBackFragment.navigate(entry.toFragulaEntry())
         }
@@ -62,7 +63,7 @@ class SwipeBackNavigator(
             return
         }
         if (backStack.size > 1) {
-            val swipeBackFragment = fragmentManager.findFragmentByTag(FRAGMENT_TAG)
+            val swipeBackFragment = fragmentManager.findFragmentByTag(fragmentTag)
             if (swipeBackFragment is Navigable) {
                 swipeBackFragment.popBackStack()
             }
@@ -118,6 +119,5 @@ class SwipeBackNavigator(
 
     private companion object {
         private const val TAG = "SwipeBackNavigator"
-        private const val FRAGMENT_TAG = "SwipeBackFragment"
     }
 }

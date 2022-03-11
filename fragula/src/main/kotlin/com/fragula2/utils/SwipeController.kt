@@ -1,8 +1,6 @@
-package com.fragula2.navigation
+package com.fragula2.utils
 
-import com.fragula2.utils.OnSwipeListener
-
-interface Swipeable {
+interface SwipeController {
     fun addOnSwipeListener(listener: OnSwipeListener)
     fun removeOnSwipeListener(listener: OnSwipeListener)
 }

@@ -19,7 +19,7 @@ import com.fragula2.utils.pageOverScrollMode
 import com.fragula2.utils.resolveColor
 import com.fragula2.utils.toFragulaEntry
 
-class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swipeable {
+class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, SwipeController {
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageScrollStateChanged(state: Int) {
