@@ -3,11 +3,17 @@
     <string name="app_name">Fragula</string>
 
     <string name="simple_flow">Simple Flow</string>
-    <string name="chat_flow">Chat Flow</string>
     <string name="bottomnav_flow">Bottom Navigation Flow</string>
+    <string name="chat_flow">Chat Flow</string>
 
-    <!-- simple flow -->
+    <!-- Simple Flow -->
     <string name="action_navigate">Navigate</string>
     <string name="action_pop">Pop Backstack</string>
+
+    <!-- BottomNavigation Flow-->
+    <string name="tab_1">Tab 1</string>
+    <string name="tab_2">Tab 2</string>
+    <string name="tab_3">Tab 3</string>
+    <string name="tab_4">Tab 4</string>
 
 </resources>

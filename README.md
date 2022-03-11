@@ -46,8 +46,8 @@ The `fragula-core` module contains everything you need to get started with the l
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:name="com.fragula2.FragulaNavHostFragment" 
     android:id="@+id/nav_host"
-    android:name="com.fragula2.FragulaNavHostFragment"
     app:navGraph="@navigation/nav_graph"
     app:defaultNavHost="true" />
 ```
@@ -134,7 +134,9 @@ It's strongly recommended to use [Safe Args](https://developer.android.com/jetpa
 ### Page Transitions
 
 You may want to know when the scrolling offset changes to make smooth transitions inside your fragment view.  
-To start listening scroll events, you need to call `findSwipeController()` as shown below:
+To start listening scroll events you need to retrieve `SwipeController` and set `OnSwipeListener` as shown below:
+
+*Note: Currently shared element transitions between destinations is not supported in any form.*
 
 ```kotlin
 class DetailFragment : Fragment(R.layout.fragment_detail) {
@@ -145,7 +147,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ...
-        swipeController = findSwipeController()
+        swipeController = findSwipeController() // retrieve SwipeController for a fragment
         listener = OnSwipeListener { position, positionOffset, positionOffsetPixels ->
             // do something with values
         }
@@ -159,9 +161,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 }
 ```
 
-**Remember:** you must remove the listener when the fragment view is destroyed. 
-
-*Note: Currently shared element transitions between destinations is not supported in any form 😔*
+**Remember:** you must remove the listener when the fragment view is destroyed.
 
 ---
 

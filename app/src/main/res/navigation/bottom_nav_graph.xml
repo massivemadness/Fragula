@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/simple_nav_graph"
+    app:startDestination="@id/tab1Fragment">
+
+    <swipeable
+        android:id="@+id/tab1Fragment"
+        android:name="com.fragula2.sample.bottomnav.TabFragment"
+        android:label="Tab1Fragment"
+        tools:layout="@layout/fragment_tab" />
+
+    <swipeable
+        android:id="@+id/tab2Fragment"
+        android:name="com.fragula2.sample.bottomnav.TabFragment"
+        android:label="Tab2Fragment"
+        tools:layout="@layout/fragment_tab" />
+
+    <swipeable
+        android:id="@+id/tab3Fragment"
+        android:name="com.fragula2.sample.bottomnav.TabFragment"
+        android:label="Tab3Fragment"
+        tools:layout="@layout/fragment_tab" />
+
+    <swipeable
+        android:id="@+id/tab4Fragment"
+        android:name="com.fragula2.sample.bottomnav.TabFragment"
+        android:label="Tab4Fragment"
+        tools:layout="@layout/fragment_tab" />
+
+    <swipeable
+        android:id="@+id/blankFragment"
+        android:name="com.fragula2.sample.simple.BlankFragment"
+        android:label="BlankFragment"
+        tools:layout="@layout/fragment_blank">
+        <action
+            android:id="@+id/action_blankFragment_self"
+            app:destination="@id/blankFragment" />
+    </swipeable>
+
+</navigation>

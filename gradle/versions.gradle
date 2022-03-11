@@ -62,6 +62,7 @@ ext {
             viewmodel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version",
             lifecycle: "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version",
             navigation: "androidx.navigation:navigation-fragment-ktx:$navigation_version",
+            navigation_ui: "androidx.navigation:navigation-ui-ktx:$navigation_version",
 
             // Lint
             ktlint: "com.pinterest:ktlint:$ktlint_version",

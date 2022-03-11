@@ -22,6 +22,18 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.fragula2.sample.simple.BlankActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:launchMode="singleTop"
+            android:exported="false" />
+
+        <activity
+            android:name="com.fragula2.sample.bottomnav.BottomNavActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:launchMode="singleTop"
+            android:exported="false" />
+
     </application>
 
 </manifest>

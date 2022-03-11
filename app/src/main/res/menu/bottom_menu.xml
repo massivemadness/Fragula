@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/tab1Fragment"
+        android:icon="@drawable/ic_heart_outline"
+        android:title="@string/tab_1" />
+
+    <item
+        android:id="@+id/tab2Fragment"
+        android:icon="@drawable/ic_heart_outline"
+        android:title="@string/tab_2" />
+
+    <item
+        android:id="@+id/tab3Fragment"
+        android:icon="@drawable/ic_heart_outline"
+        android:title="@string/tab_3" />
+
+    <item
+        android:id="@+id/tab4Fragment"
+        android:icon="@drawable/ic_heart_outline"
+        android:title="@string/tab_4" />
+
+</menu>
