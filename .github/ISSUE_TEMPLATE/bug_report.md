@@ -10,7 +10,7 @@ assignees: 'massivemadness'
 *Please consider making a Pull Request if you are capable of doing so.*
 
 **Library Version:**
-2.0-alpha03
+2.0-beta01
 
 **Affected Device(s):**
 Google Pixel 3 XL with Android 9.0

@@ -2,7 +2,7 @@ package com.fragula2.navigation
 
 import com.fragula2.adapter.FragulaEntry
 
-interface SwipeBackInterface {
+interface Navigable {
     fun navigate(entry: FragulaEntry)
     fun popBackStack()
 }

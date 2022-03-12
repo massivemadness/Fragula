@@ -2,12 +2,20 @@
 
     <string name="app_name">Fragula</string>
 
-    <string name="simple_flow">Simple Flow</string>
-    <string name="chat_flow">Chat Flow</string>
+    <string name="simple_flow">Simple Navigation Flow</string>
+    <string name="drawer_flow">Drawer Navigation Flow</string>
     <string name="bottomnav_flow">Bottom Navigation Flow</string>
+    <string name="chat_app">Messaging App</string>
 
-    <!-- simple flow -->
+    <!-- Simple Flow -->
     <string name="action_navigate">Navigate</string>
     <string name="action_pop">Pop Backstack</string>
+
+    <!-- Drawer Navigation Flow -->
+    <string name="arrow_message">You can retrieve swipe offset and make smooth animations like rotating drawer arrow</string>
+    <string name="tab_favorites">Favorites</string>
+    <string name="tab_friends">Friends</string>
+    <string name="tab_likes">Likes</string>
+    <string name="tab_settings">Settings</string>
 
 </resources>

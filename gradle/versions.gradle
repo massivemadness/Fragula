@@ -7,8 +7,8 @@ ext {
             buildTools: '31.0.0',
 
             // Library
-            publishVersionName: '2.0-alpha03',
-            publishVersionCode: 3
+            publishVersionName: '2.0-beta01',
+            publishVersionCode: 4
     ]
 
     // Plugins

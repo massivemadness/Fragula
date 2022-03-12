@@ -13,12 +13,13 @@ import com.fragula2.adapter.FragulaEntry
 import com.fragula2.adapter.SwipeBackAdapter
 import com.fragula2.adapter.SwipeBackTransformer
 import com.fragula2.utils.*
+import com.fragula2.utils.OnSwipeListener
+import com.fragula2.utils.fakeDragTo
 import com.fragula2.utils.pageOverScrollMode
 import com.fragula2.utils.resolveColor
-import com.fragula2.utils.setCurrentItemInternal
 import com.fragula2.utils.toFragulaEntry
 
-class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeBackInterface {
+class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, SwipeController {
 
     private val onPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageScrollStateChanged(state: Int) {
@@ -46,9 +47,13 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeBackInterf
             scrollOffset = position + positionOffset
             viewElevation?.translationX = -positionOffsetPixels.toFloat()
             viewElevation?.isVisible = scrollOffset % 1 > 0
+            onSwipeListeners.forEach { listener ->
+                listener.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            }
         }
     }
 
+    private val onSwipeListeners = mutableListOf<OnSwipeListener>()
     private val currentItem: Int
         get() = viewPager?.currentItem ?: 0
 
@@ -99,7 +104,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeBackInterf
         fakeScroll = true
         requestViewLock(true)
         swipeBackAdapter?.push(entry)
-        viewPager?.setCurrentItemInternal(currentItem + 1) {
+        viewPager?.fakeDragTo(currentItem + 1) {
             requestViewLock(false)
             fakeScroll = false
         }
@@ -109,11 +114,19 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), SwipeBackInterf
         if (fakeScroll) return
         fakeScroll = true
         requestViewLock(true)
-        viewPager?.setCurrentItemInternal(currentItem - 1) {
+        viewPager?.fakeDragTo(currentItem - 1) {
             swipeBackAdapter?.pop()
             requestViewLock(false)
             fakeScroll = false
         }
+    }
+
+    override fun addOnSwipeListener(listener: OnSwipeListener) {
+        onSwipeListeners.add(listener)
+    }
+
+    override fun removeOnSwipeListener(listener: OnSwipeListener) {
+        onSwipeListeners.remove(listener)
     }
 
     private fun restoreBackStack() {

@@ -15,19 +15,20 @@ It is an adaptation of an earlier version created by [@shikleev](https://github.
 2. [The Basics](#the-basics)
 3. [More Options](#more-options)
     1. [Destination Arguments](#destination-arguments)
-    2. [Custom Transitions](#custom-transitions)
+    2. [Page Transitions](#page-transitions)
+    3. [Multiple BackStacks](#multiple-backstacks)
 4. [Global Theming](#global-theming)
 
 ---
 
 ## Gradle Dependency
 
-Add this to your module's `build.gradle` file:
+Add this to your module’s `build.gradle` file:
 
 ```gradle
 dependencies {
   ...
-  implementation 'com.fragula2:fragula-core:2.0-alpha03'
+  implementation 'com.fragula2:fragula-core:2.0-beta01'
 }
 ```
 
@@ -46,8 +47,8 @@ The `fragula-core` module contains everything you need to get started with the l
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:name="com.fragula2.FragulaNavHostFragment" 
     android:id="@+id/nav_host"
-    android:name="com.fragula2.FragulaNavHostFragment"
     app:navGraph="@navigation/nav_graph"
     app:defaultNavHost="true" />
 ```
@@ -73,7 +74,7 @@ The `fragula-core` module contains everything you need to get started with the l
 </navigation>
 ```
 
-**Finally**, you need to set opaque background to your fragment's root layout to avoid any issues with swipe animation.
+**Finally**, you need to set opaque background to your fragment’s root layout to avoid any issues with swipe animation.
 
 ```xml
 <!-- fragment_detail.xml -->
@@ -131,10 +132,43 @@ textView.text = arguments?.getString("itemId")
 
 It's strongly recommended to use [Safe Args](https://developer.android.com/jetpack/androidx/releases/navigation#safe_args) plugin for navigating and passing data, because it ensures type-safety.
 
-### Custom Transitions
+### Page Transitions
 
-Currently shared element transitions between destinations is not supported in any form.  
-Stay tuned for updates 🤞😉
+You may want to know when the scrolling offset changes to make smooth transitions inside your fragment view.  
+To start listening scroll events you need to retrieve `SwipeController` and set `OnSwipeListener` as shown below:
+
+*Note: Currently shared element transitions between destinations is not supported in any form.*
+
+```kotlin
+class DetailFragment : Fragment(R.layout.fragment_detail) {
+   
+    private lateinit var swipeController: SwipeController
+    private lateinit var listener: OnSwipeListener
+    
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        ...
+        swipeController = findSwipeController() // retrieve SwipeController for a fragment
+        listener = OnSwipeListener { position, positionOffset, positionOffsetPixels ->
+            // do something with values
+        }
+        swipeController.addOnSwipeListener(listener)
+    }
+   
+    override fun onDestroyView() {
+        super.onDestroyView()
+        swipeController.removeOnSwipeListener(listener)
+    }
+}
+```
+
+**Remember:** you must remove the listener when the fragment view is destroyed.
+
+### Multiple BackStacks
+
+Currently multiple backstacks is not supported, which means you can't safely use extensions such as
+`NavigationView.setupWithNavController(...)` and `BottomNavigationView.setupWithNavController(...)`
+without losing your current backstack.
 
 ---
 

@@ -7,7 +7,7 @@
 
     <swipeable
         android:id="@+id/blankFragment"
-        android:name="com.fragula2.sample.simple.BlankFragment"
+        android:name="com.fragula2.sample.blank.BlankFragment"
         android:label="BlankFragment"
         tools:layout="@layout/fragment_blank">
         <action
