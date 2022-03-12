@@ -7,28 +7,17 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.fragula2.sample.R
 import com.fragula2.sample.databinding.FragmentBlankBinding
+import com.fragula2.sample.utils.viewBinding
 
 class BlankFragment : Fragment(R.layout.fragment_blank) {
 
-    private var _binding: FragmentBlankBinding? = null
-    private val binding: FragmentBlankBinding
-        get() = _binding!!
-
+    private val binding by viewBinding(FragmentBlankBinding::bind)
     private val navController by lazy { findNavController() }
     private val intArg by lazy { arguments?.getInt(ARG_INT, 1) ?: 1 }
     private val stringArg by lazy { arguments?.getString(ARG_STRING) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentBlankBinding.bind(view)
-
-        intArg.let {
-            binding.intArg.text = it.toString()
-        }
-        stringArg?.let {
-            binding.stringArg.text = it
-        }
-
         binding.actionNavigate.setOnClickListener {
             val bundle = bundleOf(
                 ARG_INT to intArg + 1,
@@ -39,11 +28,9 @@ class BlankFragment : Fragment(R.layout.fragment_blank) {
         binding.actionPop.setOnClickListener {
             navController.popBackStack()
         }
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+        intArg.let { binding.intArg.text = it.toString() }
+        stringArg?.let { binding.stringArg.text = it }
     }
 
     companion object {

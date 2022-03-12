@@ -29,7 +29,7 @@
             android:exported="false" />
 
         <activity
-            android:name="com.fragula2.sample.bottomnav.BottomNavActivity"
+            android:name="com.fragula2.sample.drawer.DrawerActivity"
             android:windowSoftInputMode="adjustResize|stateHidden"
             android:launchMode="singleTop"
             android:exported="false" />

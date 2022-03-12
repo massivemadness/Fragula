@@ -15,6 +15,7 @@ class BlankActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityBlankBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         navController = binding.navHost.getFragment<NavHostFragment>()
             .navController

@@ -1,33 +1,25 @@
-package com.fragula2.sample.bottomnav
+package com.fragula2.sample.drawer
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.fragula2.sample.R
-import com.fragula2.sample.databinding.FragmentTabBinding
+import com.fragula2.sample.databinding.FragmentDrawerBinding
+import com.fragula2.sample.utils.viewBinding
 
-class TabFragment : Fragment(R.layout.fragment_tab) {
+class DrawerFragment : Fragment(R.layout.fragment_drawer) {
 
-    private var _binding: FragmentTabBinding? = null
-    private val binding: FragmentTabBinding
-        get() = _binding!!
-
+    private val binding by viewBinding(FragmentDrawerBinding::bind)
     private val navController by lazy { findNavController() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentTabBinding.bind(view)
         binding.actionNavigate.setOnClickListener {
-            navController.navigate(R.id.blankFragment)
+            navController.navigate(R.id.drawerFragment)
         }
         binding.actionPop.setOnClickListener {
             navController.popBackStack()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 }

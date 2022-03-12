@@ -2,29 +2,21 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:colorBackground">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="56dp"
-        android:textSize="72sp"
-        android:id="@+id/int_arg"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="0" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="24dp"
+        android:layout_marginTop="128dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
         android:textSize="18sp"
-        android:id="@+id/string_arg"
-        app:layout_constraintTop_toBottomOf="@id/int_arg"
+        android:text="@string/arrow_message"
+        android:id="@+id/message"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -37,7 +29,7 @@
         android:textSize="16sp"
         android:text="@string/action_navigate"
         android:id="@+id/action_navigate"
-        app:layout_constraintTop_toBottomOf="@id/string_arg"
+        app:layout_constraintTop_toBottomOf="@id/message"
         app:layout_constraintBottom_toTopOf="@id/action_pop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
