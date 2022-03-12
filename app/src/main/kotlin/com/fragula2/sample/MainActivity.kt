@@ -3,9 +3,9 @@ package com.fragula2.sample
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.fragula2.sample.blank.BlankActivity
 import com.fragula2.sample.databinding.ActivityMainBinding
 import com.fragula2.sample.drawer.DrawerActivity
-import com.fragula2.sample.simple.BlankActivity
 
 class MainActivity : AppCompatActivity() {
 

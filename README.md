@@ -16,6 +16,7 @@ It is an adaptation of an earlier version created by [@shikleev](https://github.
 3. [More Options](#more-options)
     1. [Destination Arguments](#destination-arguments)
     2. [Page Transitions](#page-transitions)
+    3. [MultiBackStack](#multibackstack)
 4. [Global Theming](#global-theming)
 
 ---
@@ -162,6 +163,12 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 ```
 
 **Remember:** you must remove the listener when the fragment view is destroyed.
+
+### MultiBackStack
+
+Currently multiple backstacks is not supported, which means you can't safely use extensions such as
+`NavigationView.setupWithNavController(...)` and `BottomNavigationView.setupWithNavController(...)`
+without losing your current backstack.
 
 ---
 

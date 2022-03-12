@@ -23,7 +23,7 @@
         </activity>
 
         <activity
-            android:name="com.fragula2.sample.simple.BlankActivity"
+            android:name="com.fragula2.sample.blank.BlankActivity"
             android:windowSoftInputMode="adjustResize|stateHidden"
             android:launchMode="singleTop"
             android:exported="false" />

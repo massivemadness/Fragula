@@ -1,4 +1,4 @@
-package com.fragula2.sample.simple
+package com.fragula2.sample.blank
 
 import android.os.Bundle
 import android.view.View

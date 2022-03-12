@@ -46,6 +46,7 @@ class DrawerActivity : AppCompatActivity() {
             }
         }
 
+        // Can't use `setupWithNavController()` extension, multibackstack is not supported
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
             val bundle = bundleOf("LABEL" to menuItem.title)
             when (menuItem.itemId) {

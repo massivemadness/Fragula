@@ -23,7 +23,7 @@
         android:layout_height="0dp"
         android:name="com.fragula2.FragulaNavHostFragment"
         android:id="@+id/nav_host"
-        app:navGraph="@navigation/simple_nav_graph"
+        app:navGraph="@navigation/blank_nav_graph"
         app:defaultNavHost="true"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
