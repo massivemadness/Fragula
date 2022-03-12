@@ -7,8 +7,8 @@ ext {
             buildTools: '31.0.0',
 
             // Library
-            publishVersionName: '2.0-alpha03',
-            publishVersionCode: 3
+            publishVersionName: '2.0-beta01',
+            publishVersionCode: 4
     ]
 
     // Plugins
@@ -62,7 +62,6 @@ ext {
             viewmodel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version",
             lifecycle: "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version",
             navigation: "androidx.navigation:navigation-fragment-ktx:$navigation_version",
-            navigation_ui: "androidx.navigation:navigation-ui-ktx:$navigation_version",
 
             // Lint
             ktlint: "com.pinterest:ktlint:$ktlint_version",

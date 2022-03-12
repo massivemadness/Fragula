@@ -16,7 +16,7 @@ It is an adaptation of an earlier version created by [@shikleev](https://github.
 3. [More Options](#more-options)
     1. [Destination Arguments](#destination-arguments)
     2. [Page Transitions](#page-transitions)
-    3. [MultiBackStack](#multibackstack)
+    3. [Multiple BackStacks](#multiple-backstacks)
 4. [Global Theming](#global-theming)
 
 ---
@@ -28,7 +28,7 @@ Add this to your module’s `build.gradle` file:
 ```gradle
 dependencies {
   ...
-  implementation 'com.fragula2:fragula-core:2.0-alpha03'
+  implementation 'com.fragula2:fragula-core:2.0-beta01'
 }
 ```
 
@@ -164,7 +164,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
 **Remember:** you must remove the listener when the fragment view is destroyed.
 
-### MultiBackStack
+### Multiple BackStacks
 
 Currently multiple backstacks is not supported, which means you can't safely use extensions such as
 `NavigationView.setupWithNavController(...)` and `BottomNavigationView.setupWithNavController(...)`

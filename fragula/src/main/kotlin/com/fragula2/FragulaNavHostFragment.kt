@@ -16,9 +16,9 @@ class FragulaNavHostFragment : NavHostFragment() {
     override fun onCreateNavHostController(navHostController: NavHostController) {
         super.onCreateNavHostController(navHostController)
         navHostController.navigatorProvider += SwipeBackNavigator(
-            childFragmentManager,
-            FRAGMENT_TAG,
-            containerId
+            fragmentManager = childFragmentManager,
+            fragmentTag = FRAGMENT_TAG,
+            containerId = containerId
         )
     }
 

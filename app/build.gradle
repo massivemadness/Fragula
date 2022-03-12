@@ -52,7 +52,6 @@ dependencies {
     implementation library.viewmodel
     implementation library.lifecycle
     implementation library.navigation
-    implementation library.navigation_ui
 
     // Modules
     implementation project(':fragula')
