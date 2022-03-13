@@ -31,9 +31,11 @@ class SwipeBackAdapter(private val fragment: Fragment) : FragmentStateAdapter(fr
     }
 
     fun pop() {
-        val index = currentList.size - 1
-        currentList.removeAt(index)
-        notifyItemRemoved(index)
+        if (currentList.size > 1) {
+            val index = currentList.size - 1
+            currentList.removeAt(index)
+            notifyItemRemoved(index)
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
