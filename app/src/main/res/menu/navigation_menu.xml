@@ -3,22 +3,22 @@
 
     <item
         android:id="@+id/favorites"
-        android:icon="@drawable/ic_heart_outline"
+        android:icon="@drawable/ic_favorites"
         android:title="@string/tab_favorites" />
 
     <item
         android:id="@+id/friends"
-        android:icon="@drawable/ic_heart_outline"
+        android:icon="@drawable/ic_friends"
         android:title="@string/tab_friends" />
 
     <item
         android:id="@+id/likes"
-        android:icon="@drawable/ic_heart_outline"
+        android:icon="@drawable/ic_likes"
         android:title="@string/tab_likes" />
 
     <item
         android:id="@+id/settings"
-        android:icon="@drawable/ic_heart_outline"
+        android:icon="@drawable/ic_settings"
         android:title="@string/tab_settings" />
 
 </menu>

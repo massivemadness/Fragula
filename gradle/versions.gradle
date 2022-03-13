@@ -25,6 +25,7 @@ ext {
     materialdesign_version = '1.5.0'
     constraintlayout_version = '2.1.3'
     viewpager2_version = '1.0.0'
+    coil_version = '2.0.0-rc01'
 
     // AAC
     lifecycle_version = '2.4.1'
@@ -57,6 +58,7 @@ ext {
             materialdesign: "com.google.android.material:material:$materialdesign_version",
             constraintlayout: "androidx.constraintlayout:constraintlayout:$constraintlayout_version",
             viewpager2: "androidx.viewpager2:viewpager2:$viewpager2_version",
+            coil: "io.coil-kt:coil:$coil_version",
 
             // AAC
             viewmodel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version",

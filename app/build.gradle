@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -47,6 +48,7 @@ dependencies {
     // UI
     implementation library.appcompat
     implementation library.materialdesign
+    implementation library.coil
 
     // AAC
     implementation library.viewmodel

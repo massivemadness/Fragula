@@ -1,15 +1,22 @@
 package com.fragula2.sample
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.fragula2.sample.blank.BlankActivity
+import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
+import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
+import androidx.core.view.GravityCompat
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.fragula2.sample.databinding.ActivityMainBinding
-import com.fragula2.sample.drawer.DrawerActivity
+import com.fragula2.utils.SwipeController
+import com.fragula2.utils.findSwipeController
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
+    private lateinit var swipeController: SwipeController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,20 +24,42 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        binding.simpleFlow.setOnClickListener {
-            Intent(this, BlankActivity::class.java).run {
-                startActivity(this)
+        binding.navHost.getFragment<NavHostFragment>().also {
+            swipeController = it.findSwipeController()
+            navController = it.navController
+        }
+
+        // Animate arrow icon
+        DrawerArrowDrawable(this@MainActivity).also { arrow ->
+            binding.toolbar.navigationIcon = arrow.apply {
+                color = ContextCompat.getColor(this@MainActivity, android.R.color.black)
+            }
+            binding.toolbar.setNavigationOnClickListener {
+                when (arrow.progress) {
+                    0f -> binding.drawerLayout.openDrawer(GravityCompat.START)
+                    1f -> navController.popBackStack()
+                }
+            }
+            swipeController.addOnSwipeListener { position, positionOffset, _ ->
+                arrow.progress = if (position >= 1) 1f else positionOffset
             }
         }
-        binding.drawerFlow.setOnClickListener {
-            Intent(this, DrawerActivity::class.java).run {
-                startActivity(this)
+
+        // Can't use `setupWithNavController()` extension, multibackstack is not supported
+        binding.navigationView.setNavigationItemSelectedListener { menuItem ->
+            val bundle = bundleOf("LABEL" to menuItem.title)
+            when (menuItem.itemId) {
+                R.id.favorites -> navController.navigate(R.id.tabFragment, bundle)
+                R.id.friends -> navController.navigate(R.id.tabFragment, bundle)
+                R.id.likes -> navController.navigate(R.id.tabFragment, bundle)
+                R.id.settings -> navController.navigate(R.id.tabFragment, bundle)
             }
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+            true
         }
-        binding.bottomnavFlow.setOnClickListener {
-            /*Intent(this, BottomNavActivity::class.java).run {
-                startActivity(this)
-            }*/
-        }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }
