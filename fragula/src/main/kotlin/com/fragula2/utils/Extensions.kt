@@ -14,7 +14,9 @@ private const val SCROLL_DURATION = 300L
 
 // RecyclerView overscroll
 internal var ViewPager2.pageOverScrollMode: Int
+    @RestrictTo(LIBRARY_GROUP)
     get() = getChildAt(0).overScrollMode
+    @RestrictTo(LIBRARY_GROUP)
     set(value) { getChildAt(0).overScrollMode = value }
 
 @RestrictTo(LIBRARY_GROUP)

@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavHostController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.plusAssign
+import com.fragula2.animation.SwipeController
 import com.fragula2.navigation.SwipeBackNavigator
-import com.fragula2.utils.SwipeController
 
 class FragulaNavHostFragment : NavHostFragment() {
 

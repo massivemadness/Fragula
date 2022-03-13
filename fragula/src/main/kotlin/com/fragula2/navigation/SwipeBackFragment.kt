@@ -12,12 +12,14 @@ import com.fragula2.R
 import com.fragula2.adapter.FragulaEntry
 import com.fragula2.adapter.SwipeBackAdapter
 import com.fragula2.adapter.SwipeBackTransformer
+import com.fragula2.animation.OnSwipeListener
+import com.fragula2.animation.SwipeController
 import com.fragula2.utils.*
-import com.fragula2.utils.OnSwipeListener
 import com.fragula2.utils.fakeDragTo
 import com.fragula2.utils.pageOverScrollMode
 import com.fragula2.utils.resolveColor
 import com.fragula2.utils.toFragulaEntry
+import java.util.concurrent.LinkedBlockingQueue
 
 class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, SwipeController {
 
@@ -54,6 +56,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     }
 
     private val onSwipeListeners = mutableListOf<OnSwipeListener>()
+    private val delayedTransitions = LinkedBlockingQueue<Runnable>()
     private val currentItem: Int
         get() = viewPager?.currentItem ?: 0
 
@@ -100,24 +103,24 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     }
 
     override fun navigate(entry: FragulaEntry) {
-        if (fakeScroll) return
-        fakeScroll = true
+        if (fakeScroll)
+            return delayedTransitions.put { navigate(entry) }
         requestViewLock(true)
         swipeBackAdapter?.push(entry)
         viewPager?.fakeDragTo(currentItem + 1) {
             requestViewLock(false)
-            fakeScroll = false
+            nextTransition()
         }
     }
 
     override fun popBackStack() {
-        if (fakeScroll) return
-        fakeScroll = true
+        if (fakeScroll)
+            return delayedTransitions.put(::popBackStack)
         requestViewLock(true)
         viewPager?.fakeDragTo(currentItem - 1) {
             swipeBackAdapter?.pop()
             requestViewLock(false)
-            fakeScroll = false
+            nextTransition()
         }
     }
 
@@ -139,5 +142,11 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
 
     private fun requestViewLock(locked: Boolean) {
         viewLock?.isVisible = locked
+        fakeScroll = locked
+    }
+
+    private fun nextTransition() {
+        val runnable = delayedTransitions.poll()
+        runnable?.run()
     }
 }

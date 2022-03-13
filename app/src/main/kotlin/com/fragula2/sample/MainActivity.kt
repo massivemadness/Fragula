@@ -8,8 +8,8 @@ import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.fragula2.animation.SwipeController
 import com.fragula2.sample.databinding.ActivityMainBinding
-import com.fragula2.utils.SwipeController
 import com.fragula2.utils.findSwipeController
 
 class MainActivity : AppCompatActivity() {

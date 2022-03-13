@@ -1,4 +1,4 @@
-package com.fragula2.utils
+package com.fragula2.animation
 
 fun interface OnSwipeListener {
 

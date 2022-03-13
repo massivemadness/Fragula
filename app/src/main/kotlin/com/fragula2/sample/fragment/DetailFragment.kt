@@ -34,7 +34,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             navController.navigate(R.id.profileFragment, bundleOf("CHAT" to chat))
         }
         val images = resources.obtainTypedArray(R.array.stock_images)
-        val stock = images.getResourceId(randomImage(0, images.length()), -1)
+        val stock = images.getResourceId(randomImage(1, images.length()), -1)
         binding.stockImage.load(stock) {
             crossfade(true)
             transformations(RoundedCornersTransformation(16f))
