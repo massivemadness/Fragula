@@ -105,10 +105,12 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     override fun navigate(entry: FragulaEntry) {
         if (fakeScroll)
             return delayedTransitions.put { navigate(entry) }
+        fakeScroll = true
         requestViewLock(true)
         swipeBackAdapter?.push(entry)
         viewPager?.fakeDragTo(currentItem + 1) {
             requestViewLock(false)
+            fakeScroll = false
             nextTransition()
         }
     }
@@ -116,10 +118,12 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     override fun popBackStack() {
         if (fakeScroll)
             return delayedTransitions.put(::popBackStack)
+        fakeScroll = true
         requestViewLock(true)
         viewPager?.fakeDragTo(currentItem - 1) {
             swipeBackAdapter?.pop()
             requestViewLock(false)
+            fakeScroll = false
             nextTransition()
         }
     }
@@ -142,7 +146,6 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
 
     private fun requestViewLock(locked: Boolean) {
         viewLock?.isVisible = locked
-        fakeScroll = locked
     }
 
     private fun nextTransition() {
