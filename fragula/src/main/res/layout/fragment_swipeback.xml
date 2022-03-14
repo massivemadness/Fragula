@@ -14,14 +14,6 @@
         android:layout_gravity="end"
         android:visibility="gone"
         android:background="@drawable/bg_elevation"
-        android:id="@+id/viewElevation" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:clickable="true"
-        android:focusable="true"
-        android:id="@+id/viewLock" />
+        android:id="@+id/elevation" />
 
 </FrameLayout>

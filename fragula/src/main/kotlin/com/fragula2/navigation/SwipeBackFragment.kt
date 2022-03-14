@@ -2,6 +2,7 @@ package com.fragula2.navigation
 
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavBackStackEntry
@@ -47,8 +48,8 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
             super.onPageScrolled(position, positionOffset, positionOffsetPixels)
             scrollToEnd = position + positionOffset < scrollOffset
             scrollOffset = position + positionOffset
-            viewElevation?.translationX = -positionOffsetPixels.toFloat()
-            viewElevation?.isVisible = scrollOffset % 1 > 0
+            elevation?.translationX = -positionOffsetPixels.toFloat()
+            elevation?.isVisible = scrollOffset % 1 > 0
             onSwipeListeners.forEach { listener ->
                 listener.onPageScrolled(position, positionOffset, positionOffsetPixels)
             }
@@ -61,8 +62,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         get() = viewPager?.currentItem ?: 0
 
     private var viewPager: ViewPager2? = null
-    private var viewElevation: View? = null
-    private var viewLock: View? = null
+    private var elevation: View? = null
 
     private var swipeBackAdapter: SwipeBackAdapter? = null
     private var navController: NavController? = null
@@ -74,8 +74,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
-        viewElevation = view.findViewById(R.id.viewElevation)
-        viewLock = view.findViewById(R.id.viewLock)
+        elevation = view.findViewById(R.id.elevation)
         viewPager = view.findViewById<ViewPager2>(R.id.viewPager).also { viewPager ->
             viewPager.registerOnPageChangeCallback(onPageChangeCallback)
             viewPager.setPageTransformer(SwipeBackTransformer(
@@ -97,9 +96,8 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         viewPager?.unregisterOnPageChangeCallback(onPageChangeCallback)
         swipeBackAdapter = null
         navController = null
-        viewElevation = null
         viewPager = null
-        viewLock = null
+        elevation = null
     }
 
     override fun navigate(entry: FragulaEntry) {
@@ -145,7 +143,16 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     }
 
     private fun requestViewLock(locked: Boolean) {
-        viewLock?.isVisible = locked
+        if (locked) {
+            activity?.window?.setFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            )
+        } else {
+            activity?.window?.clearFlags(
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            )
+        }
     }
 
     private fun nextTransition() {
