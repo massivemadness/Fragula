@@ -37,7 +37,9 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
                         val itemCount = swipeBackAdapter?.itemCount ?: 0
                         val currentItem = viewPager?.currentItem ?: 0
                         if (itemCount - 1 > currentItem && !fakeScroll) {
+                            userScroll = true
                             navController?.popBackStack()
+                            swipeBackAdapter?.pop()
                         }
                     }
                     requestViewLock(false)
@@ -67,7 +69,9 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     private var swipeBackAdapter: SwipeBackAdapter? = null
     private var navController: NavController? = null
 
+    private var userScroll = false
     private var fakeScroll = false
+
     private var scrollToEnd = false
     private var scrollOffset = 0.0f
 
@@ -114,6 +118,10 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     }
 
     override fun popBackStack() {
+        if (userScroll) {
+            userScroll = false
+            return
+        }
         if (fakeScroll)
             return delayedTransitions.put(::popBackStack)
         fakeScroll = true
