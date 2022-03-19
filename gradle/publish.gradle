@@ -60,17 +60,16 @@ publishing {
             version versions.publishVersionName
 
             if (project.plugins.findPlugin("com.android.library")) {
-                // artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
-                artifact("$buildDir/outputs/aar/${project.getName()}-core-release.aar") // FIXME fragula-core
+                artifact("$buildDir/outputs/aar/${libraryArtifactId}-release.aar")
             } else {
-                artifact("$buildDir/libs/${project.getName()}-${version}.jar")
+                artifact("$buildDir/libs/${libraryArtifactId}-${version}.jar")
             }
             artifact androidSourcesJar
 
             pom {
                 packaging 'aar'
                 name = libraryArtifactId
-                description = 'Fragula is a swipe-back extension for navigation component library for Android.'
+                description = 'Fragula is a swipe-to-dismiss extension for navigation component library for Android.'
                 url = 'https://github.com/massivemadness/Fragula'
                 licenses {
                     license {

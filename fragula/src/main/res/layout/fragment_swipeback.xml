@@ -11,6 +11,7 @@
     <View
         android:layout_width="3dp"
         android:layout_height="match_parent"
+        android:layout_gravity="end"
         android:background="@drawable/bg_elevation"
         android:visibility="gone"
         android:id="@+id/elevation" />
