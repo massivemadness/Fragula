@@ -2,7 +2,6 @@ package com.fragula2.navigation
 
 import android.os.Bundle
 import android.view.View
-import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavBackStackEntry
@@ -30,7 +29,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
             when (state) {
                 ViewPager2.SCROLL_STATE_DRAGGING -> Unit
                 ViewPager2.SCROLL_STATE_SETTLING -> {
-                    requestViewLock(true)
+                    activity?.requestViewLock(true)
                 }
                 ViewPager2.SCROLL_STATE_IDLE -> {
                     if (scrollToEnd) {
@@ -42,7 +41,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
                             stackAdapter?.pop()
                         }
                     }
-                    requestViewLock(false)
+                    activity?.requestViewLock(false)
                 }
             }
         }
@@ -112,10 +111,10 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         if (fakeScroll)
             return delayedTransitions.put { navigate(entry) }
         fakeScroll = true
-        requestViewLock(true)
+        activity?.requestViewLock(true)
         stackAdapter?.push(entry)
         viewPager?.fakeDragTo(currentItem + 1, scrollDuration) {
-            requestViewLock(false)
+            activity?.requestViewLock(false)
             fakeScroll = false
             nextTransition()
         }
@@ -129,10 +128,10 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         if (fakeScroll)
             return delayedTransitions.put(::popBackStack)
         fakeScroll = true
-        requestViewLock(true)
+        activity?.requestViewLock(true)
         viewPager?.fakeDragTo(currentItem - 1, scrollDuration) {
             stackAdapter?.pop()
-            requestViewLock(false)
+            activity?.requestViewLock(false)
             fakeScroll = false
             nextTransition()
         }
@@ -152,19 +151,6 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
             .map(NavBackStackEntry::toStackEntry)
             .also { stackAdapter?.addAll(it) }
             .size
-    }
-
-    private fun requestViewLock(locked: Boolean) {
-        if (locked) {
-            activity?.window?.setFlags(
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-            )
-        } else {
-            activity?.window?.clearFlags(
-                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
-            )
-        }
     }
 
     private fun nextTransition() {

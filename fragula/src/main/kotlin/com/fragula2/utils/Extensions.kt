@@ -2,6 +2,8 @@ package com.fragula2.utils
 
 import android.animation.Animator
 import android.animation.ValueAnimator
+import android.app.Activity
+import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.annotation.RestrictTo
 import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
@@ -41,6 +43,20 @@ internal fun ViewPager2.fakeDragTo(page: Int, scrollDuration: Long, block: () ->
         interpolator = AccelerateDecelerateInterpolator()
         duration = scrollDuration
         start()
+    }
+}
+
+@RestrictTo(LIBRARY_GROUP)
+internal fun Activity.requestViewLock(locked: Boolean) {
+    if (locked) {
+        window?.setFlags(
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        )
+    } else {
+        window?.clearFlags(
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        )
     }
 }
 
