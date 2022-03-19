@@ -7,7 +7,7 @@ import androidx.fragment.app.commit
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
-import com.fragula2.utils.toFragulaEntry
+import com.fragula2.utils.toStackEntry
 
 @Navigator.Name("swipeable")
 class SwipeBackNavigator(
@@ -49,7 +49,7 @@ class SwipeBackNavigator(
         }
         val swipeBackFragment = fragmentManager.findFragmentByTag(fragmentTag)
         if (swipeBackFragment is Navigable) {
-            swipeBackFragment.navigate(entry.toFragulaEntry())
+            swipeBackFragment.navigate(entry.toStackEntry())
         }
         state.push(entry)
     }

@@ -7,7 +7,7 @@ import androidx.annotation.RestrictTo
 import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
 import androidx.navigation.NavBackStackEntry
 import androidx.viewpager2.widget.ViewPager2
-import com.fragula2.adapter.FragulaEntry
+import com.fragula2.adapter.StackEntry
 import com.fragula2.navigation.SwipeBackDestination
 
 // RecyclerView overscroll
@@ -45,9 +45,9 @@ internal fun ViewPager2.fakeDragTo(page: Int, scrollDuration: Long, block: () ->
 }
 
 @RestrictTo(LIBRARY_GROUP)
-internal fun NavBackStackEntry.toFragulaEntry(): FragulaEntry {
+internal fun NavBackStackEntry.toStackEntry(): StackEntry {
     val destination = destination as SwipeBackDestination
-    return FragulaEntry(
+    return StackEntry(
         className = destination.className,
         arguments = this.arguments
     )

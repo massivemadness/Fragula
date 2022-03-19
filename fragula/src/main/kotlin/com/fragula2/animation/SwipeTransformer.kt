@@ -1,10 +1,10 @@
-package com.fragula2.adapter
+package com.fragula2.animation
 
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 import kotlin.math.abs
 
-class SwipeBackTransformer(private val multiplier: Float) : ViewPager2.PageTransformer {
+class SwipeTransformer(private val multiplier: Float) : ViewPager2.PageTransformer {
 
     override fun transformPage(page: View, position: Float) {
         when {

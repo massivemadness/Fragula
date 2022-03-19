@@ -10,16 +10,16 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.fragula2.R
-import com.fragula2.adapter.FragulaEntry
-import com.fragula2.adapter.SwipeBackAdapter
-import com.fragula2.adapter.SwipeBackTransformer
+import com.fragula2.adapter.StackAdapter
+import com.fragula2.adapter.StackEntry
 import com.fragula2.animation.OnSwipeListener
 import com.fragula2.animation.SwipeController
+import com.fragula2.animation.SwipeTransformer
 import com.fragula2.utils.*
 import com.fragula2.utils.fakeDragTo
 import com.fragula2.utils.pageOverScrollMode
 import com.fragula2.utils.resolveColor
-import com.fragula2.utils.toFragulaEntry
+import com.fragula2.utils.toStackEntry
 import java.util.concurrent.LinkedBlockingQueue
 
 class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, SwipeController {
@@ -34,12 +34,12 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
                 }
                 ViewPager2.SCROLL_STATE_IDLE -> {
                     if (scrollToEnd) {
-                        val itemCount = swipeBackAdapter?.itemCount ?: 0
+                        val itemCount = stackAdapter?.itemCount ?: 0
                         val currentItem = viewPager?.currentItem ?: 0
                         if (itemCount - 1 > currentItem && !fakeScroll) {
                             userScroll = true
                             navController?.popBackStack()
-                            swipeBackAdapter?.pop()
+                            stackAdapter?.pop()
                         }
                     }
                     requestViewLock(false)
@@ -66,8 +66,8 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     private var viewPager: ViewPager2? = null
     private var elevation: View? = null
 
-    private var swipeBackAdapter: SwipeBackAdapter? = null
     private var navController: NavController? = null
+    private var stackAdapter: StackAdapter? = null
 
     private var userScroll = false
     private var fakeScroll = false
@@ -82,15 +82,16 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         elevation = view.findViewById(R.id.elevation)
         viewPager = view.findViewById<ViewPager2>(R.id.viewPager).also { viewPager ->
             viewPager.registerOnPageChangeCallback(onPageChangeCallback)
-            viewPager.setPageTransformer(SwipeBackTransformer(
+            viewPager.setPageTransformer(SwipeTransformer(
                 requireContext().resolveFloat(R.attr.fgl_dim_amount, R.dimen.dim_amount_default)
             ))
             viewPager.setBackgroundColor(
                 requireContext().resolveColor(R.attr.fgl_dim_color, R.color.dim_color_default)
             )
             viewPager.pageOverScrollMode = View.OVER_SCROLL_NEVER
-            viewPager.adapter = SwipeBackAdapter(this).also { adapter ->
-                swipeBackAdapter = adapter
+            viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            viewPager.adapter = StackAdapter(this).also { adapter ->
+                stackAdapter = adapter
             }
         }
         scrollDuration = requireContext().resolveInteger(
@@ -101,18 +102,18 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     override fun onDestroyView() {
         super.onDestroyView()
         viewPager?.unregisterOnPageChangeCallback(onPageChangeCallback)
-        swipeBackAdapter = null
         navController = null
+        stackAdapter = null
         viewPager = null
         elevation = null
     }
 
-    override fun navigate(entry: FragulaEntry) {
+    override fun navigate(entry: StackEntry) {
         if (fakeScroll)
             return delayedTransitions.put { navigate(entry) }
         fakeScroll = true
         requestViewLock(true)
-        swipeBackAdapter?.push(entry)
+        stackAdapter?.push(entry)
         viewPager?.fakeDragTo(currentItem + 1, scrollDuration) {
             requestViewLock(false)
             fakeScroll = false
@@ -130,7 +131,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         fakeScroll = true
         requestViewLock(true)
         viewPager?.fakeDragTo(currentItem - 1, scrollDuration) {
-            swipeBackAdapter?.pop()
+            stackAdapter?.pop()
             requestViewLock(false)
             fakeScroll = false
             nextTransition()
@@ -148,8 +149,8 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     private fun restoreBackStack() {
         viewPager?.currentItem = navController?.backQueue.orEmpty()
             .filter { it.destination is SwipeBackDestination }
-            .map(NavBackStackEntry::toFragulaEntry)
-            .also { swipeBackAdapter?.addAll(it) }
+            .map(NavBackStackEntry::toStackEntry)
+            .also { stackAdapter?.addAll(it) }
             .size
     }
 

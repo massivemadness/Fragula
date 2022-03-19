@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class SwipeBackAdapter(private val fragment: Fragment) : FragmentStateAdapter(fragment) {
+class StackAdapter(private val fragment: Fragment) : FragmentStateAdapter(fragment) {
 
-    private val currentList = mutableListOf<FragulaEntry>()
+    private val currentList = mutableListOf<StackEntry>()
 
     override fun createFragment(position: Int): Fragment {
         val context = fragment.requireContext()
@@ -25,7 +25,7 @@ class SwipeBackAdapter(private val fragment: Fragment) : FragmentStateAdapter(fr
         return currentList.size
     }
 
-    fun push(entry: FragulaEntry) {
+    fun push(entry: StackEntry) {
         currentList.add(entry)
         notifyItemInserted(currentList.size - 1)
     }
@@ -39,7 +39,7 @@ class SwipeBackAdapter(private val fragment: Fragment) : FragmentStateAdapter(fr
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addAll(entries: List<FragulaEntry>) {
+    fun addAll(entries: List<StackEntry>) {
         currentList.addAll(entries)
         notifyDataSetChanged()
     }
