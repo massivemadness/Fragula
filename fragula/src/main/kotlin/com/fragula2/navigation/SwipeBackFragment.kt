@@ -147,7 +147,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
 
     private fun restoreBackStack() {
         viewPager?.currentItem = navController?.backQueue.orEmpty()
-            .filter { it.destination is SwipeBackNavigator.Destination }
+            .filter { it.destination is SwipeBackDestination }
             .map(NavBackStackEntry::toFragulaEntry)
             .also { swipeBackAdapter?.addAll(it) }
             .size

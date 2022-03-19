@@ -17,7 +17,7 @@ It is an adaptation of an earlier version created by [@shikleev](https://github.
     1. [Destination Arguments](#destination-arguments)
     2. [Page Transitions](#page-transitions)
     3. [Multiple BackStacks](#multiple-backstacks)
-4. [Global Theming](#global-theming)
+4. [Theming](#theming)
 
 ---
 
@@ -172,7 +172,7 @@ without losing your current backstack.
 
 ---
 
-## Global Theming
+## Theming
 
 In most of the cases there is no need to change any of these values, but if you really need to you 
 can override these attributes in your activity theme.
