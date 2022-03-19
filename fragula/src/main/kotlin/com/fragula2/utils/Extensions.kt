@@ -10,8 +10,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.fragula2.adapter.FragulaEntry
 import com.fragula2.navigation.SwipeBackNavigator
 
-private const val SCROLL_DURATION = 300L
-
 // RecyclerView overscroll
 internal var ViewPager2.pageOverScrollMode: Int
     @RestrictTo(LIBRARY_GROUP)
@@ -20,7 +18,7 @@ internal var ViewPager2.pageOverScrollMode: Int
     set(value) { getChildAt(0).overScrollMode = value }
 
 @RestrictTo(LIBRARY_GROUP)
-internal fun ViewPager2.fakeDragTo(page: Int, block: () -> Unit) {
+internal fun ViewPager2.fakeDragTo(page: Int, scrollDuration: Long, block: () -> Unit) {
     ValueAnimator.ofInt(0, width * (page - currentItem)).apply {
         var previousValue = 0
         addUpdateListener { valueAnimator ->
@@ -41,7 +39,7 @@ internal fun ViewPager2.fakeDragTo(page: Int, block: () -> Unit) {
             }
         })
         interpolator = AccelerateDecelerateInterpolator()
-        duration = SCROLL_DURATION
+        duration = scrollDuration
         start()
     }
 }

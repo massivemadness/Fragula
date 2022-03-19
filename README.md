@@ -195,5 +195,11 @@ can override these attributes in your activity theme.
     -->
     <item name="fgl_dim_amount">0.2</item>
    
+    <!--
+        This overrides the duration of swipe animation using `navController.navigate(...)` 
+        and `navController.popBackStack()` methods.
+    -->
+    <item name="fgl_anim_duration">300</item>
+   
 </style>
 ```

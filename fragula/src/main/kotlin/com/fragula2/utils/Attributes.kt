@@ -1,39 +1,50 @@
 package com.fragula2.utils
 
 import android.content.Context
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
-import androidx.annotation.RestrictTo
+import androidx.annotation.*
+import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+@RestrictTo(LIBRARY_GROUP)
 internal fun Context.resolveColor(
-    @AttrRes attr: Int,
+    @AttrRes attrRes: Int,
     @ColorRes defaultValue: Int,
 ): Int {
-    val attributes = theme.obtainStyledAttributes(intArrayOf(attr))
+    val attrs = theme.obtainStyledAttributes(intArrayOf(attrRes))
     try {
-        val result = attributes.getColor(0, 0)
+        val result = attrs.getColor(0, 0)
         if (result == 0) {
             return ContextCompat.getColor(this, defaultValue)
         }
         return result
     } finally {
-        attributes.recycle()
+        attrs.recycle()
     }
 }
 
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+@RestrictTo(LIBRARY_GROUP)
 internal fun Context.resolveFloat(
-    @AttrRes attr: Int,
+    @AttrRes attrRes: Int,
     @DimenRes defaultValue: Int,
 ): Float {
-    val attributes = theme.obtainStyledAttributes(intArrayOf(attr))
+    val attrs = theme.obtainStyledAttributes(intArrayOf(attrRes))
     try {
-        return attributes.getFloat(0, ResourcesCompat.getFloat(resources, defaultValue))
+        return attrs.getFloat(0, ResourcesCompat.getFloat(resources, defaultValue))
     } finally {
-        attributes.recycle()
+        attrs.recycle()
+    }
+}
+
+@RestrictTo(LIBRARY_GROUP)
+internal fun Context.resolveInteger(
+    @AttrRes attrRes: Int,
+    @IntegerRes defaultValue: Int,
+): Int {
+    val attrs = theme.obtainStyledAttributes(intArrayOf(attrRes))
+    try {
+        return attrs.getInteger(0, resources.getInteger(defaultValue))
+    } finally {
+        attrs.recycle()
     }
 }

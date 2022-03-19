@@ -1,4 +1,5 @@
 <resources>
     <attr name="fgl_dim_color" format="color" />
     <attr name="fgl_dim_amount" format="float" />
+    <attr name="fgl_anim_duration" format="integer" />
 </resources>

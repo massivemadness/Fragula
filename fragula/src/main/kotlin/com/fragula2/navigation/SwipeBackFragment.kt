@@ -74,6 +74,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
 
     private var scrollToEnd = false
     private var scrollOffset = 0.0f
+    private var scrollDuration = 300L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -92,6 +93,8 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
                 swipeBackAdapter = adapter
             }
         }
+        scrollDuration = requireContext().resolveInteger(
+            R.attr.fgl_anim_duration, R.integer.anim_duration_default).toLong()
         restoreBackStack()
     }
 
@@ -110,7 +113,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         fakeScroll = true
         requestViewLock(true)
         swipeBackAdapter?.push(entry)
-        viewPager?.fakeDragTo(currentItem + 1) {
+        viewPager?.fakeDragTo(currentItem + 1, scrollDuration) {
             requestViewLock(false)
             fakeScroll = false
             nextTransition()
@@ -126,7 +129,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
             return delayedTransitions.put(::popBackStack)
         fakeScroll = true
         requestViewLock(true)
-        viewPager?.fakeDragTo(currentItem - 1) {
+        viewPager?.fakeDragTo(currentItem - 1, scrollDuration) {
             swipeBackAdapter?.pop()
             requestViewLock(false)
             fakeScroll = false
