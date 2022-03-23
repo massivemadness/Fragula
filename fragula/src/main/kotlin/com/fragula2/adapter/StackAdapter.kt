@@ -31,11 +31,11 @@ class StackAdapter(private val fragment: Fragment) : FragmentStateAdapter(fragme
     }
 
     fun pop() {
-        if (currentList.size > 1) {
-            val index = currentList.size - 1
-            currentList.removeAt(index)
-            notifyItemRemoved(index)
-        }
+        if (currentList.size <= 1)
+            return
+        val index = currentList.size - 1
+        currentList.removeAt(index)
+        notifyItemRemoved(index)
     }
 
     @SuppressLint("NotifyDataSetChanged")

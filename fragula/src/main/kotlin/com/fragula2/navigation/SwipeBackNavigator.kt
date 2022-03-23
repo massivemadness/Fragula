@@ -35,13 +35,13 @@ class SwipeBackNavigator(
 
     private fun navigate(entry: NavBackStackEntry) {
         val initialNavigation = backStack.isEmpty()
-        val hasFragments = fragmentManager.fragments.isNotEmpty()
+        // val hasFragments = fragmentManager.fragments.isNotEmpty()
         if (initialNavigation) {
             fragmentManager.commit {
                 val swipeBackFragment = SwipeBackFragment()
                 replace(containerId, swipeBackFragment, fragmentTag)
                 setPrimaryNavigationFragment(swipeBackFragment)
-                if (!initialNavigation || hasFragments) {
+                if (!initialNavigation /*|| hasFragments*/) {
                     addToBackStack(entry.id)
                 }
                 setReorderingAllowed(true)
