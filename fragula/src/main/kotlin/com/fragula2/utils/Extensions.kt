@@ -12,7 +12,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.fragula2.adapter.StackEntry
 import com.fragula2.navigation.SwipeBackDestination
 
-// RecyclerView overscroll
 internal var ViewPager2.pageOverScrollMode: Int
     @RestrictTo(LIBRARY_GROUP)
     get() = getChildAt(0).overScrollMode
@@ -64,6 +63,7 @@ internal fun Activity.requestViewLock(locked: Boolean) {
 internal fun NavBackStackEntry.toStackEntry(): StackEntry {
     val destination = destination as SwipeBackDestination
     return StackEntry(
+        id = this.id,
         className = destination.className,
         arguments = this.arguments
     )
