@@ -4,14 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="?selectableItemBackground">
+    android:foreground="?selectableItemBackground"
+    android:background="?colorSurface">
 
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="12dp"
         android:src="@drawable/photo_female_1"
         android:id="@+id/image" />
 
@@ -27,15 +28,17 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="?colorOnSecondary"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="?colorOnPrimary"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-medium"
             android:id="@+id/name"
             tools:text="People Name" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="?colorOnSurface"
+            android:textSize="16sp"
             android:maxLines="2"
             android:id="@+id/description"
             tools:text="@string/lorem_ipsum" />

@@ -15,7 +15,8 @@
         android:id="@+id/picture"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:src="@drawable/photo_female_1" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -35,6 +36,7 @@
         android:layout_marginStart="42dp"
         android:layout_marginEnd="42dp"
         android:gravity="center"
+        android:textColor="?colorOnBackground"
         android:text="@string/lorem_ipsum"
         android:id="@+id/description"
         app:layout_constraintTop_toBottomOf="@id/name"
@@ -47,7 +49,6 @@
         android:layout_height="64dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:textSize="16sp"
         android:text="@string/social_instagram"
         android:id="@+id/instagram"
         app:layout_constraintTop_toBottomOf="@id/description"
@@ -62,7 +63,6 @@
         android:layout_height="64dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:textSize="16sp"
         android:text="@string/social_facebook"
         android:id="@+id/facebook"
         app:layout_constraintTop_toBottomOf="@id/instagram"
@@ -77,7 +77,6 @@
         android:layout_height="64dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:textSize="16sp"
         android:text="@string/social_telegram"
         android:id="@+id/telegram"
         app:layout_constraintTop_toBottomOf="@id/facebook"

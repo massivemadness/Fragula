@@ -15,15 +15,16 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_chat"
-        tools:itemCount="8" />
+        tools:itemCount="5" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_margin="24dp"
-        android:src="@drawable/ic_plus"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_compose"
         android:id="@+id/fab"
+        app:tint="?colorOnPrimary"
         app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

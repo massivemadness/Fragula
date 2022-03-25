@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <com.google.android.material.appbar.MaterialToolbar
-            style="@style/Widget.MaterialComponents.Toolbar.Surface"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
@@ -35,9 +35,11 @@
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="?colorPrimary"
         android:id="@+id/navigation_view"
         app:headerLayout="@layout/item_header"
         app:menu="@menu/navigation_menu"
-        app:itemIconTint="#757575" />
+        app:itemIconTint="?colorOnSurface"
+        app:itemTextColor="?colorOnPrimary" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

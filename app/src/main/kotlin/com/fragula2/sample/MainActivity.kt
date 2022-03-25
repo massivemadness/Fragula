@@ -3,13 +3,13 @@ package com.fragula2.sample
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.fragula2.animation.SwipeController
 import com.fragula2.sample.databinding.ActivityMainBinding
+import com.fragula2.sample.utils.getColorAttr
 import com.fragula2.utils.findSwipeController
 
 class MainActivity : AppCompatActivity() {
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         // Animate arrow icon
         DrawerArrowDrawable(this@MainActivity).also { arrow ->
             binding.toolbar.navigationIcon = arrow.apply {
-                color = ContextCompat.getColor(this@MainActivity, android.R.color.black)
+                color = getColorAttr(R.attr.colorOnPrimary)
             }
             binding.toolbar.setNavigationOnClickListener {
                 when (arrow.progress) {

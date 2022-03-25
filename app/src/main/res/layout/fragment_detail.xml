@@ -13,7 +13,7 @@
         android:background="?selectableItemBackground"
         android:id="@+id/profile"
         app:cardCornerRadius="0dp"
-        app:cardElevation="6dp"
+        app:cardBackgroundColor="?colorSurface"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="@android:color/black"
+                android:textColor="?colorOnPrimary"
                 android:textSize="16sp"
                 android:text="@string/open_profile"
                 app:layout_constraintBottom_toTopOf="@id/message_4"
@@ -53,8 +53,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="?colorOnPrimary"
+        android:textSize="14sp"
         android:text="@string/date"
         android:id="@+id/date"
         app:layout_constraintBottom_toTopOf="@id/message_4"
@@ -67,10 +68,9 @@
         android:layout_gravity="start"
         android:layout_margin="6dp"
         android:id="@+id/message_4"
+        app:cardBackgroundColor="?colorSecondaryVariant"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="#ddd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/message_3">
 
@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="8dp"
-            android:textColor="@android:color/black"
+            android:textColor="?colorOnPrimary"
             android:textSize="16sp"
             android:text="@string/lorem_ipsum" />
 
@@ -90,6 +90,7 @@
             android:layout_marginEnd="4dp"
             android:padding="4dp"
             android:textSize="12sp"
+            android:textColor="?colorOnSecondary"
             android:text="12:31" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -100,10 +101,9 @@
         android:layout_gravity="start"
         android:layout_margin="6dp"
         android:id="@+id/message_3"
+        app:cardBackgroundColor="?colorSurface"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="#ddd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/message_2">
 
@@ -111,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="8dp"
-            android:textColor="@android:color/black"
+            android:textColor="?colorOnPrimary"
             android:textSize="16sp"
             android:text="@string/lorem_ipsum" />
 
@@ -134,6 +134,7 @@
             android:layout_marginEnd="4dp"
             android:padding="4dp"
             android:textSize="12sp"
+            android:textColor="?colorOnSurface"
             android:text="12:38" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -144,10 +145,9 @@
         android:layout_gravity="start"
         android:layout_margin="6dp"
         android:id="@+id/message_2"
+        app:cardBackgroundColor="?colorSecondaryVariant"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="#ddd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/message_1">
 
@@ -155,7 +155,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="8dp"
-            android:textColor="@android:color/black"
+            android:textColor="?colorOnPrimary"
             android:textSize="16sp"
             android:text="@string/lorem_ipsum" />
 
@@ -167,6 +167,7 @@
             android:layout_marginEnd="4dp"
             android:padding="4dp"
             android:textSize="12sp"
+            android:textColor="?colorOnSecondary"
             android:text="12:45" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -177,10 +178,9 @@
         android:layout_gravity="start"
         android:layout_margin="6dp"
         android:id="@+id/message_1"
+        app:cardBackgroundColor="?colorSurface"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="#ddd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/input">
 
@@ -188,7 +188,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="8dp"
-            android:textColor="@android:color/black"
+            android:textColor="?colorOnPrimary"
             android:textSize="16sp"
             android:text="@string/lorem_ipsum" />
 
@@ -200,6 +200,7 @@
             android:layout_marginEnd="4dp"
             android:padding="4dp"
             android:textSize="12sp"
+            android:textColor="?colorOnSurface"
             android:text="12:47" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -208,7 +209,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/input"
-        app:cardElevation="6dp"
+        app:cardBackgroundColor="?colorSurface"
         app:cardCornerRadius="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -221,6 +222,7 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:background="@android:color/transparent"
+            android:textColorHint="?colorOnSurface"
             android:hint="@string/message" />
 
         <ImageView
@@ -233,7 +235,7 @@
             android:padding="4dp"
             android:src="@drawable/ic_send"
             android:id="@+id/send"
-            app:tint="@color/colorAccent" />
+            app:tint="?colorSecondary" />
 
     </com.google.android.material.card.MaterialCardView>
 

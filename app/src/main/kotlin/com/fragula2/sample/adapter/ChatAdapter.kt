@@ -59,7 +59,7 @@ class ChatAdapter(
             binding.description.setText(chat.lastMessage)
             binding.image.load(chat.image) {
                 crossfade(true)
-                transformations(RoundedCornersTransformation(16f))
+                transformations(RoundedCornersTransformation(72f))
             }
         }
     }
