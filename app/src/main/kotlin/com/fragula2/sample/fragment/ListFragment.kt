@@ -2,7 +2,6 @@ package com.fragula2.sample.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -27,7 +26,8 @@ class ListFragment : Fragment(R.layout.fragment_list) {
             DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         )
         binding.recyclerView.adapter = ChatAdapter { chat ->
-            navController.navigate(R.id.detailFragment, bundleOf("CHAT" to chat))
+            val direction = ListFragmentDirections.actionListFragmentToDetailFragment(chat)
+            navController.navigate(direction)
         }.also { adapter ->
             val names = resources.getStringArray(R.array.people_names)
             val images = resources.obtainTypedArray(R.array.people_images)

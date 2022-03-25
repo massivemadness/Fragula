@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         // Can't use `setupWithNavController()` extension, multibackstack is not supported
         binding.navigationView.setNavigationItemSelectedListener { menuItem ->
-            val bundle = bundleOf("LABEL" to menuItem.title)
+            val bundle = bundleOf("label" to menuItem.title)
             when (menuItem.itemId) {
                 R.id.favorites -> navController.navigate(R.id.tabFragment, bundle)
                 R.id.friends -> navController.navigate(R.id.tabFragment, bundle)

@@ -23,6 +23,7 @@
         android:name="com.fragula2.sample.fragment.DetailFragment"
         android:label="DetailFragment"
         tools:layout="@layout/fragment_detail">
+        <argument android:name="chat" app:argType="com.fragula2.sample.adapter.Chat" />
         <action
             android:id="@+id/action_detailFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
@@ -32,12 +33,16 @@
         android:id="@+id/profileFragment"
         android:name="com.fragula2.sample.fragment.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <argument android:name="chat" app:argType="com.fragula2.sample.adapter.Chat" />
+    </swipeable>
 
     <swipeable
         android:id="@+id/tabFragment"
         android:name="com.fragula2.sample.fragment.TabFragment"
         android:label="TabFragment"
-        tools:layout="@layout/fragment_tab" />
+        tools:layout="@layout/fragment_tab">
+        <argument android:name="label" app:argType="string" />
+    </swipeable>
 
 </navigation>
