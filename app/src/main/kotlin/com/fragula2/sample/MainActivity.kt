@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.os.bundleOf
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.fragula2.animation.SwipeController
@@ -41,7 +42,18 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             swipeController.addOnSwipeListener { position, positionOffset, _ ->
-                arrow.progress = if (position >= 1) 1f else positionOffset
+                arrow.progress = if (position > 0) 1f else positionOffset
+                if (position > 0) {
+                    binding.drawerLayout.setDrawerLockMode(
+                        DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
+                        GravityCompat.START
+                    )
+                } else {
+                    binding.drawerLayout.setDrawerLockMode(
+                        DrawerLayout.LOCK_MODE_UNLOCKED,
+                        GravityCompat.START
+                    )
+                }
             }
         }
 
