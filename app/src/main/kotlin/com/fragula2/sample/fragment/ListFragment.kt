@@ -26,7 +26,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
             DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         )
         binding.recyclerView.adapter = ChatAdapter { chat ->
-            val direction = ListFragmentDirections.actionListFragmentToDetailFragment(chat)
+            val direction = ListFragmentDirections.actionToDetailFragment(chat)
             navController.navigate(direction)
         }.also { adapter ->
             val names = resources.getStringArray(R.array.people_names)

@@ -28,7 +28,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
             transformations(RoundedCornersTransformation(36f))
         }
         binding.profile.setOnClickListener {
-            val direction = DetailFragmentDirections.actionDetailFragmentToProfileFragment(navArgs.chat)
+            val direction = DetailFragmentDirections.actionToProfileFragment(navArgs.chat)
             navController.navigate(direction)
         }
         val images = resources.obtainTypedArray(R.array.stock_images)
