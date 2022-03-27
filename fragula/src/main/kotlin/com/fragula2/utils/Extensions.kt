@@ -19,7 +19,7 @@ internal var ViewPager2.pageOverScrollMode: Int
     set(value) { getChildAt(0).overScrollMode = value }
 
 @RestrictTo(LIBRARY_GROUP)
-internal fun ViewPager2.fakeDragTo(page: Int, scrollDuration: Long, block: () -> Unit) {
+internal fun ViewPager2.fakeDragTo(page: Int, scrollDuration: Int, block: () -> Unit) {
     ValueAnimator.ofInt(0, width * (page - currentItem)).apply {
         var previousValue = 0
         addUpdateListener { valueAnimator ->
@@ -40,7 +40,7 @@ internal fun ViewPager2.fakeDragTo(page: Int, scrollDuration: Long, block: () ->
             }
         })
         interpolator = AccelerateDecelerateInterpolator()
-        duration = scrollDuration
+        duration = scrollDuration.toLong()
         start()
     }
 }

@@ -73,12 +73,16 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
 
     private var scrollToEnd = false
     private var scrollOffset = 0.0f
-    private var scrollDuration = 300L
+    private var scrollDuration = 300
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
         elevation = view.findViewById(R.id.elevation)
+        scrollDuration = requireContext().resolveInteger(
+            R.attr.fgl_anim_duration,
+            R.integer.anim_duration_default
+        )
         viewPager = view.findViewById<ViewPager2>(R.id.viewPager).also { viewPager ->
             viewPager.registerOnPageChangeCallback(onPageChangeCallback)
             viewPager.setPageTransformer(SwipeTransformer(
@@ -93,8 +97,6 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
                 stackAdapter = adapter
             }
         }
-        scrollDuration = requireContext().resolveInteger(
-            R.attr.fgl_anim_duration, R.integer.anim_duration_default).toLong()
         restoreBackStack()
     }
 
@@ -120,13 +122,13 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         }
     }
 
-    override fun popBackStack() {
+    override fun popBackStack(popUpTo: StackEntry) {
         if (userScroll) {
             userScroll = false
             return
         }
         if (fakeScroll)
-            return delayedTransitions.put(::popBackStack)
+            return delayedTransitions.put { popBackStack(popUpTo) }
         fakeScroll = true
         activity?.requestViewLock(true)
         viewPager?.fakeDragTo(currentItem - 1, scrollDuration) {

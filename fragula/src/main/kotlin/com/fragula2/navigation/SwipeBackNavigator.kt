@@ -62,7 +62,7 @@ class SwipeBackNavigator(
         if (backStack.size > 1) {
             val swipeBackFragment = fragmentManager.findFragmentByTag(fragmentTag)
             if (swipeBackFragment is Navigable) {
-                swipeBackFragment.popBackStack()
+                swipeBackFragment.popBackStack(popUpTo.toStackEntry())
             }
         } else {
             fragmentManager.popBackStack(

@@ -4,5 +4,5 @@ import com.fragula2.adapter.StackEntry
 
 interface Navigable {
     fun navigate(entry: StackEntry)
-    fun popBackStack()
+    fun popBackStack(popUpTo: StackEntry)
 }
