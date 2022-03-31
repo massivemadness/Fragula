@@ -39,14 +39,12 @@ class SwipeTransformer(
                     }
                     SwipeDirection.RIGHT_TO_LEFT -> {
                         page.translationX = page.width * position / SCROLL_FACTOR
-                        page.layoutDirection = View.LAYOUT_DIRECTION_LOCALE
                     }
                     SwipeDirection.TOP_TO_BOTTOM -> {
                         page.translationY = -page.height * position / SCROLL_FACTOR
                     }
                     SwipeDirection.BOTTOM_TO_TOP -> {
                         page.translationY = page.height * position / SCROLL_FACTOR
-                        page.layoutDirection = View.LAYOUT_DIRECTION_LOCALE
                     }
                 }
                 page.visibility = View.VISIBLE
