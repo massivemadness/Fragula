@@ -1,11 +1,16 @@
 package com.fragula2
 
+import android.content.Context
+import android.os.Bundle
+import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.res.use
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavHostController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.plusAssign
 import com.fragula2.animation.SwipeController
+import com.fragula2.animation.SwipeDirection
 import com.fragula2.navigation.SwipeBackNavigator
 
 class FragulaNavHostFragment : NavHostFragment() {
@@ -13,10 +18,22 @@ class FragulaNavHostFragment : NavHostFragment() {
     private val containerId: Int
         get() = if (id != 0 && id != View.NO_ID) id else R.id.nav_host_fragment_container
 
+    private var swipeDirection = SwipeDirection.LEFT_TO_RIGHT
+
+    override fun onInflate(context: Context, attrs: AttributeSet, savedInstanceState: Bundle?) {
+        super.onInflate(context, attrs, savedInstanceState)
+        context.obtainStyledAttributes(attrs, R.styleable.SwipeBackNavigator).use { array ->
+            swipeDirection = SwipeDirection.find(
+                array.getInteger(R.styleable.SwipeBackNavigator_swipeDirection, 0)
+            )
+        }
+    }
+
     override fun onCreateNavHostController(navHostController: NavHostController) {
         super.onCreateNavHostController(navHostController)
         navHostController.navigatorProvider += SwipeBackNavigator(
             fragmentManager = childFragmentManager,
+            swipeDirection = swipeDirection,
             fragmentTag = FRAGMENT_TAG,
             containerId = containerId
         )

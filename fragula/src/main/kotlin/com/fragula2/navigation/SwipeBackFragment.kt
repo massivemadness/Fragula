@@ -2,6 +2,7 @@ package com.fragula2.navigation
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavBackStackEntry
@@ -13,12 +14,9 @@ import com.fragula2.adapter.StackAdapter
 import com.fragula2.adapter.StackEntry
 import com.fragula2.animation.OnSwipeListener
 import com.fragula2.animation.SwipeController
+import com.fragula2.animation.SwipeDirection
 import com.fragula2.animation.SwipeTransformer
 import com.fragula2.utils.*
-import com.fragula2.utils.fakeDragTo
-import com.fragula2.utils.pageOverScrollMode
-import com.fragula2.utils.resolveColor
-import com.fragula2.utils.toStackEntry
 import java.util.concurrent.LinkedBlockingQueue
 
 class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, SwipeController {
@@ -59,14 +57,13 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
 
     private val onSwipeListeners = mutableListOf<OnSwipeListener>()
     private val delayedTransitions = LinkedBlockingQueue<Runnable>()
-    private val currentItem: Int
-        get() = viewPager?.currentItem ?: 0
 
     private var viewPager: ViewPager2? = null
     private var elevation: View? = null
 
     private var navController: NavController? = null
     private var stackAdapter: StackAdapter? = null
+    private var swipeDirection = SwipeDirection.LEFT_TO_RIGHT
 
     private var userScroll = false
     private var fakeScroll = false
@@ -79,20 +76,24 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
         elevation = view.findViewById(R.id.elevation)
+        swipeDirection = SwipeDirection.find(requireArguments().getInt(ARG_SWIPE_DIRECTION))
         scrollDuration = requireContext().resolveInteger(
             R.attr.fgl_anim_duration,
             R.integer.anim_duration_default
         )
         viewPager = view.findViewById<ViewPager2>(R.id.viewPager).also { viewPager ->
             viewPager.registerOnPageChangeCallback(onPageChangeCallback)
-            viewPager.setPageTransformer(SwipeTransformer(
-                requireContext().resolveFloat(R.attr.fgl_dim_amount, R.dimen.dim_amount_default)
-            ))
+            viewPager.setPageTransformer(
+                SwipeTransformer(swipeDirection, requireContext().resolveFloat(
+                    R.attr.fgl_dim_amount,
+                    R.dimen.dim_amount_default
+                ))
+            )
             viewPager.setBackgroundColor(
                 requireContext().resolveColor(R.attr.fgl_dim_color, R.color.dim_color_default)
             )
             viewPager.pageOverScrollMode = View.OVER_SCROLL_NEVER
-            viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            viewPager.pageSwipeDirection = swipeDirection
             viewPager.adapter = StackAdapter(this).also { adapter ->
                 stackAdapter = adapter
             }
@@ -115,7 +116,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         fakeScroll = true
         activity?.requestViewLock(true)
         stackAdapter?.push(entry)
-        viewPager?.fakeDragTo(currentItem + 1, scrollDuration) {
+        viewPager?.fakeDragTo(true, swipeDirection, scrollDuration) {
             activity?.requestViewLock(false)
             fakeScroll = false
             nextTransition()
@@ -131,7 +132,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
             return delayedTransitions.put { popBackStack(popUpTo) }
         fakeScroll = true
         activity?.requestViewLock(true)
-        viewPager?.fakeDragTo(currentItem - 1, scrollDuration) {
+        viewPager?.fakeDragTo(false, swipeDirection, scrollDuration) {
             stackAdapter?.pop()
             activity?.requestViewLock(false)
             fakeScroll = false
@@ -158,5 +159,16 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     private fun nextTransition() {
         val runnable = delayedTransitions.poll()
         runnable?.run()
+    }
+
+    companion object {
+
+        private const val ARG_SWIPE_DIRECTION = "swipe_direction"
+
+        fun newInstance(swipeDirection: SwipeDirection): SwipeBackFragment {
+            return SwipeBackFragment().apply {
+                arguments = bundleOf(ARG_SWIPE_DIRECTION to swipeDirection.value)
+            }
+        }
     }
 }

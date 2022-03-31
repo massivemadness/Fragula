@@ -7,11 +7,13 @@ import androidx.fragment.app.commit
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
+import com.fragula2.animation.SwipeDirection
 import com.fragula2.utils.toStackEntry
 
 @Navigator.Name("swipeable")
 class SwipeBackNavigator(
     private val fragmentManager: FragmentManager,
+    private val swipeDirection: SwipeDirection,
     private val fragmentTag: String,
     private val containerId: Int,
 ) : Navigator<SwipeBackDestination>() {
@@ -35,13 +37,12 @@ class SwipeBackNavigator(
 
     private fun navigate(entry: NavBackStackEntry) {
         val initialNavigation = backStack.isEmpty()
-        // val hasFragments = fragmentManager.fragments.isNotEmpty()
         if (initialNavigation) {
             fragmentManager.commit {
-                val swipeBackFragment = SwipeBackFragment()
+                val swipeBackFragment = SwipeBackFragment.newInstance(swipeDirection)
                 replace(containerId, swipeBackFragment, fragmentTag)
                 setPrimaryNavigationFragment(swipeBackFragment)
-                if (!initialNavigation /*|| hasFragments*/) {
+                if (!initialNavigation) {
                     addToBackStack(entry.id)
                 }
                 setReorderingAllowed(true)
