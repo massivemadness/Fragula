@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="4dp"
-                android:textColor="?colorOnPrimary"
+                android:textColor="?colorOnSurface"
                 android:textSize="16sp"
                 android:text="@string/open_profile"
                 app:layout_constraintBottom_toTopOf="@id/message_4"
@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="8dp"
-            android:textColor="?colorOnPrimary"
+            android:textColor="?colorOnSurface"
             android:textSize="16sp"
             android:text="@string/lorem_ipsum" />
 
@@ -111,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="8dp"
-            android:textColor="?colorOnPrimary"
+            android:textColor="?colorOnSurface"
             android:textSize="16sp"
             android:text="@string/lorem_ipsum" />
 
@@ -134,7 +134,7 @@
             android:layout_marginEnd="4dp"
             android:padding="4dp"
             android:textSize="12sp"
-            android:textColor="?colorOnSurface"
+            android:textColor="?colorOnBackground"
             android:text="12:38" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -155,7 +155,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="8dp"
-            android:textColor="?colorOnPrimary"
+            android:textColor="?colorOnSurface"
             android:textSize="16sp"
             android:text="@string/lorem_ipsum" />
 
@@ -188,7 +188,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="8dp"
-            android:textColor="?colorOnPrimary"
+            android:textColor="?colorOnSurface"
             android:textSize="16sp"
             android:text="@string/lorem_ipsum" />
 
@@ -200,7 +200,7 @@
             android:layout_marginEnd="4dp"
             android:padding="4dp"
             android:textSize="12sp"
-            android:textColor="?colorOnSurface"
+            android:textColor="?colorOnBackground"
             android:text="12:47" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -217,13 +217,14 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_gravity="bottom"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:background="@android:color/transparent"
-            android:textColorHint="?colorOnSurface"
-            android:hint="@string/message" />
+            android:textColorHint="?colorOnBackground"
+            android:hint="@string/message"
+            android:id="@+id/message" />
 
         <ImageView
             android:layout_width="32dp"

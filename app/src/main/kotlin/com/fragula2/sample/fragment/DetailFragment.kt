@@ -9,9 +9,7 @@ import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.fragula2.sample.R
 import com.fragula2.sample.databinding.FragmentDetailBinding
-import com.fragula2.sample.utils.showToast
-import com.fragula2.sample.utils.supportActionBar
-import com.fragula2.sample.utils.viewBinding
+import com.fragula2.sample.utils.*
 import java.util.*
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {

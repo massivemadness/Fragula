@@ -10,6 +10,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.fragula2.animation.SwipeController
 import com.fragula2.sample.databinding.ActivityMainBinding
+import com.fragula2.sample.utils.applySystemWindowInsetsPadding
+import com.fragula2.sample.utils.decorFitsSystemWindows
 import com.fragula2.sample.utils.getColorAttr
 import com.fragula2.utils.findSwipeController
 
@@ -24,6 +26,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
+
+        window.decorFitsSystemWindows(false)
+        binding.toolbar.applySystemWindowInsetsPadding(applyTop = true)
 
         binding.navHost.getFragment<NavHostFragment>().also {
             swipeController = it.findSwipeController()

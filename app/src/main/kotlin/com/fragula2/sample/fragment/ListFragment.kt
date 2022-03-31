@@ -9,6 +9,7 @@ import com.fragula2.sample.R
 import com.fragula2.sample.adapter.Chat
 import com.fragula2.sample.adapter.ChatAdapter
 import com.fragula2.sample.databinding.FragmentListBinding
+import com.fragula2.sample.utils.applySystemWindowInsetsPadding
 import com.fragula2.sample.utils.showToast
 import com.fragula2.sample.utils.supportActionBar
 import com.fragula2.sample.utils.viewBinding
@@ -21,7 +22,9 @@ class ListFragment : Fragment(R.layout.fragment_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.recyclerView.setHasFixedSize(true)
+        binding.recyclerView.applySystemWindowInsetsPadding(applyBottom = true)
         binding.recyclerView.addItemDecoration(
             DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         )

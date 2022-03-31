@@ -28,7 +28,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="?colorOnPrimary"
+            android:textColor="?colorOnSurface"
             android:textSize="16sp"
             android:fontFamily="sans-serif-medium"
             android:id="@+id/name"
@@ -37,7 +37,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="?colorOnSurface"
+            android:textColor="?colorOnBackground"
             android:textSize="16sp"
             android:maxLines="2"
             android:id="@+id/description"
