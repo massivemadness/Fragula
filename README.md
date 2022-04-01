@@ -75,8 +75,8 @@ The `fragula-core` module contains everything you need to get started with the l
 </navigation>
 ```
 
-**Finally**, you need to set opaque background to your fragment’s root layout to avoid any issues
-with swipe animation.
+**Finally**, you need to set opaque background and layout direction flag to your fragment’s root 
+layout to avoid any issues with swipe animation.
 
 ```xml
 <!-- fragment_detail.xml -->
@@ -84,7 +84,8 @@ with swipe animation.
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:colorBackground">
+    android:background="?android:colorBackground"
+    android:layoutDirection="local">
     
     ...
     
@@ -162,9 +163,6 @@ vertical swipe direction.
 You can use either `left_to_right` (default) or `right_to_left` for horizontal direction.
 For vertical direction you can use only `top_to_bottom`, you **can’t** use `bottom_to_top` because 
 it's not supported due to internal ViewPager2 restrictions.
-
-*Note: If you're using `right_to_left` you must set `android:layoutDirection="local"` for each
-screen like you did with opaque background.*
 
 ---
 

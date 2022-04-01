@@ -3,13 +3,19 @@ package com.fragula2.utils
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.app.Activity
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.FrameLayout
 import androidx.annotation.RestrictTo
 import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
+import androidx.core.view.updateLayoutParams
 import androidx.navigation.NavBackStackEntry
 import androidx.viewpager2.widget.ViewPager2
+import com.fragula2.R
 import com.fragula2.adapter.StackEntry
 import com.fragula2.animation.SwipeDirection
 import com.fragula2.navigation.SwipeBackDestination
@@ -108,6 +114,44 @@ internal fun ViewPager2.fakeDragTo(
         interpolator = AccelerateDecelerateInterpolator()
         duration = scrollDuration.toLong()
         start()
+    }
+}
+
+@RestrictTo(LIBRARY_GROUP)
+internal fun View.updateLayoutAngle(swipeDirection: SwipeDirection) {
+    val literalViewSize = 3f // dp
+    val viewSize = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        literalViewSize,
+        context.resources.displayMetrics
+    )
+    updateLayoutParams<FrameLayout.LayoutParams> {
+        when (swipeDirection) {
+            SwipeDirection.LEFT_TO_RIGHT -> {
+                setBackgroundResource(R.drawable.bg_elevation_ltr)
+                width = viewSize.toInt()
+                height = ViewGroup.LayoutParams.MATCH_PARENT
+                gravity = Gravity.RIGHT
+            }
+            SwipeDirection.RIGHT_TO_LEFT -> {
+                setBackgroundResource(R.drawable.bg_elevation_rtl)
+                width = viewSize.toInt()
+                height = ViewGroup.LayoutParams.MATCH_PARENT
+                gravity = Gravity.LEFT
+            }
+            SwipeDirection.TOP_TO_BOTTOM -> {
+                setBackgroundResource(R.drawable.bg_elevation_ttb)
+                width = ViewGroup.LayoutParams.MATCH_PARENT
+                height = viewSize.toInt()
+                gravity = Gravity.BOTTOM
+            }
+            SwipeDirection.BOTTOM_TO_TOP -> {
+                setBackgroundResource(R.drawable.bg_elevation_btt)
+                width = ViewGroup.LayoutParams.MATCH_PARENT
+                height = viewSize.toInt()
+                gravity = Gravity.TOP
+            }
+        }
     }
 }
 

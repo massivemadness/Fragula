@@ -47,8 +47,17 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
             super.onPageScrolled(position, positionOffset, positionOffsetPixels)
             scrollToEnd = position + positionOffset < scrollOffset
             scrollOffset = position + positionOffset
-            elevation?.translationX = -positionOffsetPixels.toFloat()
             elevation?.isVisible = scrollOffset % 1 > 0
+            elevation?.translationX = when (swipeDirection) {
+                SwipeDirection.LEFT_TO_RIGHT -> -positionOffsetPixels.toFloat()
+                SwipeDirection.RIGHT_TO_LEFT -> positionOffsetPixels.toFloat()
+                else -> 0f
+            }
+            elevation?.translationY = when (swipeDirection) {
+                SwipeDirection.TOP_TO_BOTTOM -> -positionOffsetPixels.toFloat()
+                SwipeDirection.BOTTOM_TO_TOP -> positionOffsetPixels.toFloat()
+                else -> 0f
+            }
             onSwipeListeners.forEach { listener ->
                 listener.onPageScrolled(position, positionOffset, positionOffsetPixels)
             }
@@ -75,12 +84,14 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
-        elevation = view.findViewById(R.id.elevation)
         swipeDirection = SwipeDirection.find(requireArguments().getInt(ARG_SWIPE_DIRECTION))
         scrollDuration = requireContext().resolveInteger(
             R.attr.fgl_anim_duration,
             R.integer.anim_duration_default
         )
+        elevation = view.findViewById<View>(R.id.elevation).also { elevation ->
+            elevation.updateLayoutAngle(swipeDirection)
+        }
         viewPager = view.findViewById<ViewPager2>(R.id.viewPager).also { viewPager ->
             viewPager.registerOnPageChangeCallback(onPageChangeCallback)
             viewPager.setPageTransformer(
