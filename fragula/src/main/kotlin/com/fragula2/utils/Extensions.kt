@@ -8,7 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import androidx.annotation.RestrictTo
 import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
@@ -111,7 +111,7 @@ internal fun ViewPager2.fakeDragTo(
                 block()
             }
         })
-        interpolator = AccelerateDecelerateInterpolator()
+        interpolator = DecelerateInterpolator(0.8f)
         duration = scrollDuration.toLong()
         start()
     }
