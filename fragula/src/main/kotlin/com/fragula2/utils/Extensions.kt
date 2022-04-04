@@ -119,10 +119,8 @@ internal fun ViewPager2.fakeDragTo(
 
 @RestrictTo(LIBRARY_GROUP)
 internal fun View.updateLayoutAngle(swipeDirection: SwipeDirection) {
-    val literalViewSize = 3f // dp
     val viewSize = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        literalViewSize,
+        TypedValue.COMPLEX_UNIT_DIP, 3f, // dp
         context.resources.displayMetrics
     )
     updateLayoutParams<FrameLayout.LayoutParams> {

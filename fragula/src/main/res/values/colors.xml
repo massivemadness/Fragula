@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="dim_color_default">#323232</color>
+    <color name="dim_color_default">#121212</color>
 
     <color name="fgl_elevation_start">@android:color/transparent</color>
     <color name="fgl_elevation_end">#0D000000</color>

@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="dim_amount_default">0.2</dimen>
+    <dimen name="dim_amount_default">0.15</dimen>
 </resources>
