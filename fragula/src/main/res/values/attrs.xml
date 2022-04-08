@@ -3,6 +3,9 @@
 
     <declare-styleable name="SwipeBackNavigator">
         <attr name="android:name" />
+    </declare-styleable>
+
+    <declare-styleable name="FragulaNavHostFragment">
         <attr name="swipeDirection" format="enum">
             <enum name="left_to_right" value="0" />
             <enum name="right_to_left" value="1" />

@@ -22,9 +22,9 @@ class FragulaNavHostFragment : NavHostFragment() {
 
     override fun onInflate(context: Context, attrs: AttributeSet, savedInstanceState: Bundle?) {
         super.onInflate(context, attrs, savedInstanceState)
-        context.obtainStyledAttributes(attrs, R.styleable.SwipeBackNavigator).use { array ->
+        context.obtainStyledAttributes(attrs, R.styleable.FragulaNavHostFragment).use { array ->
             swipeDirection = SwipeDirection.find(
-                array.getInteger(R.styleable.SwipeBackNavigator_swipeDirection, 0)
+                array.getInteger(R.styleable.FragulaNavHostFragment_swipeDirection, 0)
             )
         }
     }
