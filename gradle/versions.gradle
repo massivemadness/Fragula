@@ -29,7 +29,7 @@ ext {
 
     // AAC
     lifecycle_version = '2.4.1'
-    navigation_version = '2.4.1'
+    navigation_version = '2.4.2'
 
     // Tests
     junit_version = '4.13.2'
