@@ -3,9 +3,9 @@
 **Fragula** is a swipe-to-dismiss extension for [navigation component](https://developer.android.com/guide/navigation/navigation-getting-started) library for Android.  
 It is an adaptation of an earlier version created by **@shikleev** and now maintained in this repository.
 
-![Android CI](https://github.com/massivemadness/Fragula/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Fragula-orange.svg?style=flat)](https://android-arsenal.com/details/1/8405) [![MavenCentral](https://img.shields.io/maven-central/v/com.fragula2/fragula-core?label=Download)](https://repo1.maven.org/maven2/com/fragula2/fragula-core/)
+![Android CI](https://github.com/massivemadness/Fragula/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Fragula-orange.svg?style=flat)](https://android-arsenal.com/details/1/8405)
 
-![](.github/images/showcase.gif)
+![Showcase](.github/images/showcase.gif)
 
 ---
 
@@ -16,13 +16,15 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 3. [More Options](#more-options)
     1. [Destination Arguments](#destination-arguments)
     2. [Multiple BackStacks](#multiple-backstacks)
-    3. [Swipe Direction](#swipe-direction)
-4. [Page Transitions](#page-transitions)
-5. [Theming](#theming)
+4. [Swipe Direction](#swipe-direction)
+5. [Swipe Transitions](#swipe-transitions)
+6. [Theming](#theming)
 
 ---
 
 ## Gradle Dependency
+
+[![MavenCentral](https://img.shields.io/maven-central/v/com.fragula2/fragula-core?label=Download)](https://repo1.maven.org/maven2/com/fragula2/fragula-core/)
 
 Add this to your module’s `build.gradle` file:
 
@@ -137,10 +139,14 @@ plugin for navigating and passing data, because it ensures type-safety.
 
 ### Multiple BackStacks
 
-Currently multiple backstacks is not supported, which means you can’t safely use extensions such as 
-`BottomNavigationView.setupWithNavController(...)` without losing your current backstack.
+Currently multiple backstacks is **not supported**, which means you can’t safely use extensions such 
+as `setupWithNavController(...)` without losing your current backstack. 
 
-### Swipe Direction
+This issue affects both `BottomNavigationView` and `NavigationView` widgets.
+
+---
+
+## Swipe Direction
 
 If you want to change the direction of swipe gesture, you can do that by setting
 `app:swipeDirection="..."` manually in your navigation container. This example below sets up
@@ -161,18 +167,20 @@ vertical swipe direction.
 ```
 
 You can use either `left_to_right` (default) or `right_to_left` for horizontal direction.
-For vertical direction you can use only `top_to_bottom`, you **can’t** use `bottom_to_top` because 
-it's not supported due to internal ViewPager2 restrictions.
+For vertical direction you can use only `top_to_bottom`, the `bottom_to_top` is not supported due 
+to internal ViewPager2 restrictions.
 
----
+**Note:** *If you having an issues with nested scrollable views, this appears to be a 
+[scroll issue](https://developer.android.com/training/animation/vp2-migration#nested-scrollables) 
+in ViewPager2. Please follow Google’s example to solve this.*
 
-### Page Transitions
+## Swipe Transitions
 
 You may want to know when the scrolling offset changes to make smooth transitions inside your 
 fragment view. To start listening scroll events you need to retrieve `SwipeController` and set 
 `OnSwipeListener` as shown below:
 
-*Note: Currently shared element transitions between destinations is not supported in any form.*
+**Note:** *Currently shared element transitions between destinations are not supported in any form.*
 
 ```kotlin
 class DetailFragment : Fragment(R.layout.fragment_detail) {
