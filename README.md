@@ -3,7 +3,7 @@
 **Fragula** is a swipe-to-dismiss extension for [navigation component](https://developer.android.com/guide/navigation/navigation-getting-started) library for Android.  
 It is an adaptation of an earlier version created by **@shikleev** and now maintained in this repository.
 
-![Android CI](https://github.com/massivemadness/Fragula/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![MavenCentral](https://img.shields.io/maven-central/v/com.fragula2/fragula-core?label=Download)](https://repo1.maven.org/maven2/com/fragula2/fragula-core/)
+![Android CI](https://github.com/massivemadness/Fragula/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Fragula-orange.svg?style=flat)](https://android-arsenal.com/details/1/8405) [![MavenCentral](https://img.shields.io/maven-central/v/com.fragula2/fragula-core?label=Download)](https://repo1.maven.org/maven2/com/fragula2/fragula-core/)
 
 ![](.github/images/showcase.gif)
 
