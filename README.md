@@ -186,22 +186,22 @@ fragment view. To start listening scroll events you need to retrieve `SwipeContr
 class DetailFragment : Fragment(R.layout.fragment_detail) {
    
     private lateinit var swipeController: SwipeController
-    private lateinit var listener: OnSwipeListener
+    private lateinit var swipeListener: OnSwipeListener
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ...
         swipeController = findSwipeController()
-        listener = OnSwipeListener { position, positionOffset, positionOffsetPixels ->
+        swipeListener = OnSwipeListener { position, positionOffset, positionOffsetPixels ->
             // TODO animate views using `positionOffset` or `positionOffsetPixels`.
             //  the `position` points to the position of the fragment in backstack
         }
-        swipeController.addOnSwipeListener(listener)
+        swipeController.addOnSwipeListener(swipeListener)
     }
    
     override fun onDestroyView() {
         super.onDestroyView()
-        swipeController.removeOnSwipeListener(listener)
+        swipeController.removeOnSwipeListener(swipeListener)
     }
 }
 ```

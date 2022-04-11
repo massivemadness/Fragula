@@ -81,7 +81,7 @@ class SwipeBackNavigator(
     override fun onSaveState(): Bundle? = null
     override fun onRestoreState(savedState: Bundle) = Unit
 
-    private companion object {
+    companion object {
         private const val TAG = "SwipeBackNavigator"
     }
 }

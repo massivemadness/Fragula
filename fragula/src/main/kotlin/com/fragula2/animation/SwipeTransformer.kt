@@ -58,7 +58,7 @@ class SwipeTransformer(
         }
     }
 
-    private companion object {
+    companion object {
         private const val SCROLL_FACTOR = 1.3f
     }
 }
