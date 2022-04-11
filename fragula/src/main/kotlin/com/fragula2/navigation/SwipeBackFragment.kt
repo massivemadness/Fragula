@@ -95,10 +95,14 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         viewPager = view.findViewById<ViewPager2>(R.id.viewPager).also { viewPager ->
             viewPager.registerOnPageChangeCallback(onPageChangeCallback)
             viewPager.setPageTransformer(
-                SwipeTransformer(swipeDirection, requireContext().resolveFloat(
-                    R.attr.fgl_dim_amount,
-                    R.dimen.dim_amount_default
-                ))
+                SwipeTransformer(swipeDirection,
+                    requireContext().resolveFloat(
+                        R.attr.fgl_parallax_factor, R.dimen.parallax_factor_default
+                    ),
+                    requireContext().resolveFloat(
+                        R.attr.fgl_dim_amount, R.dimen.dim_amount_default
+                    ),
+                )
             )
             viewPager.setBackgroundColor(
                 requireContext().resolveColor(R.attr.fgl_dim_color, R.color.dim_color_default)

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="dim_amount_default">0.15</dimen>
+    <dimen name="parallax_factor_default">1.3</dimen>
 </resources>

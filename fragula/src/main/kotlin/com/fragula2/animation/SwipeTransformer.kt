@@ -6,7 +6,8 @@ import kotlin.math.abs
 
 class SwipeTransformer(
     private val swipeDirection: SwipeDirection,
-    private val alphaMultiplier: Float,
+    private val parallaxFactor: Float,
+    private val alphaFactor: Float,
 ) : ViewPager2.PageTransformer {
 
     override fun transformPage(page: View, position: Float) {
@@ -35,20 +36,20 @@ class SwipeTransformer(
             position > -1 && position <= 0 -> {
                 when (swipeDirection) {
                     SwipeDirection.LEFT_TO_RIGHT -> {
-                        page.translationX = -page.width * position / SCROLL_FACTOR
+                        page.translationX = -page.width * position / parallaxFactor
                     }
                     SwipeDirection.RIGHT_TO_LEFT -> {
-                        page.translationX = page.width * position / SCROLL_FACTOR
+                        page.translationX = page.width * position / parallaxFactor
                     }
                     SwipeDirection.TOP_TO_BOTTOM -> {
-                        page.translationY = -page.height * position / SCROLL_FACTOR
+                        page.translationY = -page.height * position / parallaxFactor
                     }
                     SwipeDirection.BOTTOM_TO_TOP -> {
-                        page.translationY = page.height * position / SCROLL_FACTOR
+                        page.translationY = page.height * position / parallaxFactor
                     }
                 }
                 page.visibility = View.VISIBLE
-                page.alpha = 1.0f - abs(position * alphaMultiplier)
+                page.alpha = 1.0f - abs(position * alphaFactor)
             }
             // Все фрагменты слева от текущего
             else -> {
@@ -56,9 +57,5 @@ class SwipeTransformer(
                 page.alpha = 1.0f
             }
         }
-    }
-
-    companion object {
-        private const val SCROLL_FACTOR = 1.3f
     }
 }

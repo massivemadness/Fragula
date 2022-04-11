@@ -232,6 +232,13 @@ there are attributes provided:
         Think of it as a `fgl_dim_color` alpha multiplier.
     -->
     <item name="fgl_dim_amount">0.15</item>
+
+    <!--
+        This overrides the parallax multiplier when fragment is being dragged.
+        It determines how much the underneath fragment will be shifted
+        relative to the visible fragment (that is being dragged).
+    -->
+    <item name="fgl_parallax_factor">1.3</item>
    
     <!--
         This overrides the duration of swipe animation using `navController.navigate(...)` 
