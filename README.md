@@ -223,15 +223,15 @@ there are attributes provided:
 
     <!--
         This overrides the color used for the dimming when fragment is being dragged.
-        The default value is #121212 for both light and dark themes.
+        The default value is #000000 for both light and dark themes.
     -->
-    <item name="fgl_dim_color">#121212</item>
+    <item name="fgl_dim_color">#000000</item>
 
     <!--
         This overrides the amount of dimming when fragment is being dragged.
         Think of it as a `fgl_dim_color` alpha multiplier.
     -->
-    <item name="fgl_dim_amount">0.15</item>
+    <item name="fgl_dim_amount">0.10</item>
 
     <!--
         This overrides the parallax multiplier when fragment is being dragged.
