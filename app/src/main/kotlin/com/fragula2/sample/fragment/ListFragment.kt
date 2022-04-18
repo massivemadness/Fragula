@@ -30,7 +30,8 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         )
         binding.recyclerView.adapter = ChatAdapter { chat ->
             val direction = ListFragmentDirections.actionToDetailFragment(chat)
-            navController.navigate(direction)
+            navController.currentDestination?.getAction(direction.actionId)
+                ?.run { navController.navigate(direction) }
         }.also { adapter ->
             val names = resources.getStringArray(R.array.people_names)
             val images = resources.obtainTypedArray(R.array.people_images)

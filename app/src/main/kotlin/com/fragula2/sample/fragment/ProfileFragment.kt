@@ -31,15 +31,18 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
         binding.instagram.setOnClickListener {
             val direction = ProfileFragmentDirections.actionToTabFragment("Instagram")
-            navController.navigate(direction)
+            navController.currentDestination?.getAction(direction.actionId)
+                ?.run { navController.navigate(direction) }
         }
         binding.facebook.setOnClickListener {
             val direction = ProfileFragmentDirections.actionToTabFragment("Facebook")
-            navController.navigate(direction)
+            navController.currentDestination?.getAction(direction.actionId)
+                ?.run { navController.navigate(direction) }
         }
         binding.telegram.setOnClickListener {
             val direction = ProfileFragmentDirections.actionToTabFragment("Telegram")
-            navController.navigate(direction)
+            navController.currentDestination?.getAction(direction.actionId)
+                ?.run { navController.navigate(direction) }
         }
     }
 

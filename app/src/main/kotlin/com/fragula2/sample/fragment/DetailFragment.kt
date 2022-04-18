@@ -29,7 +29,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         }
         binding.profile.setOnClickListener {
             val direction = DetailFragmentDirections.actionToProfileFragment(navArgs.chat)
-            navController.navigate(direction)
+            navController.currentDestination?.getAction(direction.actionId)
+                ?.run { navController.navigate(direction) }
         }
         val images = resources.obtainTypedArray(R.array.stock_images)
         val stock = images.getResourceId(randomImage(1, images.length()), -1)
