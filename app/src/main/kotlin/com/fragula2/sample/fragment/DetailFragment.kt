@@ -2,6 +2,7 @@ package com.fragula2.sample.fragment
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,6 +21,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.root.applySystemWindowInsetsPadding(applyBottom = true)
 
         binding.picture.load(navArgs.chat.image) {
             crossfade(true)
@@ -38,6 +40,10 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         images.recycle()
         binding.send.setOnClickListener {
             context?.showToast("Send")
+        }
+
+        view.doOnPreDraw {
+            binding.scrollView.fullScroll(View.FOCUS_DOWN)
         }
     }
 

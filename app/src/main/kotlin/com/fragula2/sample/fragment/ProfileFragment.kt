@@ -9,6 +9,7 @@ import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.fragula2.sample.R
 import com.fragula2.sample.databinding.FragmentProfileBinding
+import com.fragula2.sample.utils.applySystemWindowInsetsPadding
 import com.fragula2.sample.utils.supportActionBar
 import com.fragula2.sample.utils.viewBinding
 
@@ -20,6 +21,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.container.applySystemWindowInsetsPadding(applyBottom = true)
 
         binding.picture.load(navArgs.chat.image) {
             crossfade(true)
