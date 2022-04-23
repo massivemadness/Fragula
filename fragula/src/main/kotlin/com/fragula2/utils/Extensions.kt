@@ -111,7 +111,8 @@ internal fun ViewPager2.fakeDragTo(
                 block()
             }
         })
-        interpolator = DecelerateInterpolator(0.8f)
+        val factor = if (forward) 1.0f else 1.2f
+        interpolator = DecelerateInterpolator(factor)
         duration = scrollDuration.toLong()
         start()
     }
