@@ -8,8 +8,6 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import androidx.annotation.RestrictTo
 import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
@@ -19,6 +17,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.fragula2.R
 import com.fragula2.adapter.StackEntry
 import com.fragula2.animation.SwipeDirection
+import com.fragula2.animation.SwipeInterpolator
 import com.fragula2.navigation.SwipeBackDestination
 
 internal var ViewPager2.pageOverScrollMode: Int
@@ -70,12 +69,12 @@ internal var ViewPager2.pageSwipeDirection: SwipeDirection
 
 @RestrictTo(LIBRARY_GROUP)
 internal fun ViewPager2.fakeDragTo(
-    forward: Boolean,
+    stepForward: Boolean,
     swipeDirection: SwipeDirection,
     scrollDuration: Long,
     block: () -> Unit
 ) {
-    val page = if (forward) currentItem + 1 else currentItem - 1
+    val page = if (stepForward) currentItem + 1 else currentItem - 1
     val (from, to) = when (swipeDirection) {
         SwipeDirection.LEFT_TO_RIGHT -> 0 to width
         SwipeDirection.RIGHT_TO_LEFT -> width to 0
@@ -90,12 +89,12 @@ internal fun ViewPager2.fakeDragTo(
             when (swipeDirection) {
                 SwipeDirection.LEFT_TO_RIGHT -> fakeDragBy(-currentPxToDrag)
                 SwipeDirection.RIGHT_TO_LEFT -> {
-                    val distance = if (forward) -currentPxToDrag else currentPxToDrag
+                    val distance = if (stepForward) -currentPxToDrag else currentPxToDrag
                     fakeDragBy(distance)
                 }
                 SwipeDirection.TOP_TO_BOTTOM -> fakeDragBy(-currentPxToDrag)
                 SwipeDirection.BOTTOM_TO_TOP -> {
-                    val distance = if (forward) -currentPxToDrag else currentPxToDrag
+                    val distance = if (stepForward) -currentPxToDrag else currentPxToDrag
                     fakeDragBy(distance)
                 }
             }
@@ -112,11 +111,7 @@ internal fun ViewPager2.fakeDragTo(
                 block()
             }
         })
-        interpolator = if (forward) {
-            AccelerateDecelerateInterpolator()
-        } else {
-            DecelerateInterpolator(1.2f)
-        }
+        interpolator = SwipeInterpolator(stepForward)
         duration = scrollDuration
         start()
     }
