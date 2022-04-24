@@ -79,16 +79,14 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
 
     private var scrollToEnd = false
     private var scrollOffset = 0.0f
-    private var scrollDuration = 300
+    private var scrollDuration = 300L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
         swipeDirection = SwipeDirection.find(requireArguments().getInt(ARG_SWIPE_DIRECTION))
-        scrollDuration = requireContext().resolveInteger(
-            R.attr.fgl_anim_duration,
-            R.integer.anim_duration_default
-        )
+        scrollDuration = requireContext()
+            .resolveInteger(R.attr.fgl_anim_duration, R.integer.anim_duration_default).toLong()
         elevation = view.findViewById<View>(R.id.elevation).also { elevation ->
             elevation.updateLayoutAngle(swipeDirection)
         }

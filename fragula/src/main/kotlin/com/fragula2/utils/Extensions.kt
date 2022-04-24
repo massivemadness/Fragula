@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import androidx.annotation.RestrictTo
@@ -71,7 +72,7 @@ internal var ViewPager2.pageSwipeDirection: SwipeDirection
 internal fun ViewPager2.fakeDragTo(
     forward: Boolean,
     swipeDirection: SwipeDirection,
-    scrollDuration: Int,
+    scrollDuration: Long,
     block: () -> Unit
 ) {
     val page = if (forward) currentItem + 1 else currentItem - 1
@@ -111,9 +112,12 @@ internal fun ViewPager2.fakeDragTo(
                 block()
             }
         })
-        val factor = if (forward) 1.0f else 1.2f
-        interpolator = DecelerateInterpolator(factor)
-        duration = scrollDuration.toLong()
+        interpolator = if (forward) {
+            AccelerateDecelerateInterpolator()
+        } else {
+            DecelerateInterpolator(1.2f)
+        }
+        duration = scrollDuration
         start()
     }
 }
