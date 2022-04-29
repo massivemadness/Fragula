@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="anim_duration_default">300</integer>
+    <integer name="anim_duration_default">500</integer>
 </resources>

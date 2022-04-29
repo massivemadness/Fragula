@@ -111,8 +111,8 @@ internal fun ViewPager2.fakeDragTo(
                 block()
             }
         })
-        interpolator = SwipeInterpolator(stepForward)
-        duration = scrollDuration
+        interpolator = SwipeInterpolator()
+        duration = if (stepForward) scrollDuration else scrollDuration - (scrollDuration / 5)
         start()
     }
 }

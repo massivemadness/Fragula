@@ -244,7 +244,7 @@ there are attributes provided:
         This overrides the duration of swipe animation using `navController.navigate(...)` 
         and `navController.popBackStack()` methods.
     -->
-    <item name="fgl_anim_duration">300</item>
+    <item name="fgl_anim_duration">500</item>
    
 </style>
 ```
