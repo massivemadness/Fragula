@@ -246,5 +246,12 @@ there are attributes provided:
     -->
     <item name="fgl_anim_duration">500</item>
    
+    <!--
+        This overrides the elevation applied to the fragment view.
+        Note that it doesn't support `android:outlineAmbientShadowColor`
+        and `android:outlineSpotShadowColor` attributes in your theme.
+    -->
+    <item name="fgl_elevation">3dp</item>
+   
 </style>
 ```

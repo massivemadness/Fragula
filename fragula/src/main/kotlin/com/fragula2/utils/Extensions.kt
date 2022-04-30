@@ -3,7 +3,6 @@ package com.fragula2.utils
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.app.Activity
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -118,35 +117,34 @@ internal fun ViewPager2.fakeDragTo(
 }
 
 @RestrictTo(LIBRARY_GROUP)
-internal fun View.updateLayoutAngle(swipeDirection: SwipeDirection) {
-    val viewSize = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP, 3f, // dp
-        context.resources.displayMetrics
-    )
+internal fun View.updateLayoutAngle(
+    swipeDirection: SwipeDirection,
+    elevation: Float,
+) {
     updateLayoutParams<FrameLayout.LayoutParams> {
         when (swipeDirection) {
             SwipeDirection.LEFT_TO_RIGHT -> {
                 setBackgroundResource(R.drawable.bg_elevation_ltr)
-                width = viewSize.toInt()
+                width = elevation.toInt()
                 height = ViewGroup.LayoutParams.MATCH_PARENT
                 gravity = Gravity.RIGHT
             }
             SwipeDirection.RIGHT_TO_LEFT -> {
                 setBackgroundResource(R.drawable.bg_elevation_rtl)
-                width = viewSize.toInt()
+                width = elevation.toInt()
                 height = ViewGroup.LayoutParams.MATCH_PARENT
                 gravity = Gravity.LEFT
             }
             SwipeDirection.TOP_TO_BOTTOM -> {
                 setBackgroundResource(R.drawable.bg_elevation_ttb)
                 width = ViewGroup.LayoutParams.MATCH_PARENT
-                height = viewSize.toInt()
+                height = elevation.toInt()
                 gravity = Gravity.BOTTOM
             }
             SwipeDirection.BOTTOM_TO_TOP -> {
                 setBackgroundResource(R.drawable.bg_elevation_btt)
                 width = ViewGroup.LayoutParams.MATCH_PARENT
-                height = viewSize.toInt()
+                height = elevation.toInt()
                 gravity = Gravity.TOP
             }
         }

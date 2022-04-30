@@ -3,4 +3,5 @@
     <attr name="fgl_dim_amount" format="float" />
     <attr name="fgl_parallax_factor" format="float" />
     <attr name="fgl_anim_duration" format="integer" />
+    <attr name="fgl_elevation" format="dimension" />
 </resources>

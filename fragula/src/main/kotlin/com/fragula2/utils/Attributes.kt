@@ -48,3 +48,16 @@ internal fun Context.resolveInteger(
         attrs.recycle()
     }
 }
+
+@RestrictTo(LIBRARY_GROUP)
+internal fun Context.resolveDimen(
+    @AttrRes attrRes: Int,
+    @DimenRes defaultValue: Int,
+): Float {
+    val attrs = theme.obtainStyledAttributes(intArrayOf(attrRes))
+    try {
+        return attrs.getDimension(0, resources.getDimension(defaultValue))
+    } finally {
+        attrs.recycle()
+    }
+}
