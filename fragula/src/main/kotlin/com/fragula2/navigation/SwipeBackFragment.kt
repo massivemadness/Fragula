@@ -10,8 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.fragula2.R
-import com.fragula2.adapter.StackAdapter
-import com.fragula2.adapter.StackEntry
+import com.fragula2.adapter.NavBackStackAdapter
 import com.fragula2.animation.OnSwipeListener
 import com.fragula2.animation.SwipeController
 import com.fragula2.animation.SwipeDirection
@@ -31,12 +30,12 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
                 }
                 ViewPager2.SCROLL_STATE_IDLE -> {
                     if (scrollToEnd) {
-                        val itemCount = stackAdapter?.itemCount ?: 0
+                        val itemCount = navBackStackAdapter?.itemCount ?: 0
                         val currentItem = viewPager?.currentItem ?: 0
                         if (itemCount - 1 > currentItem && !fakeScroll) {
                             userScroll = true
                             navController?.popBackStack()
-                            stackAdapter?.pop()
+                            navBackStackAdapter?.pop()
                         }
                     }
                     activity?.requestViewLock(false)
@@ -71,7 +70,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     private var elevation: View? = null
 
     private var navController: NavController? = null
-    private var stackAdapter: StackAdapter? = null
+    private var navBackStackAdapter: NavBackStackAdapter? = null
     private var swipeDirection = SwipeDirection.LEFT_TO_RIGHT
 
     private var userScroll = false
@@ -109,8 +108,8 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
             )
             viewPager.pageOverScrollMode = View.OVER_SCROLL_NEVER
             viewPager.pageSwipeDirection = swipeDirection
-            viewPager.adapter = StackAdapter(this).also { adapter ->
-                stackAdapter = adapter
+            viewPager.adapter = NavBackStackAdapter(this).also { adapter ->
+                navBackStackAdapter = adapter
             }
         }
         restoreBackStack()
@@ -120,17 +119,17 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         super.onDestroyView()
         viewPager?.unregisterOnPageChangeCallback(onPageChangeCallback)
         navController = null
-        stackAdapter = null
+        navBackStackAdapter = null
         viewPager = null
         elevation = null
     }
 
-    override fun navigate(entry: StackEntry) {
+    override fun navigate(entry: NavBackStackEntry) {
         if (fakeScroll)
             return delayedTransitions.put { navigate(entry) }
         fakeScroll = true
         activity?.requestViewLock(true)
-        stackAdapter?.push(entry)
+        navBackStackAdapter?.push(entry)
         viewPager?.fakeDragTo(true, swipeDirection, scrollDuration) {
             activity?.requestViewLock(false)
             fakeScroll = false
@@ -138,7 +137,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         }
     }
 
-    override fun popBackStack(popUpTo: StackEntry) {
+    override fun popBackStack(popUpTo: NavBackStackEntry) {
         if (userScroll) {
             userScroll = false
             return
@@ -148,7 +147,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         fakeScroll = true
         activity?.requestViewLock(true)
         viewPager?.fakeDragTo(false, swipeDirection, scrollDuration) {
-            stackAdapter?.pop()
+            navBackStackAdapter?.pop()
             activity?.requestViewLock(false)
             fakeScroll = false
             nextTransition()
@@ -174,8 +173,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     private fun restoreBackStack() {
         viewPager?.currentItem = navController?.backQueue.orEmpty()
             .filter { it.destination is SwipeBackDestination }
-            .map(NavBackStackEntry::toStackEntry)
-            .also { stackAdapter?.addAll(it) }
+            .also { navBackStackAdapter?.addAll(it) }
             .size
     }
 

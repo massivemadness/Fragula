@@ -1,8 +1,8 @@
 package com.fragula2.navigation
 
-import com.fragula2.adapter.StackEntry
+import androidx.navigation.NavBackStackEntry
 
 interface Navigable {
-    fun navigate(entry: StackEntry)
-    fun popBackStack(popUpTo: StackEntry)
+    fun navigate(entry: NavBackStackEntry)
+    fun popBackStack(popUpTo: NavBackStackEntry)
 }

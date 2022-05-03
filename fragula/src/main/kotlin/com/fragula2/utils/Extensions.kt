@@ -11,13 +11,10 @@ import android.widget.FrameLayout
 import androidx.annotation.RestrictTo
 import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
 import androidx.core.view.updateLayoutParams
-import androidx.navigation.NavBackStackEntry
 import androidx.viewpager2.widget.ViewPager2
 import com.fragula2.R
-import com.fragula2.adapter.StackEntry
 import com.fragula2.animation.SwipeDirection
 import com.fragula2.animation.SwipeInterpolator
-import com.fragula2.navigation.SwipeBackDestination
 
 internal var ViewPager2.pageOverScrollMode: Int
     @RestrictTo(LIBRARY_GROUP)
@@ -163,14 +160,4 @@ internal fun Activity.requestViewLock(locked: Boolean) {
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
         )
     }
-}
-
-@RestrictTo(LIBRARY_GROUP)
-internal fun NavBackStackEntry.toStackEntry(): StackEntry {
-    val destination = destination as SwipeBackDestination
-    return StackEntry(
-        id = this.id,
-        className = destination.className,
-        arguments = this.arguments
-    )
 }
