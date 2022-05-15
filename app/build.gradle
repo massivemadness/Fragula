@@ -27,6 +27,9 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
     sourceSets {
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
         main.java.srcDirs += 'src/main/kotlin'
@@ -34,11 +37,11 @@ android {
     }
     buildFeatures {
         viewBinding true
+        compose true
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Core
     implementation library.kotlin
@@ -51,12 +54,22 @@ dependencies {
     implementation library.materialdesign
     implementation library.coil
 
+    // Compose
+    implementation library.compose_ui
+    implementation library.compose_material
+    implementation library.compose_activity
+    implementation library.compose_navigation
+    implementation library.compose_preview
+    debugImplementation library.compose_tooling
+    debugImplementation library.compose_manifest
+
     // AAC
     implementation library.viewmodel
     implementation library.lifecycle
     implementation library.navigation
 
     // Modules
+    implementation project(':fragula-compose')
     implementation project(':fragula-core')
 
     // Tests

@@ -12,10 +12,10 @@ ext {
     ]
 
     // Plugins
-    agp_version = '7.1.3'
+    agp_version = '7.2.0'
 
     // Core
-    kotlin_version = '1.6.21'
+    kotlin_version = '1.6.10'
     core_version = '1.7.0'
     activity_version = '1.4.0'
     fragment_version = '1.4.1'
@@ -26,6 +26,11 @@ ext {
     constraintlayout_version = '2.1.3'
     viewpager2_version = '1.0.0'
     coil_version = '2.0.0-rc03'
+
+    // Compose
+    compose_version = '1.1.0'
+    compose_activity_version = '1.3.1'
+    accompanist_version = '0.24.8-beta'
 
     // AAC
     lifecycle_version = '2.4.1'
@@ -59,6 +64,16 @@ ext {
             constraintlayout: "androidx.constraintlayout:constraintlayout:$constraintlayout_version",
             viewpager2: "androidx.viewpager2:viewpager2:$viewpager2_version",
             coil: "io.coil-kt:coil:$coil_version",
+
+            // Compose
+            compose_ui: "androidx.compose.ui:ui:$compose_version",
+            compose_material: "androidx.compose.material:material:$compose_version",
+            compose_activity: "androidx.activity:activity-compose:$compose_activity_version",
+            compose_preview: "androidx.compose.ui:ui-tooling-preview:$compose_version",
+            compose_tooling: "androidx.compose.ui:ui-tooling:$compose_version",
+            compose_manifest: "androidx.compose.ui:ui-test-manifest:$compose_version",
+            compose_viewpager: "com.google.accompanist:accompanist-pager:$accompanist_version",
+            compose_navigation: "androidx.navigation:navigation-compose:$navigation_version",
 
             // AAC
             viewmodel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version",

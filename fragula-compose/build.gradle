@@ -1,0 +1,57 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+ext.libraryGroupId = "com.fragula2"
+ext.libraryArtifactId = "fragula-compose"
+
+apply from: rootProject.file("gradle/publish.gradle")
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
+    group libraryGroupId
+    version versions.publishVersionName
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+
+        versionCode versions.publishVersionCode
+        versionName versions.publishVersionName
+
+        consumerProguardFiles 'consumer-rules.pro'
+
+        archivesBaseName = libraryArtifactId
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        main.res.srcDirs = ['src/main/res', 'src/main/res-public']
+    }
+    buildFeatures {
+        compose true
+    }
+}
+
+dependencies {
+
+    // Core
+    implementation library.kotlin
+
+    // Compose
+    implementation library.compose_ui
+    implementation library.compose_viewpager
+    implementation library.compose_navigation
+}
