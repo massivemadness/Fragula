@@ -76,7 +76,7 @@ fun ListScreen(navController: NavController) {
 
 @Composable
 fun DetailsScreen(navController: NavController) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
         CustomItem("Detail Screen") {
             navController.navigate("profile")
         }
@@ -94,7 +94,7 @@ fun ProfileScreen(navController: NavController) {
 
 @Composable
 fun SocialScreen(navController: NavController) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
         CustomItem("Social Screen")
     }
 }
