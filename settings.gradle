@@ -1,1 +1,1 @@
-include ':app', ':fragula'
+include ':app', ':fragula-core'

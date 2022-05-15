@@ -57,7 +57,7 @@ dependencies {
     implementation library.navigation
 
     // Modules
-    implementation project(':fragula')
+    implementation project(':fragula-core')
 
     // Tests
     testImplementation testLibrary.junit
