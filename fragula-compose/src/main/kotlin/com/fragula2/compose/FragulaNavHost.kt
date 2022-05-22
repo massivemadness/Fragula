@@ -2,7 +2,6 @@ package com.fragula2.compose
 
 import android.animation.TimeInterpolator
 import android.util.Log
-import android.view.animation.DecelerateInterpolator
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.tween
@@ -17,12 +16,11 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.*
-import androidx.navigation.compose.DialogHost
-import androidx.navigation.compose.DialogNavigator
-import androidx.navigation.compose.LocalOwnersProvider
+import androidx.navigation.compose.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import dev.chrisbanes.snapper.ExperimentalSnapperApi
 
 @Composable
 fun FragulaNavHost(
@@ -63,7 +61,7 @@ fun NavGraphBuilder.swipeable(
 }
 
 @Composable
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalSnapperApi::class)
 fun FragulaNavHost(
     navController: NavHostController,
     graph: NavGraph,
@@ -105,21 +103,19 @@ fun FragulaNavHost(
     var scrollOffset by remember { mutableStateOf(0f) }
     var renderOffset by remember { mutableStateOf(0f) }
     var previousPage by remember { mutableStateOf(0) }
+    var fakeScroll by remember { mutableStateOf(false) }
 
     HorizontalPager(
         count = backStack.size,
-        // key = { backStack[it].id },
         state = pagerState,
-        userScrollEnabled = renderOffset > 0.5f || renderOffset == 0f
+        userScrollEnabled = renderOffset > 0.5f || renderOffset == 0f,
     ) { page ->
-        val entry = backStack[page]
-        val destination = entry.destination as SwipeBackNavigator.Destination
+        val lastEntry = backStack[page]
+        val destination = lastEntry.destination as SwipeBackNavigator.Destination
 
         scrollToEnd = currentPage + currentPageOffset < scrollOffset
         scrollOffset = currentPage + currentPageOffset
         renderOffset = if (currentPageOffset < 0) 1 + currentPageOffset else currentPageOffset
-
-        Log.d("Fragula", "renderOffset = $renderOffset")
 
         /**
          * Call popBackStack() when user swipe-out screen
@@ -129,7 +125,10 @@ fun FragulaNavHost(
                 Log.d("Fragula", "Swipe to right ->")
             } else if (previousPage > pagerState.currentPage) {
                 Log.d("Fragula", "Swipe to left <-")
-                navController.popBackStack()
+                if (!fakeScroll) {
+                    navController.popBackStack()
+                    fakeScroll = false
+                }
             }
             previousPage = pagerState.currentPage
         }
@@ -139,22 +138,23 @@ fun FragulaNavHost(
          * TODO add Modifier with alpha/translationX animation
          */
         Box {
-            entry.LocalOwnersProvider(saveableStateHolder) {
-                destination.content(entry)
+            lastEntry.LocalOwnersProvider(saveableStateHolder) {
+                destination.content(lastEntry)
             }
         }
 
         /**
          * Scroll to selected screen
          */
-        LaunchedEffect(entry) {
-            val pageIndex = backStack.indexOfFirst { it.id == entry.id }
+        LaunchedEffect(lastEntry) {
+            val pageIndex = backStack.indexOfFirst { it.id == lastEntry.id }
             if (pageIndex > -1) {
+                fakeScroll = true
                 pagerState.animateScrollToPage(
                     page = pageIndex,
                     animationSpec = tween(
                         durationMillis = 500,
-                        easing = DecelerateInterpolator(1.78f).toEasing() // TODO doesn't work
+                        easing = SwipeInterpolator().toEasing() // TODO doesn't work
                     )
                 )
             }
