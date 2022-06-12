@@ -52,6 +52,6 @@ dependencies {
 
     // Compose
     implementation library.compose_ui
-    implementation library.compose_viewpager
+    implementation library.compose_foundation
     implementation library.compose_navigation
 }

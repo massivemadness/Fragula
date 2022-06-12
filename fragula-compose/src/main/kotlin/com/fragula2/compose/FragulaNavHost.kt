@@ -1,23 +1,21 @@
 package com.fragula2.compose
 
-import android.util.Log
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.*
-import androidx.navigation.compose.*
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.rememberPagerState
+import androidx.navigation.compose.DialogHost
+import androidx.navigation.compose.DialogNavigator
+import androidx.navigation.compose.LocalOwnersProvider
 
 @Composable
 fun FragulaNavHost(
@@ -58,7 +56,6 @@ fun NavGraphBuilder.swipeable(
 }
 
 @Composable
-@OptIn(ExperimentalPagerApi::class)
 fun FragulaNavHost(
     navController: NavHostController,
     graph: NavGraph,
@@ -89,100 +86,64 @@ fun FragulaNavHost(
 
     navController.graph = graph
 
-    // endregion
-
     val swipeBackNavigator = navController.navigatorProvider
         .get<Navigator<out NavDestination>>(SwipeBackNavigator.NAME) as? SwipeBackNavigator
         ?: return
 
     val backStack by swipeBackNavigator.backStack.collectAsState()
     val saveableStateHolder = rememberSaveableStateHolder()
-    val pagerState = rememberPagerState()
 
-    var scrollToEnd by remember { mutableStateOf(false) }
-    var scrollOffset by remember { mutableStateOf(0f) }
-    var renderOffset by remember { mutableStateOf(0f) }
-    var previousPage by remember { mutableStateOf(0) }
-    var fakeScroll by remember { mutableStateOf(false) }
+    // endregion
 
-    HorizontalPager(
-        count = backStack.size,
-        state = pagerState,
-    ) { page ->
-        val lastEntry = backStack[page]
-        val destination = lastEntry.destination as SwipeBackNavigator.Destination
+    for (entry in backStack) {
+        val destination = entry.destination as SwipeBackNavigator.Destination
 
-        scrollToEnd = currentPage + currentPageOffset < scrollOffset
-        scrollOffset = currentPage + currentPageOffset
-        renderOffset = if (currentPageOffset < 0) 1 + currentPageOffset else currentPageOffset
+        var cancelled by remember { mutableStateOf(false) }
+        var scrollPosition by remember { mutableStateOf(0f) }
+        val animatedScrollPosition by animateFloatAsState(
+            targetValue = if (cancelled) 0f else scrollPosition,
+            animationSpec = tween(
+                durationMillis = if (cancelled) 500 else 0,
+                easing = SwipeInterpolator().toEasing()
+            )
+        )
 
-        /**
-         * Call popBackStack() when user swipe-out screen
-         */
-        if (renderOffset <= 0) {
-            if (previousPage < pagerState.currentPage) {
-                Log.d("Fragula", "Swipe to right ->")
-            } else if (previousPage > pagerState.currentPage) {
-                Log.d("Fragula", "Swipe to left <-")
-                if (!fakeScroll) {
-                    navController.popBackStack()
-                    fakeScroll = false
+        BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = modifier.animateDrag(
+                containerWidth = maxWidth.value,
+                onScrollChanged = { scrollPosition = it },
+                onSwipeCancel = { cancelled = true },
+                onSwipeLeft = { navController.popBackStack() },
+                onSwipeRight = { navController.popBackStack() },
+                enabled = entry.id != backStack[0].id
+            ).offset(x = animatedScrollPosition.dp)) {
+                entry.LocalOwnersProvider(saveableStateHolder) {
+                    destination.content(entry)
                 }
             }
-            previousPage = pagerState.currentPage
-        }
-
-        /**
-         * User's @Composable content
-         * TODO add Modifier with alpha/translationX animation
-         */
-        Box {
-            lastEntry.LocalOwnersProvider(saveableStateHolder) {
-                destination.content(lastEntry)
-            }
-        }
-
-        /**
-         * Scroll to selected screen
-         */
-        LaunchedEffect(lastEntry) {
-            val pageIndex = backStack.indexOfFirst { it.id == lastEntry.id }
-            if (pageIndex > -1) {
-                fakeScroll = true
-                pagerState.animateScrollToPage(
-                    page = pageIndex,
-                    animationSpec = tween(
-                        durationMillis = 500,
-                        easing = SwipeInterpolator().toEasing() // TODO doesn't work
-                    )
-                )
-            }
-        }
-    }
-
-    /**
-     * Draw elevation effect
-     */
-    if (renderOffset > 0) {
-        BoxWithConstraints(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.TopEnd
-        ) {
-            Box(modifier = Modifier.fillMaxHeight()
-                .requiredWidth(3.dp)
-                .offset(x = -(renderOffset * maxWidth.value).dp)
-                .background(
-                    brush = Brush.horizontalGradient(
+            if (animatedScrollPosition > 0f) {
+                val elevationWidth = 3.dp
+                Box(modifier = Modifier.fillMaxHeight()
+                    .requiredWidth(elevationWidth)
+                    .offset(x = animatedScrollPosition.dp - elevationWidth)
+                    .background(brush = Brush.horizontalGradient(
                         colors = listOf(ElevationEnd, ElevationStart)
-                    )
+                    ))
                 )
-            )
+            } else if (animatedScrollPosition == 0f) {
+                scrollPosition = 0f
+                cancelled = false
+            }
         }
     }
+
+    // region DIALOGS
 
     val dialogNavigator = navController.navigatorProvider
         .get<Navigator<out NavDestination>>("dialog") as? DialogNavigator // DialogNavigator.NAME
         ?: return
 
     DialogHost(dialogNavigator)
+
+    // endregion
 }
