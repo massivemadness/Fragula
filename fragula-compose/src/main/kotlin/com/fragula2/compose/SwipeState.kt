@@ -11,6 +11,5 @@ enum class SwipeState {
 }
 
 @Composable
-internal fun rememberSwipeState() = rememberSaveable {
-    mutableStateOf(SwipeState.FOLLOW_POINTER)
-}
+internal fun rememberSwipeState(initialState: SwipeState = SwipeState.FOLLOW_POINTER) =
+    rememberSaveable { mutableStateOf(initialState) }

@@ -10,6 +10,7 @@ import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import androidx.navigation.*
@@ -23,16 +24,20 @@ fun FragulaNavHost(
     startDestination: String,
     modifier: Modifier = Modifier,
     route: String? = null,
+    animDurationMs: Int = 500,
+    elevationDp: Dp = 3.dp,
     builder: NavGraphBuilder.() -> Unit
 ) {
     FragulaNavHost(
-        navController.apply {
+        navController = navController.apply {
             navigatorProvider.addNavigator(SwipeBackNavigator())
         },
-        remember(route, startDestination, builder) {
+        graph = remember(route, startDestination, builder) {
             navController.createGraph(startDestination, route, builder)
         },
-        modifier
+        modifier = modifier,
+        animDurationMs = animDurationMs,
+        elevationDp = elevationDp
     )
 }
 
@@ -56,10 +61,12 @@ fun NavGraphBuilder.swipeable(
 }
 
 @Composable
-fun FragulaNavHost(
+internal fun FragulaNavHost(
     navController: NavHostController,
     graph: NavGraph,
-    modifier: Modifier = Modifier
+    modifier: Modifier,
+    animDurationMs: Int,
+    elevationDp: Dp,
 ) {
 
     // region SETUP
@@ -91,14 +98,19 @@ fun FragulaNavHost(
         ?: return
 
     val backStack by swipeBackNavigator.backStack.collectAsState()
+    val transitionsInProgress by swipeBackNavigator.transitionsInProgress.collectAsState()
     val saveableStateHolder = rememberSaveableStateHolder()
 
     // endregion
 
+    var initialAnimation by remember { mutableStateOf(true) }
     for (entry in backStack) {
         BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
             var swipeState by rememberSwipeState()
-            var scrollPosition by remember { mutableStateOf(0f) }
+            var scrollPosition by remember {
+                val initialValue = if (initialAnimation) 0f else maxWidth.value
+                mutableStateOf(initialValue)
+            }
             val animatedScrollPosition by animateFloatAsState(
                 targetValue = when (swipeState) {
                     SwipeState.MOVE_TO_START -> 0f
@@ -106,7 +118,7 @@ fun FragulaNavHost(
                     SwipeState.FOLLOW_POINTER -> scrollPosition
                 },
                 animationSpec = tween(
-                    durationMillis = if (swipeState != SwipeState.FOLLOW_POINTER) 500 else 0,
+                    durationMillis = if (swipeState != SwipeState.FOLLOW_POINTER) animDurationMs else 0,
                     easing = SwipeInterpolator().toEasing()
                 )
             ) { value ->
@@ -141,14 +153,29 @@ fun FragulaNavHost(
                 }
             }
             if (animatedScrollPosition > 0f) {
-                val elevationWidth = 3.dp
                 Box(modifier = Modifier.fillMaxHeight()
-                    .requiredWidth(elevationWidth)
-                    .offset(x = animatedScrollPosition.dp - elevationWidth)
+                    .requiredWidth(elevationDp)
+                    .offset(x = animatedScrollPosition.dp - elevationDp)
                     .background(brush = Brush.horizontalGradient(
                         colors = listOf(ElevationEnd, ElevationStart)
                     ))
                 )
+            }
+
+            DisposableEffect(entry) {
+                if (initialAnimation) {
+                    transitionsInProgress.forEach { entry ->
+                        swipeBackNavigator.onTransitionComplete(entry)
+                    }
+                    initialAnimation = false
+                } else {
+                    swipeState = SwipeState.MOVE_TO_START
+                }
+                onDispose {
+                    transitionsInProgress.forEach { entry ->
+                        swipeBackNavigator.onTransitionComplete(entry)
+                    }
+                }
             }
         }
     }
