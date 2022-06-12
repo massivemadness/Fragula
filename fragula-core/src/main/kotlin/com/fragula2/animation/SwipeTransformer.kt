@@ -32,7 +32,7 @@ class SwipeTransformer(
                 page.visibility = View.VISIBLE
                 page.alpha = 1.0f
             }
-            // Анимация ухода текущего фрагмента справо при открытии нового
+            // Анимация ухода текущего фрагмента при открытии нового
             position > -1 && position <= 0 -> {
                 when (swipeDirection) {
                     SwipeDirection.LEFT_TO_RIGHT -> {

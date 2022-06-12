@@ -1,9 +1,7 @@
 package com.fragula2.compose
 
-import android.animation.TimeInterpolator
 import android.util.Log
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
-import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -20,7 +18,6 @@ import androidx.navigation.compose.*
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import dev.chrisbanes.snapper.ExperimentalSnapperApi
 
 @Composable
 fun FragulaNavHost(
@@ -61,12 +58,15 @@ fun NavGraphBuilder.swipeable(
 }
 
 @Composable
-@OptIn(ExperimentalPagerApi::class, ExperimentalSnapperApi::class)
+@OptIn(ExperimentalPagerApi::class)
 fun FragulaNavHost(
     navController: NavHostController,
     graph: NavGraph,
     modifier: Modifier = Modifier
 ) {
+
+    // region SETUP
+
     val lifecycleOwner = LocalLifecycleOwner.current
     val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
         "FragulaNavHost requires a ViewModelStoreOwner to be provided via LocalViewModelStoreOwner"
@@ -89,7 +89,7 @@ fun FragulaNavHost(
 
     navController.graph = graph
 
-    // Custom navigation
+    // endregion
 
     val swipeBackNavigator = navController.navigatorProvider
         .get<Navigator<out NavDestination>>(SwipeBackNavigator.NAME) as? SwipeBackNavigator
@@ -108,7 +108,6 @@ fun FragulaNavHost(
     HorizontalPager(
         count = backStack.size,
         state = pagerState,
-        userScrollEnabled = renderOffset > 0.5f || renderOffset == 0f,
     ) { page ->
         val lastEntry = backStack[page]
         val destination = lastEntry.destination as SwipeBackNavigator.Destination
@@ -187,5 +186,3 @@ fun FragulaNavHost(
 
     DialogHost(dialogNavigator)
 }
-
-private fun TimeInterpolator.toEasing() = Easing { x -> getInterpolation(x) }
