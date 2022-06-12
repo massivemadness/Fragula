@@ -96,27 +96,46 @@ fun FragulaNavHost(
     // endregion
 
     for (entry in backStack) {
-        val destination = entry.destination as SwipeBackNavigator.Destination
-
-        var cancelled by remember { mutableStateOf(false) }
-        var scrollPosition by remember { mutableStateOf(0f) }
-        val animatedScrollPosition by animateFloatAsState(
-            targetValue = if (cancelled) 0f else scrollPosition,
-            animationSpec = tween(
-                durationMillis = if (cancelled) 500 else 0,
-                easing = SwipeInterpolator().toEasing()
-            )
-        )
-
         BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+            var swipeState by rememberSwipeState()
+            var scrollPosition by remember { mutableStateOf(0f) }
+            val animatedScrollPosition by animateFloatAsState(
+                targetValue = when (swipeState) {
+                    SwipeState.MOVE_TO_START -> 0f
+                    SwipeState.MOVE_TO_END -> maxWidth.value
+                    SwipeState.FOLLOW_POINTER -> scrollPosition
+                },
+                animationSpec = tween(
+                    durationMillis = if (swipeState != SwipeState.FOLLOW_POINTER) 500 else 0,
+                    easing = SwipeInterpolator().toEasing()
+                )
+            ) { value ->
+                when (value) {
+                    0f -> {
+                        scrollPosition = 0f
+                        swipeState = SwipeState.FOLLOW_POINTER
+                    }
+                    maxWidth.value -> {
+                        scrollPosition = 0f
+                        swipeState = SwipeState.FOLLOW_POINTER
+                        navController.popBackStack()
+                    }
+                }
+            }
+
             Box(modifier = modifier.animateDrag(
                 containerWidth = maxWidth.value,
+                enabled = entry.id != backStack[0].id,
                 onScrollChanged = { scrollPosition = it },
-                onSwipeCancel = { cancelled = true },
-                onSwipeLeft = { navController.popBackStack() },
-                onSwipeRight = { navController.popBackStack() },
-                enabled = entry.id != backStack[0].id
+                onScrollCancelled = {
+                    swipeState = if (scrollPosition > maxWidth.value / 2) {
+                        SwipeState.MOVE_TO_END
+                    } else {
+                        SwipeState.MOVE_TO_START
+                    }
+                },
             ).offset(x = animatedScrollPosition.dp)) {
+                val destination = entry.destination as SwipeBackNavigator.Destination
                 entry.LocalOwnersProvider(saveableStateHolder) {
                     destination.content(entry)
                 }
@@ -130,9 +149,6 @@ fun FragulaNavHost(
                         colors = listOf(ElevationEnd, ElevationStart)
                     ))
                 )
-            } else if (animatedScrollPosition == 0f) {
-                scrollPosition = 0f
-                cancelled = false
             }
         }
     }
