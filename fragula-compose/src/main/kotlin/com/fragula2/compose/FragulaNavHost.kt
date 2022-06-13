@@ -3,6 +3,7 @@ package com.fragula2.compose
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -191,13 +192,16 @@ internal fun FragulaNavHost(
                 }
             }
             if (scrollPosition > startPosition) {
-                Box(modifier = Modifier.fillMaxHeight()
+                Canvas(modifier = Modifier.fillMaxHeight()
                     .requiredWidth(elevationDp)
-                    .graphicsLayer { translationX = scrollPosition - elevationDp.toPx() }
-                    .background(brush = Brush.horizontalGradient(
+                    .graphicsLayer {
+                        translationX = scrollPosition - elevationDp.toPx()
+                    }
+                ) {
+                    drawRect(brush = Brush.horizontalGradient(
                         colors = listOf(ElevationEnd, ElevationStart)
                     ))
-                )
+                }
             }
         }
     }
