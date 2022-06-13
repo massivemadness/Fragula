@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -24,6 +25,8 @@ fun FragulaNavHost(
     startDestination: String,
     modifier: Modifier = Modifier,
     route: String? = null,
+    dimColor: Color = DimColor,
+    dimAmount: Float = 0.15f,
     animDurationMs: Int = 500,
     elevationDp: Dp = 3.dp,
     builder: NavGraphBuilder.() -> Unit
@@ -36,6 +39,8 @@ fun FragulaNavHost(
             navController.createGraph(startDestination, route, builder)
         },
         modifier = modifier,
+        dimColor = dimColor,
+        dimAmount = dimAmount,
         animDurationMs = animDurationMs,
         elevationDp = elevationDp
     )
@@ -65,6 +70,8 @@ internal fun FragulaNavHost(
     navController: NavHostController,
     graph: NavGraph,
     modifier: Modifier,
+    dimColor: Color,
+    dimAmount: Float,
     animDurationMs: Int,
     elevationDp: Dp,
 ) {
@@ -105,17 +112,21 @@ internal fun FragulaNavHost(
 
     var initialAnimation by remember { mutableStateOf(true) }
     for (entry in backStack) {
-        BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+        var scrollOffset by remember { mutableStateOf(1f) }
+        BoxWithConstraints(
+            modifier = Modifier.fillMaxSize()
+                .background(dimColor.copy(alpha = (1.0f - scrollOffset) * dimAmount))
+        ) {
             var swipeState by rememberSwipeState()
-            var scrollPosition by remember {
+            var pointerPosition by remember {
                 val initialValue = if (initialAnimation) 0f else maxWidth.value
                 mutableStateOf(initialValue)
             }
-            val animatedScrollPosition by animateFloatAsState(
+            val scrollPosition by animateFloatAsState(
                 targetValue = when (swipeState) {
                     SwipeState.MOVE_TO_START -> 0f
                     SwipeState.MOVE_TO_END -> maxWidth.value
-                    SwipeState.FOLLOW_POINTER -> scrollPosition
+                    SwipeState.FOLLOW_POINTER -> pointerPosition
                 },
                 animationSpec = tween(
                     durationMillis = if (swipeState != SwipeState.FOLLOW_POINTER) animDurationMs else 0,
@@ -124,58 +135,61 @@ internal fun FragulaNavHost(
             ) { value ->
                 when (value) {
                     0f -> {
-                        scrollPosition = 0f
+                        pointerPosition = 0f
                         swipeState = SwipeState.FOLLOW_POINTER
+                        transitionsInProgress.forEach { entry ->
+                            swipeBackNavigator.onTransitionComplete(entry)
+                        }
                     }
                     maxWidth.value -> {
-                        scrollPosition = 0f
+                        pointerPosition = 0f
                         swipeState = SwipeState.FOLLOW_POINTER
+                        transitionsInProgress.forEach { entry ->
+                            swipeBackNavigator.onTransitionComplete(entry)
+                        }
                         navController.popBackStack()
                     }
+                }
+            }
+            val progress = scrollPosition / (maxWidth.value * 0.01f)
+            scrollOffset = progress * 0.01f
+
+            DisposableEffect(entry) {
+                if (initialAnimation) {
+                    initialAnimation = false
+                } else {
+                    swipeState = SwipeState.MOVE_TO_START
+                }
+                onDispose {
+                    swipeState = SwipeState.MOVE_TO_END // FIXME pop transition
                 }
             }
 
             Box(modifier = modifier.animateDrag(
                 containerWidth = maxWidth.value,
                 enabled = entry.id != backStack[0].id,
-                onScrollChanged = { scrollPosition = it },
+                onScrollChanged = { pointerPosition = it },
                 onScrollCancelled = {
-                    swipeState = if (scrollPosition > maxWidth.value / 2) {
+                    swipeState = if (pointerPosition > maxWidth.value / 2) {
                         SwipeState.MOVE_TO_END
                     } else {
                         SwipeState.MOVE_TO_START
                     }
                 },
-            ).offset(x = animatedScrollPosition.dp)) {
+            ).offset(x = scrollPosition.dp)) {
                 val destination = entry.destination as SwipeBackNavigator.Destination
                 entry.LocalOwnersProvider(saveableStateHolder) {
                     destination.content(entry)
                 }
             }
-            if (animatedScrollPosition > 0f) {
+            if (scrollPosition > 0f) {
                 Box(modifier = Modifier.fillMaxHeight()
                     .requiredWidth(elevationDp)
-                    .offset(x = animatedScrollPosition.dp - elevationDp)
+                    .offset(x = scrollPosition.dp - elevationDp)
                     .background(brush = Brush.horizontalGradient(
                         colors = listOf(ElevationEnd, ElevationStart)
                     ))
                 )
-            }
-
-            DisposableEffect(entry) {
-                if (initialAnimation) {
-                    transitionsInProgress.forEach { entry ->
-                        swipeBackNavigator.onTransitionComplete(entry)
-                    }
-                    initialAnimation = false
-                } else {
-                    swipeState = SwipeState.MOVE_TO_START
-                }
-                onDispose {
-                    transitionsInProgress.forEach { entry ->
-                        swipeBackNavigator.onTransitionComplete(entry)
-                    }
-                }
             }
         }
     }
