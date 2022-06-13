@@ -112,8 +112,8 @@ internal fun FragulaNavHost(
 
     // endregion
 
-    var initialAnimation by remember { mutableStateOf(true) }
-    for (backStackEntry in backStack) {
+    var initialAnimation by remember { mutableStateOf(true) } // FIXME animation on recomposition
+    for (backStackEntry in backStack) { // FIXME don't render all entries at once
         var scrollOffset by remember { mutableStateOf(1f) }
         BoxWithConstraints(
             modifier = Modifier.fillMaxSize()
@@ -129,9 +129,9 @@ internal fun FragulaNavHost(
             }
             val scrollPosition by animateFloatAsState(
                 targetValue = when (swipeState) {
+                    SwipeState.FOLLOW_POINTER -> pointerPosition
                     SwipeState.MOVE_TO_START -> startPosition
                     SwipeState.MOVE_TO_END -> endPosition
-                    SwipeState.FOLLOW_POINTER -> pointerPosition
                 },
                 animationSpec = tween(
                     durationMillis = if (swipeState != SwipeState.FOLLOW_POINTER) animDurationMs else 0,
@@ -167,7 +167,7 @@ internal fun FragulaNavHost(
                     swipeState = SwipeState.MOVE_TO_START
                 }
                 onDispose {
-                    // FIXME pop transition
+                    // TODO pop transition
                     // swipeState = SwipeState.MOVE_TO_END
                 }
             }
@@ -176,10 +176,11 @@ internal fun FragulaNavHost(
                 enabled = backStackEntry.id != backStack[0].id,
                 onScrollChanged = { pointerPosition = it },
                 onScrollCancelled = {
-                    swipeState = if (pointerPosition > endPosition / 2) {
-                        SwipeState.MOVE_TO_END
-                    } else {
-                        SwipeState.MOVE_TO_START
+                    swipeState = when {
+                        pointerPosition == 0f -> SwipeState.FOLLOW_POINTER
+                        pointerPosition < endPosition / 2 -> SwipeState.MOVE_TO_START
+                        pointerPosition > endPosition / 2 -> SwipeState.MOVE_TO_END
+                        else -> SwipeState.FOLLOW_POINTER
                     }
                 },
             ).graphicsLayer {

@@ -22,6 +22,9 @@ internal fun Modifier.animateDrag(
         detectHorizontalDragGestures(
             onHorizontalDrag = { _, dragAmount ->
                 dragOffset += dragAmount
+                if (dragOffset < 0f) {
+                    dragOffset = 0f
+                }
                 onScrollChanged(dragOffset)
             },
             onDragEnd = {
