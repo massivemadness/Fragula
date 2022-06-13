@@ -10,6 +10,7 @@ import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -26,7 +27,7 @@ fun FragulaNavHost(
     modifier: Modifier = Modifier,
     route: String? = null,
     dimColor: Color = DimColor,
-    dimAmount: Float = 0.15f,
+    dimAmount: Float = 0.1f,
     animDurationMs: Int = 500,
     elevationDp: Dp = 3.dp,
     builder: NavGraphBuilder.() -> Unit
@@ -117,15 +118,18 @@ internal fun FragulaNavHost(
             modifier = Modifier.fillMaxSize()
                 .background(dimColor.copy(alpha = (1.0f - scrollOffset) * dimAmount))
         ) {
+            val startPosition = 0f
+            val endPosition = constraints.maxWidth.toFloat()
+
             var swipeState by rememberSwipeState()
             var pointerPosition by remember {
-                val initialValue = if (initialAnimation) 0f else maxWidth.value
+                val initialValue = if (initialAnimation) startPosition else endPosition
                 mutableStateOf(initialValue)
             }
             val scrollPosition by animateFloatAsState(
                 targetValue = when (swipeState) {
-                    SwipeState.MOVE_TO_START -> 0f
-                    SwipeState.MOVE_TO_END -> maxWidth.value
+                    SwipeState.MOVE_TO_START -> startPosition
+                    SwipeState.MOVE_TO_END -> endPosition
                     SwipeState.FOLLOW_POINTER -> pointerPosition
                 },
                 animationSpec = tween(
@@ -134,15 +138,15 @@ internal fun FragulaNavHost(
                 )
             ) { value ->
                 when (value) {
-                    0f -> {
-                        pointerPosition = 0f
+                    startPosition -> {
+                        pointerPosition = startPosition
                         swipeState = SwipeState.FOLLOW_POINTER
                         transitionsInProgress.forEach { entry ->
                             swipeBackNavigator.onTransitionComplete(entry)
                         }
                     }
-                    maxWidth.value -> {
-                        pointerPosition = 0f
+                    endPosition -> {
+                        pointerPosition = startPosition
                         swipeState = SwipeState.FOLLOW_POINTER
                         transitionsInProgress.forEach { entry ->
                             swipeBackNavigator.onTransitionComplete(entry)
@@ -151,7 +155,8 @@ internal fun FragulaNavHost(
                     }
                 }
             }
-            val progress = scrollPosition / (maxWidth.value * 0.01f)
+
+            val progress = scrollPosition / (endPosition * 0.01f)
             scrollOffset = progress * 0.01f
 
             DisposableEffect(entry) {
@@ -166,26 +171,28 @@ internal fun FragulaNavHost(
             }
 
             Box(modifier = modifier.animateDrag(
-                containerWidth = maxWidth.value,
                 enabled = entry.id != backStack[0].id,
                 onScrollChanged = { pointerPosition = it },
                 onScrollCancelled = {
-                    swipeState = if (pointerPosition > maxWidth.value / 2) {
+                    swipeState = if (pointerPosition > endPosition / 2) {
                         SwipeState.MOVE_TO_END
                     } else {
                         SwipeState.MOVE_TO_START
                     }
                 },
-            ).offset(x = scrollPosition.dp)) {
+            ).graphicsLayer {
+                translationX = scrollPosition
+                // TODO parallax
+            }) {
                 val destination = entry.destination as SwipeBackNavigator.Destination
                 entry.LocalOwnersProvider(saveableStateHolder) {
                     destination.content(entry)
                 }
             }
-            if (scrollPosition > 0f) {
+            if (scrollPosition > startPosition) {
                 Box(modifier = Modifier.fillMaxHeight()
                     .requiredWidth(elevationDp)
-                    .offset(x = scrollPosition.dp - elevationDp)
+                    .graphicsLayer { translationX = scrollPosition - elevationDp.toPx() }
                     .background(brush = Brush.horizontalGradient(
                         colors = listOf(ElevationEnd, ElevationStart)
                     ))

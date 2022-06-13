@@ -12,43 +12,21 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.input.pointer.pointerInput
 
 internal fun Modifier.animateDrag(
-    containerWidth: Float,
     enabled: Boolean = true,
     onScrollChanged: (Float) -> Unit = {},
     onScrollCancelled: () -> Unit = {},
 ): Modifier = composed {
     if (!enabled) return@composed this
-
-    var swipeOffset by remember { mutableStateOf(0f) }
-    var gestureConsumed by remember { mutableStateOf(false) }
-
+    var dragOffset by remember { mutableStateOf(0f) }
     pointerInput(Unit) {
         detectHorizontalDragGestures(
             onHorizontalDrag = { _, dragAmount ->
-                // dragAmount: positive when scrolling right; negative when scrolling left
-                swipeOffset += dragAmount / 2.5f // TODO remove magic number
-                when {
-                    swipeOffset > containerWidth -> {
-                        // offset > 0 when swipe right
-                        if (!gestureConsumed) {
-                            gestureConsumed = true
-                        }
-                    }
-                    swipeOffset < -containerWidth -> {
-                        // offset < 0 when swipe left
-                        if (!gestureConsumed) {
-                            gestureConsumed = true
-                        }
-                    }
-                }
-                onScrollChanged(swipeOffset)
+                dragOffset += dragAmount
+                onScrollChanged(dragOffset)
             },
             onDragEnd = {
-                if (!gestureConsumed) {
-                    onScrollCancelled()
-                }
-                swipeOffset = 0f
-                gestureConsumed = false
+                onScrollCancelled()
+                dragOffset = 0f
             }
         )
     }
