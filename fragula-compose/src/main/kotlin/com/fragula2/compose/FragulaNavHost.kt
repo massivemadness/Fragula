@@ -105,14 +105,14 @@ internal fun FragulaNavHost(
         .get<Navigator<out NavDestination>>(SwipeBackNavigator.NAME) as? SwipeBackNavigator
         ?: return
 
+    val saveableStateHolder = rememberSaveableStateHolder()
     val backStack by swipeBackNavigator.backStack.collectAsState()
     val transitionsInProgress by swipeBackNavigator.transitionsInProgress.collectAsState()
-    val saveableStateHolder = rememberSaveableStateHolder()
 
     // endregion
 
     var initialAnimation by remember { mutableStateOf(true) }
-    for (entry in backStack) {
+    for (backStackEntry in backStack) {
         var scrollOffset by remember { mutableStateOf(1f) }
         BoxWithConstraints(
             modifier = Modifier.fillMaxSize()
@@ -159,19 +159,20 @@ internal fun FragulaNavHost(
             val progress = scrollPosition / (endPosition * 0.01f)
             scrollOffset = progress * 0.01f
 
-            DisposableEffect(entry) {
+            DisposableEffect(backStackEntry) {
                 if (initialAnimation) {
                     initialAnimation = false
                 } else {
                     swipeState = SwipeState.MOVE_TO_START
                 }
                 onDispose {
-                    swipeState = SwipeState.MOVE_TO_END // FIXME pop transition
+                    // FIXME pop transition
+                    // swipeState = SwipeState.MOVE_TO_END
                 }
             }
 
             Box(modifier = modifier.animateDrag(
-                enabled = entry.id != backStack[0].id,
+                enabled = backStackEntry.id != backStack[0].id,
                 onScrollChanged = { pointerPosition = it },
                 onScrollCancelled = {
                     swipeState = if (pointerPosition > endPosition / 2) {
@@ -182,11 +183,11 @@ internal fun FragulaNavHost(
                 },
             ).graphicsLayer {
                 translationX = scrollPosition
-                // TODO parallax
+                // TODO parallax effect
             }) {
-                val destination = entry.destination as SwipeBackNavigator.Destination
-                entry.LocalOwnersProvider(saveableStateHolder) {
-                    destination.content(entry)
+                val destination = backStackEntry.destination as SwipeBackNavigator.Destination
+                backStackEntry.LocalOwnersProvider(saveableStateHolder) {
+                    destination.content(backStackEntry)
                 }
             }
             if (scrollPosition > startPosition) {

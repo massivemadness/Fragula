@@ -10,7 +10,6 @@ import androidx.navigation.Navigator
 class SwipeBackNavigator : Navigator<SwipeBackNavigator.Destination>() {
 
     internal val transitionsInProgress get() = state.transitionsInProgress
-
     internal val backStack get() = state.backStack
 
     override fun navigate(
