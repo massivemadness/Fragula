@@ -116,12 +116,12 @@ fun FragulaNavHost(
     // endregion
 
     var initialAnimation by remember { mutableStateOf(true) }
-    var parallaxOffset by remember { mutableStateOf(0f) }
+    var parallaxEffect by remember { mutableStateOf(0f) }
     for (backStackEntry in backStack) { // FIXME don't render all entries at once
-        var scrollOffset by remember { mutableStateOf(1f) }
+        var dimmingEffect by remember { mutableStateOf(0f) }
         BoxWithConstraints(
             modifier = Modifier.fillMaxSize()
-                .background(dimColor.copy(alpha = (1.0f - scrollOffset) * dimAmount))
+                .background(dimColor.copy(alpha = dimmingEffect))
         ) {
             val startPosition = 0f
             val endPosition = constraints.maxWidth.toFloat()
@@ -161,12 +161,12 @@ fun FragulaNavHost(
                 }
             }
 
-            val progress = scrollPosition / (endPosition * 0.01f)
-            scrollOffset = progress * 0.01f
-
-            val calculateParallax = backStackEntry.id == backStack.lastOrNull()?.id
-            if (calculateParallax) {
-                parallaxOffset = 1.0f - scrollOffset
+            val calculateEffects = backStackEntry.id == backStack.lastOrNull()?.id
+            if (calculateEffects) {
+                val progress = scrollPosition / (endPosition * 0.01f)
+                val scrollOffset = progress * 0.01f
+                parallaxEffect = -maxWidth.value * (1.0f - scrollOffset) / parallaxFactor
+                dimmingEffect = (1.0f - scrollOffset) * dimAmount
             }
 
             DisposableEffect(backStackEntry) {
@@ -182,7 +182,7 @@ fun FragulaNavHost(
             }
 
             Box(modifier = modifier.animateDrag(
-                enabled = backStackEntry.id != backStack[0].id,
+                enabled = backStackEntry.id != backStack.firstOrNull()?.id,
                 onScrollChanged = { position ->
                     pointerPosition = position
                 },
@@ -196,11 +196,7 @@ fun FragulaNavHost(
                 },
             ).graphicsLayer {
                 val applyParallax = backStackEntry.id == backStack.penultOrNull()?.id
-                translationX = if (applyParallax) {
-                    -maxWidth.value * (parallaxOffset / parallaxFactor)
-                } else {
-                    scrollPosition
-                }
+                translationX = if (applyParallax) parallaxEffect else scrollPosition
             }) {
                 val destination = backStackEntry.destination as SwipeBackNavigator.Destination
                 backStackEntry.LocalOwnersProvider(saveableStateHolder) {
