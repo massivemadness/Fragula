@@ -29,6 +29,7 @@ fun FragulaNavHost(
     route: String? = null,
     dimColor: Color = DimColor,
     dimAmount: Float = 0.1f,
+    parallaxFactor: Float = 1.3f,
     animDurationMs: Int = 500,
     elevationDp: Dp = 3.dp,
     builder: NavGraphBuilder.() -> Unit
@@ -43,6 +44,7 @@ fun FragulaNavHost(
         modifier = modifier,
         dimColor = dimColor,
         dimAmount = dimAmount,
+        parallaxFactor = parallaxFactor,
         animDurationMs = animDurationMs,
         elevationDp = elevationDp
     )
@@ -68,12 +70,13 @@ fun NavGraphBuilder.swipeable(
 }
 
 @Composable
-internal fun FragulaNavHost(
+fun FragulaNavHost(
     navController: NavHostController,
     graph: NavGraph,
     modifier: Modifier,
     dimColor: Color,
     dimAmount: Float,
+    parallaxFactor: Float,
     animDurationMs: Int,
     elevationDp: Dp,
 ) {
@@ -112,7 +115,8 @@ internal fun FragulaNavHost(
 
     // endregion
 
-    var initialAnimation by remember { mutableStateOf(true) } // FIXME animation on recomposition
+    var initialAnimation by remember { mutableStateOf(true) }
+    var parallaxOffset by remember { mutableStateOf(0f) }
     for (backStackEntry in backStack) { // FIXME don't render all entries at once
         var scrollOffset by remember { mutableStateOf(1f) }
         BoxWithConstraints(
@@ -160,9 +164,14 @@ internal fun FragulaNavHost(
             val progress = scrollPosition / (endPosition * 0.01f)
             scrollOffset = progress * 0.01f
 
+            val calculateParallax = backStackEntry.id == backStack.lastOrNull()?.id
+            if (calculateParallax) {
+                parallaxOffset = 1.0f - scrollOffset
+            }
+
             DisposableEffect(backStackEntry) {
                 if (initialAnimation) {
-                    initialAnimation = false
+                    initialAnimation = false // FIXME animation on recomposition
                 } else {
                     swipeState = SwipeState.MOVE_TO_START
                 }
@@ -174,7 +183,9 @@ internal fun FragulaNavHost(
 
             Box(modifier = modifier.animateDrag(
                 enabled = backStackEntry.id != backStack[0].id,
-                onScrollChanged = { pointerPosition = it },
+                onScrollChanged = { position ->
+                    pointerPosition = position
+                },
                 onScrollCancelled = {
                     swipeState = when {
                         pointerPosition == 0f -> SwipeState.FOLLOW_POINTER
@@ -184,8 +195,12 @@ internal fun FragulaNavHost(
                     }
                 },
             ).graphicsLayer {
-                translationX = scrollPosition
-                // TODO parallax effect
+                val applyParallax = backStackEntry.id == backStack.penultOrNull()?.id
+                translationX = if (applyParallax) {
+                    -maxWidth.value * (parallaxOffset / parallaxFactor)
+                } else {
+                    scrollPosition
+                }
             }) {
                 val destination = backStackEntry.destination as SwipeBackNavigator.Destination
                 backStackEntry.LocalOwnersProvider(saveableStateHolder) {

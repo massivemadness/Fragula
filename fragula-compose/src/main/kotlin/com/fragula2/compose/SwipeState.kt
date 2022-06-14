@@ -2,7 +2,7 @@ package com.fragula2.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 
 enum class SwipeState {
     MOVE_TO_START,
@@ -11,5 +11,5 @@ enum class SwipeState {
 }
 
 @Composable
-internal fun rememberSwipeState(initialState: SwipeState = SwipeState.FOLLOW_POINTER) =
-    rememberSaveable { mutableStateOf(initialState) }
+fun rememberSwipeState(initialState: SwipeState = SwipeState.FOLLOW_POINTER) =
+    remember { mutableStateOf(initialState) }
