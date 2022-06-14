@@ -134,8 +134,8 @@ fun FragulaNavHost(
             val scrollPosition by animateFloatAsState(
                 targetValue = when (swipeState) {
                     SwipeState.FOLLOW_POINTER -> pointerPosition
-                    SwipeState.MOVE_TO_START -> startPosition
-                    SwipeState.MOVE_TO_END -> endPosition
+                    SwipeState.SWIPE_IN -> startPosition
+                    SwipeState.SWIPE_OUT -> endPosition
                 },
                 animationSpec = tween(
                     durationMillis = if (swipeState != SwipeState.FOLLOW_POINTER) animDurationMs else 0,
@@ -161,7 +161,10 @@ fun FragulaNavHost(
                 }
             }
 
+            val applyDraggable = backStackEntry.id != backStack.firstOrNull()?.id
+            val applyParallax = backStackEntry.id == backStack.penultOrNull()?.id
             val calculateEffects = backStackEntry.id == backStack.lastOrNull()?.id
+
             if (calculateEffects) {
                 val progress = scrollPosition / (endPosition * 0.01f)
                 val scrollOffset = progress * 0.01f
@@ -173,29 +176,32 @@ fun FragulaNavHost(
                 if (initialAnimation) {
                     initialAnimation = false // FIXME animation on recomposition
                 } else {
-                    swipeState = SwipeState.MOVE_TO_START
+                    swipeState = SwipeState.SWIPE_IN
                 }
                 onDispose {
                     // TODO pop transition
-                    // swipeState = SwipeState.MOVE_TO_END
+                    // swipeState = SwipeState.SWIPE_OUT
                 }
             }
 
             Box(modifier = modifier.animateDrag(
-                enabled = backStackEntry.id != backStack.firstOrNull()?.id,
+                enabled = applyDraggable,
                 onScrollChanged = { position ->
-                    pointerPosition = position
+                    if (swipeState == SwipeState.FOLLOW_POINTER) {
+                        pointerPosition = position
+                    }
                 },
-                onScrollCancelled = {
+                onScrollCancelled = { velocity ->
+                    if (swipeState != SwipeState.FOLLOW_POINTER) return@animateDrag
                     swipeState = when {
+                        velocity > 1000 -> SwipeState.SWIPE_OUT
                         pointerPosition == 0f -> SwipeState.FOLLOW_POINTER
-                        pointerPosition < endPosition / 2 -> SwipeState.MOVE_TO_START
-                        pointerPosition > endPosition / 2 -> SwipeState.MOVE_TO_END
+                        pointerPosition > endPosition / 2 -> SwipeState.SWIPE_OUT
+                        pointerPosition < endPosition / 2 -> SwipeState.SWIPE_IN
                         else -> SwipeState.FOLLOW_POINTER
                     }
                 },
             ).graphicsLayer {
-                val applyParallax = backStackEntry.id == backStack.penultOrNull()?.id
                 translationX = if (applyParallax) parallaxEffect else scrollPosition
             }) {
                 val destination = backStackEntry.destination as SwipeBackNavigator.Destination

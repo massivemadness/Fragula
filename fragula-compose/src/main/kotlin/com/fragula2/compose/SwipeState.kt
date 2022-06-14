@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 
 enum class SwipeState {
-    MOVE_TO_START,
-    MOVE_TO_END,
+    SWIPE_IN,
+    SWIPE_OUT,
     FOLLOW_POINTER,
 }
 
