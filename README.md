@@ -181,9 +181,6 @@ You may want to know when the scrolling offset changes to make smooth transition
 fragment view. To start listening scroll events you need to retrieve `SwipeController` and set 
 `OnSwipeListener` as shown below:
 
-> **Note**
-> Currently shared element transitions between destinations are not supported in any form.
-
 ```kotlin
 class DetailFragment : Fragment(R.layout.fragment_detail) {
    
@@ -208,8 +205,9 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 }
 ```
 
-> **Remember**
-> You must remove the listener when the fragment view is destroyed.
+> **Note**
+> Currently shared element transitions between destinations are not supported in any form.
+> Remember that you must remove the listener when the fragment view is destroyed.
 
 ---
 
