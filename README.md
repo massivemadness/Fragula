@@ -11,7 +11,7 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 
 # Table of Contents
 
-## XML Navigation
+## Fragment Navigation
 
 1. [Gradle Dependency](#gradle-dependency)
 2. [The Basics](#the-basics)
@@ -28,7 +28,7 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 
 ---
 
-# XML Navigation
+# Fragment Navigation
 
 The `fragula-core` module provides everything you need to get started with the library. 
 It contains all core and normal-use functionality.  
@@ -205,7 +205,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        ...
+        // ...
         swipeController = findSwipeController()
         swipeListener = OnSwipeListener { position, positionOffset, positionOffsetPixels ->
             // TODO animate views using `positionOffset` or `positionOffsetPixels`.
@@ -278,8 +278,8 @@ there are attributes provided:
 # Jetpack Compose
 
 The `fragula-compose` module provides support for jetpack compose.
-It may not contain all the features described earlier. If you want to request a missing feature 
-or suggest a new one, consider creating an issue on GitHub.
+It may not contain all the features described earlier. If you want to make a feature request, 
+consider creating an issue on GitHub.  
 
 [![MavenCentral](https://img.shields.io/maven-central/v/com.fragula2/fragula-compose?label=Download)](https://repo1.maven.org/maven2/com/fragula2/fragula-compose/)
 
@@ -296,8 +296,56 @@ dependencies {
 }
 ```
 
+The `fragula-compose` module **does not** provide support for android fragments, you need to add the
+`fragula-core` dependency in your project.
+
 ---
 
 ## The Basics
 
-TODO
+**First,** you need to replace `NavHost(...)` with `FragulaNavHost(...)` in your main composable:
+
+```kotlin
+setContent {
+    AppTheme {
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+            val navController = rememberNavController()
+            FragulaNavHost(navController, startDestination = "list") {
+                // ...
+            }
+        }
+    }
+}
+```
+
+**Second,** you need to replace your `composable(...)` destinations with `swipeable(...)` as shown below:
+
+```kotlin
+val navController = rememberNavController()
+FragulaNavHost(navController, startDestination = "list") {
+    swipeable("list") {
+        ListScreen(navController)
+    }
+    swipeable("details") {
+       DetailsScreen(navController)
+    }
+}
+```
+
+**Finally**, you need to set opaque background to your composables to avoid any issues with swipe animation.
+
+```kotlin
+@Composable
+fun DetailsScreen(navController: NavController) {
+    Box(modifier = Modifier.fillMaxSize()
+       .background(Color.White)
+    ) {
+        // TODO content
+    }
+}
+```
+
+Now if you open the app you'll see that you can swipe composables like in Telegram, Slack and many
+other messaging apps.
+
+---
