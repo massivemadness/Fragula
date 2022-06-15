@@ -13,8 +13,8 @@ import androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP
 import androidx.core.view.updateLayoutParams
 import androidx.viewpager2.widget.ViewPager2
 import com.fragula2.R
-import com.fragula2.animation.SwipeDirection
-import com.fragula2.animation.SwipeInterpolator
+import com.fragula2.common.SwipeDirection
+import com.fragula2.common.SwipeInterpolator
 
 internal var ViewPager2.pageOverScrollMode: Int
     @RestrictTo(LIBRARY_GROUP)

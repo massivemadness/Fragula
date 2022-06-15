@@ -1,4 +1,4 @@
-package com.fragula2.compose
+package com.fragula2.common
 
 import android.view.animation.DecelerateInterpolator
 

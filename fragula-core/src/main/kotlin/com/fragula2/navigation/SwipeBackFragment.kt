@@ -13,8 +13,8 @@ import com.fragula2.R
 import com.fragula2.adapter.NavBackStackAdapter
 import com.fragula2.animation.OnSwipeListener
 import com.fragula2.animation.SwipeController
-import com.fragula2.animation.SwipeDirection
 import com.fragula2.animation.SwipeTransformer
+import com.fragula2.common.SwipeDirection
 import com.fragula2.utils.*
 import java.util.concurrent.LinkedBlockingQueue
 

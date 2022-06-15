@@ -20,6 +20,7 @@ import androidx.navigation.*
 import androidx.navigation.compose.DialogHost
 import androidx.navigation.compose.DialogNavigator
 import androidx.navigation.compose.LocalOwnersProvider
+import com.fragula2.common.SwipeInterpolator
 
 @Composable
 fun FragulaNavHost(
@@ -167,7 +168,7 @@ fun FragulaNavHost(
 
             if (calculateEffects) {
                 val progress = scrollPosition / (endPosition * 0.01f)
-                val scrollOffset = progress * 0.01f
+                val scrollOffset = progress * 0.01f // range 0f..1f
                 parallaxEffect = -maxWidth.value * (1.0f - scrollOffset) / parallaxFactor
                 dimmingEffect = (1.0f - scrollOffset) * dimAmount
             }
@@ -192,13 +193,14 @@ fun FragulaNavHost(
                     }
                 },
                 onScrollCancelled = { velocity ->
-                    if (swipeState != SwipeState.FOLLOW_POINTER) return@animateDrag
-                    swipeState = when {
-                        velocity > 1000 -> SwipeState.SWIPE_OUT
-                        pointerPosition == 0f -> SwipeState.FOLLOW_POINTER
-                        pointerPosition > endPosition / 2 -> SwipeState.SWIPE_OUT
-                        pointerPosition < endPosition / 2 -> SwipeState.SWIPE_IN
-                        else -> SwipeState.FOLLOW_POINTER
+                    if (swipeState == SwipeState.FOLLOW_POINTER) {
+                        swipeState = when {
+                            velocity > 1000 -> SwipeState.SWIPE_OUT
+                            pointerPosition == 0f -> SwipeState.FOLLOW_POINTER
+                            pointerPosition > endPosition / 2 -> SwipeState.SWIPE_OUT
+                            pointerPosition < endPosition / 2 -> SwipeState.SWIPE_IN
+                            else -> SwipeState.FOLLOW_POINTER
+                        }
                     }
                 },
             ).graphicsLayer {

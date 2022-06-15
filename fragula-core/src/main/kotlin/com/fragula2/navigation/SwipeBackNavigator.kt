@@ -7,7 +7,7 @@ import androidx.fragment.app.commit
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
-import com.fragula2.animation.SwipeDirection
+import com.fragula2.common.SwipeDirection
 
 @Navigator.Name("swipeable")
 class SwipeBackNavigator(

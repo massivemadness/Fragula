@@ -1,4 +1,4 @@
-package com.fragula2.animation
+package com.fragula2.common
 
 enum class SwipeDirection(val value: Int) {
     LEFT_TO_RIGHT(0),

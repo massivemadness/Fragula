@@ -25,13 +25,14 @@
         <activity
             android:name="com.fragula2.sample.compose.ComposeActivity"
             android:windowSoftInputMode="adjustResize|stateHidden"
+            android:label="@string/app_compose"
             android:launchMode="singleTop"
             android:exported="true">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
 
     </application>
