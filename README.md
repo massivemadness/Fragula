@@ -7,13 +7,13 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 
 | Dark Theme | Light Theme |
 | :---------------: | :---------------: |
-| <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase.gif" align="center" width="75%"/> | <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase_light.gif" align="center" width="75%"/> |
+| <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase.gif" align="center" width="60%"/> | <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase_light.gif" align="center" width="60%"/> |
 
 ---
 
 # Table of Contents
 
-## Fragment Navigation
+## Fragments
 
 1. [Gradle Dependency](#gradle-dependency)
 2. [The Basics](#the-basics)
@@ -31,7 +31,7 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 
 ---
 
-# Fragment Navigation
+# Fragments
 
 The `fragula-core` module provides everything you need to get started with the library. 
 It contains all core and normal-use functionality.  
