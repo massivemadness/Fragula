@@ -7,7 +7,7 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 
 | Dark Theme | Light Theme |
 | :---------------: | :---------------: |
-| <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase.gif" align="center" width="100%"/> | <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase.gif" align="center" width="100%"/> |
+| <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase.gif" align="center" width="100%"/> | <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase_light.gif" align="center" width="100%"/> |
 
 ---
 
