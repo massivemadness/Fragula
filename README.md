@@ -170,9 +170,10 @@ You can use either `left_to_right` (default) or `right_to_left` for horizontal d
 For vertical direction you can use only `top_to_bottom`, the `bottom_to_top` is not supported due 
 to internal ViewPager2 restrictions.
 
-**Note:** *If you having an issues with nested scrollable views, this appears to be a 
+> **Note**
+> If you having an issues with nested scrollable views, this appears to be a 
 [scroll issue](https://developer.android.com/training/animation/vp2-migration#nested-scrollables) 
-in ViewPager2. Please follow Google’s example to solve this.*
+in ViewPager2. Please follow Google’s example to solve this.
 
 ## Swipe Transitions
 
@@ -180,7 +181,8 @@ You may want to know when the scrolling offset changes to make smooth transition
 fragment view. To start listening scroll events you need to retrieve `SwipeController` and set 
 `OnSwipeListener` as shown below:
 
-**Note:** *Currently shared element transitions between destinations are not supported in any form.*
+> **Note**
+> Currently shared element transitions between destinations are not supported in any form.
 
 ```kotlin
 class DetailFragment : Fragment(R.layout.fragment_detail) {
@@ -206,7 +208,8 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 }
 ```
 
-**Remember:** you must remove the listener when the fragment view is destroyed.
+> **Remember**
+> You must remove the listener when the fragment view is destroyed.
 
 ---
 
