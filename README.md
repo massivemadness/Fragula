@@ -25,6 +25,7 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 ## Jetpack Compose
 1. [Gradle Dependency](#gradle-dependency-1)
 2. [The Basics](#the-basics-1)
+3. [Customization](#customization)
 
 ---
 
@@ -33,7 +34,7 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 The `fragula-core` module provides everything you need to get started with the library. 
 It contains all core and normal-use functionality.  
 
-[![MavenCentral](https://img.shields.io/maven-central/v/com.fragula2/fragula-core?label=Download)](https://repo1.maven.org/maven2/com/fragula2/fragula-core/)
+[![MavenCentral](https://img.shields.io/maven-central/v/com.fragula2/fragula-core?label=Download&color=blue)](https://repo1.maven.org/maven2/com/fragula2/fragula-core/)
 
 <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/carbon.png" width="700" />
 
@@ -281,7 +282,7 @@ The `fragula-compose` module provides support for jetpack compose.
 It may not contain all the features described earlier. If you want to make a feature request, 
 consider creating an issue on GitHub.  
 
-[![MavenCentral](https://img.shields.io/maven-central/v/com.fragula2/fragula-compose?label=Download)](https://repo1.maven.org/maven2/com/fragula2/fragula-compose/)
+[![MavenCentral](https://img.shields.io/maven-central/v/com.fragula2/fragula-compose?label=Download&color=red)](https://repo1.maven.org/maven2/com/fragula2/fragula-compose/)
 
 <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/carbon_compose.png" width="700" />
 
@@ -296,7 +297,7 @@ dependencies {
 }
 ```
 
-The `fragula-compose` module **does not** provide support for android fragments, you need to add the
+The `fragula-compose` module **does not** provide support for fragments, you need to add the
 `fragula-core` dependency in your project.
 
 ---
@@ -306,9 +307,13 @@ The `fragula-compose` module **does not** provide support for android fragments,
 **First,** you need to replace `NavHost(...)` with `FragulaNavHost(...)` in your main composable:
 
 ```kotlin
+// MainActivity.kt
 setContent {
     AppTheme {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
+        Surface(
+           modifier = Modifier.fillMaxSize(), 
+           color = MaterialTheme.colors.background,
+        ) {
             val navController = rememberNavController()
             FragulaNavHost(navController, startDestination = "list") {
                 // ...
@@ -327,7 +332,7 @@ FragulaNavHost(navController, startDestination = "list") {
         ListScreen(navController)
     }
     swipeable("details") {
-       DetailsScreen(navController)
+        DetailsScreen(navController)
     }
 }
 ```
@@ -349,3 +354,25 @@ Now if you open the app you'll see that you can swipe composables like in Telegr
 other messaging apps.
 
 ---
+
+## Customization
+
+If you'd like to discover more customization features, here is parameters list.
+
+```kotlin
+@Composable
+fun FragulaNavHost(
+    navController: NavHostController,
+    startDestination: String,
+    modifier: Modifier = Modifier,
+    route: String? = null,
+    dimColor: Color = DimColor, // Color used for the dimming
+    dimAmount: Float = 0.1f, // Percentage of dimming (depends on drag offset)
+    parallaxFactor: Float = 1.3f, // Parallax multiplier (depends on drag offset)
+    animDurationMs: Int = 500, // Duration of swipe animation
+    elevation: Dp = 3.dp, // Elevation applied on the composable
+    builder: NavGraphBuilder.() -> Unit
+) {
+    // ...
+}
+```

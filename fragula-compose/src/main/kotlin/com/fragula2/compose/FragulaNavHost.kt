@@ -32,7 +32,7 @@ fun FragulaNavHost(
     dimAmount: Float = 0.1f,
     parallaxFactor: Float = 1.3f,
     animDurationMs: Int = 500,
-    elevationDp: Dp = 3.dp,
+    elevation: Dp = 3.dp,
     builder: NavGraphBuilder.() -> Unit
 ) {
     FragulaNavHost(
@@ -47,7 +47,7 @@ fun FragulaNavHost(
         dimAmount = dimAmount,
         parallaxFactor = parallaxFactor,
         animDurationMs = animDurationMs,
-        elevationDp = elevationDp
+        elevation = elevation
     )
 }
 
@@ -79,7 +79,7 @@ fun FragulaNavHost(
     dimAmount: Float,
     parallaxFactor: Float,
     animDurationMs: Int,
-    elevationDp: Dp,
+    elevation: Dp,
 ) {
 
     // region SETUP
@@ -213,9 +213,9 @@ fun FragulaNavHost(
             }
             if (scrollPosition > startPosition) {
                 Canvas(modifier = Modifier.fillMaxHeight()
-                    .requiredWidth(elevationDp)
+                    .requiredWidth(elevation)
                     .graphicsLayer {
-                        translationX = scrollPosition - elevationDp.toPx()
+                        translationX = scrollPosition - elevation.toPx()
                     }
                 ) {
                     drawRect(brush = Brush.horizontalGradient(
