@@ -5,13 +5,13 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 
 ![Android CI](https://github.com/massivemadness/Fragula/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Fragula-orange.svg?style=flat)](https://android-arsenal.com/details/1/8405)
 
-<img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/carbon.png" width="700" />
-
-[Click here to view the sample ->](https://raw.githubusercontent.com/massivemadness/Fragula/master/.github/images/showcase.gif)
+![Showcase](.github/images/showcase.gif)
 
 ---
 
 # Table of Contents
+
+## XML Navigation
 
 1. [Gradle Dependency](#gradle-dependency)
 2. [The Basics](#the-basics)
@@ -22,11 +22,22 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 5. [Swipe Transitions](#swipe-transitions)
 6. [Theming](#theming)
 
+## Jetpack Compose
+1. [Gradle Dependency](#gradle-dependency-1)
+2. [The Basics](#the-basics-1)
+
 ---
 
-## Gradle Dependency
+# XML Navigation
+
+The `fragula-core` module provides everything you need to get started with the library. 
+It contains all core and normal-use functionality.  
 
 [![MavenCentral](https://img.shields.io/maven-central/v/com.fragula2/fragula-core?label=Download)](https://repo1.maven.org/maven2/com/fragula2/fragula-core/)
+
+<img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/carbon.png" width="700" />
+
+## Gradle Dependency
 
 Add this to your module’s `build.gradle` file:
 
@@ -37,7 +48,8 @@ dependencies {
 }
 ```
 
-The `fragula-core` module contains everything you need to get started with the library. It contains all core and normal-use functionality.
+The `fragula-core` module **does not** provide support for jetpack compose, you need to add the
+`fragula-compose` dependency in your project.
 
 ---
 
@@ -177,6 +189,8 @@ to internal ViewPager2 restrictions.
 [scroll issue](https://developer.android.com/training/animation/vp2-migration#nested-scrollables) 
 in ViewPager2. Please follow Google’s example to solve this.
 
+---
+
 ## Swipe Transitions
 
 You may want to know when the scrolling offset changes to make smooth transitions inside your 
@@ -258,3 +272,32 @@ there are attributes provided:
    
 </style>
 ```
+
+---
+
+# Jetpack Compose
+
+The `fragula-compose` module provides support for jetpack compose.
+It may not contain all the features described earlier. If you want to request a missing feature 
+or suggest a new one, consider creating an issue on GitHub.
+
+[![MavenCentral](https://img.shields.io/maven-central/v/com.fragula2/fragula-compose?label=Download)](https://repo1.maven.org/maven2/com/fragula2/fragula-compose/)
+
+<img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/carbon_compose.png" width="700" />
+
+## Gradle Dependency
+
+Add this to your module’s `build.gradle` file:
+
+```gradle
+dependencies {
+  ...
+  implementation 'com.fragula2:fragula-compose:2.3'
+}
+```
+
+---
+
+## The Basics
+
+TODO
