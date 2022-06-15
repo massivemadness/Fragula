@@ -5,7 +5,9 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 
 ![Android CI](https://github.com/massivemadness/Fragula/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Fragula-orange.svg?style=flat)](https://android-arsenal.com/details/1/8405)
 
-![Showcase](.github/images/showcase.gif)
+<img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/carbon.png" width="700" />
+
+[Click here to view the sample ->](https://raw.githubusercontent.com/massivemadness/Fragula/master/.github/images/showcase.gif)
 
 ---
 
