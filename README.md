@@ -7,7 +7,7 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 
 | Dark Theme | Light Theme |
 | :---------------: | :---------------: |
-| <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase.gif" align="center" width="60%"/> | <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase_light.gif" align="center" width="60%"/> |
+| <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase.gif" align="center" width="65%"/> | <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase_light.gif" align="center" width="65%"/> |
 
 ---
 
@@ -18,7 +18,7 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 1. [Gradle Dependency](#gradle-dependency)
 2. [The Basics](#the-basics)
 3. [More Options](#more-options)
-    1. [Destination Arguments](#destination-arguments)
+    1. [Navigate with arguments](#navigate-with-arguments)
     2. [Multiple BackStacks](#multiple-backstacks)
 4. [Swipe Direction](#swipe-direction)
 5. [Swipe Transitions](#swipe-transitions)
@@ -27,7 +27,10 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 ## Jetpack Compose
 1. [Gradle Dependency](#gradle-dependency-1)
 2. [The Basics](#the-basics-1)
-3. [Customization](#customization)
+   1. [More Options](#more-options-1)
+   2. [Navigate with arguments](#navigate-with-arguments-1)
+3. [Multiple BackStacks](#multiple-backstacks)
+4. [Customization](#customization)
 
 ---
 
@@ -118,7 +121,7 @@ other messaging apps.
 
 ## More Options
 
-### Destination Arguments
+### Navigate with arguments
 
 In general, you should work with Fragula as if you would work with normal fragments. You should 
 strongly prefer passing only the minimal amount of data between destinations, as the total space
@@ -354,6 +357,37 @@ fun DetailsScreen(navController: NavController) {
 
 Now if you open the app you'll see that you can swipe composables like in Telegram, Slack and many
 other messaging apps.
+
+---
+
+## More Options
+
+### Navigate with arguments
+
+Fragula also supports passing arguments between composable destinations the same way as in the
+androidx navigation library. Create a deeplink and specify the argument type, then you can extract 
+`NavArguments` from the `NavBackStackEntry` that is available in the lambda of the `swipeable()` 
+function.
+
+```kotlin
+NavHost(startDestination = "profile/{userId}") {
+    // ...
+    swipeable("profile/{userId}", arguments = listOf(
+        navArgument("userId") { type = NavType.StringType }
+    )) { backStackEntry ->
+        ProfileScreen(navController, backStackEntry.arguments?.getString("userId"))
+    }
+}
+```
+
+To pass the argument to the destination, simply call `navController.navigate("profile/user1234")`.
+For more information read the article [Navigating with Compose](https://developer.android.com/jetpack/compose/navigation)
+on official android developers website.
+
+### Multiple BackStacks
+
+As already have been mentioned, Fragula doesn't support multiple backstacks both in XML and Compose.
+If you really need to support this, consider creating a nested `NavHost` for bottom tabs only.
 
 ---
 

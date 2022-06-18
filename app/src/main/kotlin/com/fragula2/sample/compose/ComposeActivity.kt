@@ -21,7 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.fragula2.compose.FragulaNavHost
 import com.fragula2.compose.swipeable
 
@@ -40,8 +42,13 @@ class ComposeActivity : ComponentActivity() {
                         swipeable("list") {
                             ListScreen(navController)
                         }
-                        swipeable("details") {
-                            DetailsScreen(navController)
+                        swipeable("details/{itemId}", arguments = listOf(
+                            navArgument("itemId") { NavType.StringType }
+                        )) { backStackEntry ->
+                            DetailsScreen(
+                                navController = navController,
+                                itemId = backStackEntry.arguments?.getString("itemId") ?: ""
+                            )
                         }
                         swipeable("profile") {
                             ProfileScreen(navController)
@@ -68,16 +75,16 @@ fun ListScreen(navController: NavController) {
         }
         items(list) {
             CustomItem(it) {
-                navController.navigate("details")
+                navController.navigate("details/$it")
             }
         }
     }
 }
 
 @Composable
-fun DetailsScreen(navController: NavController) {
+fun DetailsScreen(navController: NavController, itemId: String) {
     Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
-        CustomItem("Detail Screen") {
+        CustomItem("Detail Screen ($itemId)") {
             navController.navigate("profile")
         }
     }
