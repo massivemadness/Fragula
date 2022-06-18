@@ -7,7 +7,7 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 
 | Dark Theme | Light Theme |
 | :---------------: | :---------------: |
-| <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase.gif" align="center" width="65%"/> | <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase_light.gif" align="center" width="65%"/> |
+| <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase.gif" align="center" width="70%"/> | <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase_light.gif" align="center" width="70%"/> |
 
 ---
 
@@ -97,8 +97,8 @@ The `fragula-core` module **does not** provide support for jetpack compose, you 
 </navigation>
 ```
 
-**Finally**, you need to set opaque background and layout direction flag to your fragment’s root 
-layout to avoid any issues with swipe animation.
+**Finally**, you need to set opaque background to your fragment’s root layout 
+to avoid any issues with swipe animation.
 
 ```xml
 <!-- fragment_detail.xml -->
@@ -114,8 +114,8 @@ layout to avoid any issues with swipe animation.
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-Now if you open the app you'll see that you can swipe fragments like in Telegram, Slack and many 
-other messaging apps.
+That's it! No need to worry about gestures, animations and switching the navigation framework 
+you already use in your project.
 
 ---
 
@@ -355,9 +355,6 @@ fun DetailsScreen(navController: NavController) {
 }
 ```
 
-Now if you open the app you'll see that you can swipe composables like in Telegram, Slack and many
-other messaging apps.
-
 ---
 
 ## More Options
@@ -386,8 +383,8 @@ on official android developers website.
 
 ### Multiple BackStacks
 
-As already have been mentioned, Fragula doesn't support multiple backstacks both in XML and Compose.
-If you really need to support this, consider creating a nested `NavHost` for bottom tabs only.
+As already have been mentioned, Fragula **doesn't support** multiple backstacks both in XML and Compose.
+If you really need this feature in your app, consider creating a nested `NavHost` for bottom tabs only.
 
 ---
 
