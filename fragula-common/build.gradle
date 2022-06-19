@@ -3,15 +3,25 @@ plugins {
     id 'kotlin-android'
 }
 
+ext.libraryGroupId = "com.fragula2"
+ext.libraryArtifactId = "fragula-common"
+
+apply from: rootProject.file("gradle/publish.gradle")
+
 android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
+
+    group libraryGroupId
+    version versions.publishVersionName
 
     defaultConfig {
         minSdkVersion versions.minSdk
         targetSdkVersion versions.targetSdk
 
         consumerProguardFiles 'consumer-rules.pro'
+
+        archivesBaseName = libraryArtifactId
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11

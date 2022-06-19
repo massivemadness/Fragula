@@ -3,11 +3,11 @@
 **Fragula** is a swipe-to-dismiss extension for [navigation component](https://developer.android.com/guide/navigation/navigation-getting-started) library for Android.  
 It is an adaptation of an earlier version created by **@shikleev** and now maintained in this repository.
 
-![Android CI](https://github.com/massivemadness/Fragula/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Fragula-orange.svg?style=flat)](https://android-arsenal.com/details/1/8405)
+![Android CI](https://github.com/massivemadness/Fragula/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Fragula-red.svg?style=flat)](https://android-arsenal.com/details/1/8405)
 
 | Dark Theme | Light Theme |
 | :---------------: | :---------------: |
-| <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase.gif" align="center" width="70%"/> | <img src="https://raw.githubusercontent.com/massivemadness/Fragula/develop/.github/images/showcase_light.gif" align="center" width="70%"/> |
+| <img src="https://raw.githubusercontent.com/massivemadness/Fragula/master/.github/images/showcase.gif" align="center" width="70%"/> | <img src="https://raw.githubusercontent.com/massivemadness/Fragula/master/.github/images/showcase_light.gif" align="center" width="70%"/> |
 
 ---
 
@@ -18,8 +18,8 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 1. [Gradle Dependency](#gradle-dependency)
 2. [The Basics](#the-basics)
 3. [More Options](#more-options)
-    1. [Navigate with arguments](#navigate-with-arguments)
-    2. [Multiple BackStacks](#multiple-backstacks)
+   1. [Navigate with arguments](#navigate-with-arguments)
+   2. [Multiple BackStacks](#multiple-backstacks)
 4. [Swipe Direction](#swipe-direction)
 5. [Swipe Transitions](#swipe-transitions)
 6. [Theming](#theming)
@@ -27,9 +27,9 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 ## Jetpack Compose
 1. [Gradle Dependency](#gradle-dependency-1)
 2. [The Basics](#the-basics-1)
-   1. [More Options](#more-options-1)
-   2. [Navigate with arguments](#navigate-with-arguments-1)
-3. [Multiple BackStacks](#multiple-backstacks)
+3. [More Options](#more-options-1)
+   1. [Navigate with arguments](#navigate-with-arguments-1)
+   2. [Multiple BackStacks](#multiple-backstacks)
 4. [Customization](#customization)
 
 ---
@@ -50,7 +50,7 @@ Add this to your module’s `build.gradle` file:
 ```gradle
 dependencies {
   ...
-  implementation 'com.fragula2:fragula-core:2.3'
+  implementation 'com.fragula2:fragula-core:2.4'
 }
 ```
 
@@ -298,7 +298,7 @@ Add this to your module’s `build.gradle` file:
 ```gradle
 dependencies {
   ...
-  implementation 'com.fragula2:fragula-compose:2.3'
+  implementation 'com.fragula2:fragula-compose:2.4'
 }
 ```
 
