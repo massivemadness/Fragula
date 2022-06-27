@@ -281,7 +281,7 @@ there are attributes provided:
 
 ---
 
-# Jetpack Compose
+# Jetpack Compose β
 
 The `fragula-compose` module provides support for jetpack compose.
 It may not contain all the features described earlier. If you want to make a feature request, 
