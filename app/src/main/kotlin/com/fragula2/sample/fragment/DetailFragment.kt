@@ -33,7 +33,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
                 ?.run { navController.navigate(direction) }
         }
         val images = resources.obtainTypedArray(R.array.stock_images)
-        val stock = images.getResourceId(randomImage(1, images.length()), -1)
+        val stock = images.getResourceId(randomImage(0, images.length() - 1), -1)
         binding.stockImage.load(stock) {
             crossfade(true)
             transformations(RoundedCornersTransformation(16f))

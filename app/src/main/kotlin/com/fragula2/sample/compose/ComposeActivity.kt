@@ -4,8 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.rememberNavController
@@ -28,24 +27,37 @@ class ComposeActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val navController = rememberNavController()
-                    FragulaNavHost(navController, startDestination = "list") {
-                        swipeable("list") {
-                            ListScreen(navController)
-                        }
-                        swipeable("details/{itemId}", arguments = listOf(
-                            navArgument("itemId") { NavType.StringType }
-                        )) { backStackEntry ->
-                            DetailsScreen(
-                                navController = navController,
-                                chat = backStackEntry.arguments?.getString("itemId") ?: ""
+                    Scaffold(
+                        topBar = {
+                            TopAppBar(
+                                title = { Text("Fragula") }
                             )
                         }
-                        swipeable("profile") {
-                            ProfileScreen(navController)
-                        }
-                        swipeable("tab") {
-                            TabScreen(navController)
+                    ) {
+                        val navController = rememberNavController()
+                        FragulaNavHost(navController, startDestination = "list") {
+                            swipeable("list") {
+                                ListScreen(navController)
+                            }
+                            swipeable("details/{chatId}", arguments = listOf(
+                                navArgument("chatId") { NavType.StringType }
+                            )) { backStackEntry ->
+                                DetailsScreen(
+                                    navController = navController,
+                                    chatId = backStackEntry.arguments?.getString("chatId") ?: ""
+                                )
+                            }
+                            swipeable("profile/{chatId}", arguments = listOf(
+                                navArgument("chatId") { NavType.StringType }
+                            )) { backStackEntry ->
+                                ProfileScreen(
+                                    navController = navController,
+                                    chatId = backStackEntry.arguments?.getString("chatId") ?: ""
+                                )
+                            }
+                            swipeable("tab") {
+                                TabScreen(navController)
+                            }
                         }
                     }
                 }
