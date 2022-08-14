@@ -1,4 +1,4 @@
-package com.fragula2.sample.compose
+package com.fragula2.sample.compose.ui
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes
