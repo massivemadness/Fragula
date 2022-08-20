@@ -3,6 +3,7 @@ package com.fragula2.sample.compose.screen
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Card
@@ -21,10 +22,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.ExperimentalUnitApi
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.*
 import androidx.navigation.NavController
 import com.fragula2.sample.R
 import com.fragula2.sample.adapter.Chat
@@ -80,7 +78,6 @@ fun DetailsScreen(navController: NavController, chatId: String) {
     }
 }
 
-@OptIn(ExperimentalUnitApi::class)
 @Composable
 fun ProfileButton(chat: Chat, onClick: () -> Unit) {
     Box(
@@ -94,17 +91,14 @@ fun ProfileButton(chat: Chat, onClick: () -> Unit) {
                 painter = painterResource(chat.image),
                 contentDescription = null,
                 modifier = Modifier.padding(2.dp)
-                    .clip(RoundedCornerShape(36f)),
+                    .clip(CircleShape),
             )
             Text(
                 text = stringResource(R.string.open_profile),
                 color = MaterialTheme.colors.onSurface,
                 modifier = Modifier.padding(horizontal = 6.dp)
                     .align(Alignment.CenterVertically),
-                fontSize = TextUnit(
-                    value = 16f,
-                    type = TextUnitType.Sp,
-                ),
+                fontSize = 16.sp,
             )
         }
     }
@@ -175,7 +169,6 @@ fun SendBoxPreview() {
     }
 }
 
-@OptIn(ExperimentalUnitApi::class)
 @Composable
 fun MessageBox(
     fromMe: Boolean,
@@ -200,10 +193,7 @@ fun MessageBox(
                 text = stringResource(R.string.lorem_ipsum),
                 modifier = Modifier.padding(all = 8.dp),
                 color = MaterialTheme.colors.onSurface,
-                fontSize = TextUnit(
-                    value = 16f,
-                    type = TextUnitType.Sp,
-                ),
+                fontSize = 16.sp,
             )
             if (image != null) {
                 Image(
@@ -222,10 +212,7 @@ fun MessageBox(
                     .padding(end = 4.dp)
                     .align(Alignment.BottomEnd),
                 color = MaterialTheme.colors.onBackground,
-                fontSize = TextUnit(
-                    value = 12f,
-                    type = TextUnitType.Sp,
-                ),
+                fontSize = 12.sp,
             )
         }
     }
