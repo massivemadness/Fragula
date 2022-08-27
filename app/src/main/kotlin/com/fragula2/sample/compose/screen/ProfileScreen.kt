@@ -56,14 +56,17 @@ fun ProfileScreen(navController: NavController, chatId: String) {
         )
         SocialButton(
             text = "Instagram",
+            onClick = { navController.navigate("tab/Instagram") },
             modifier = Modifier.padding(top = 24.dp, start = 24.dp, end = 24.dp)
         )
         SocialButton(
             text = "Facebook",
+            onClick = { navController.navigate("tab/Facebook") },
             modifier = Modifier.padding(top = 12.dp, start = 24.dp, end = 24.dp)
         )
         SocialButton(
             text = "Telegram",
+            onClick = { navController.navigate("tab/Telegram") },
             modifier = Modifier.padding(top = 12.dp, start = 24.dp, end = 24.dp)
         )
     }
@@ -72,10 +75,11 @@ fun ProfileScreen(navController: NavController, chatId: String) {
 @Composable
 fun SocialButton(
     text: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     OutlinedButton(
-        onClick = {},
+        onClick = onClick,
         modifier = modifier.fillMaxWidth()
             .height(64.dp)
     ) {

@@ -55,8 +55,13 @@ class ComposeActivity : ComponentActivity() {
                                     chatId = backStackEntry.arguments?.getString("chatId") ?: ""
                                 )
                             }
-                            swipeable("tab") {
-                                TabScreen(navController)
+                            swipeable("tab/{text}", arguments = listOf(
+                                navArgument("text") { NavType.StringType }
+                            )) { backStackEntry ->
+                                TabScreen(
+                                    navController = navController,
+                                    text = backStackEntry.arguments?.getString("text") ?: ""
+                                )
                             }
                         }
                     }
