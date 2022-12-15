@@ -36,9 +36,7 @@ fun FragulaNavHost(
     builder: NavGraphBuilder.() -> Unit
 ) {
     FragulaNavHost(
-        navController = navController.apply {
-            navigatorProvider.addNavigator(SwipeBackNavigator())
-        },
+        navController = navController,
         graph = remember(route, startDestination, builder) {
             navController.createGraph(startDestination, route, builder)
         },

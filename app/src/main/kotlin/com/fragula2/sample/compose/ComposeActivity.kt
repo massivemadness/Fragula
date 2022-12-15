@@ -25,6 +25,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.fragula2.compose.FragulaNavHost
+import com.fragula2.compose.rememberSwipeBackNavigator
 import com.fragula2.compose.swipeable
 
 class ComposeActivity : ComponentActivity() {
@@ -37,7 +38,8 @@ class ComposeActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val navController = rememberNavController()
+                    val swipeBackNavigator = rememberSwipeBackNavigator()
+                    val navController = rememberNavController(swipeBackNavigator)
                     FragulaNavHost(navController, startDestination = "list") {
                         swipeable("list") {
                             ListScreen(navController)

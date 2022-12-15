@@ -1,10 +1,16 @@
 package com.fragula2.compose
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDestination
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigator
+
+@Composable
+fun rememberSwipeBackNavigator(): SwipeBackNavigator {
+    return remember { SwipeBackNavigator() }
+}
 
 @Navigator.Name("swipeable")
 class SwipeBackNavigator : Navigator<SwipeBackNavigator.Destination>() {
