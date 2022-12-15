@@ -32,7 +32,7 @@
             android:textSize="16sp"
             android:fontFamily="sans-serif-medium"
             android:id="@+id/name"
-            tools:text="People Name" />
+            tools:text="Person Name" />
 
         <TextView
             android:layout_width="match_parent"
