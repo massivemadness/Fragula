@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.fragula2.compose.FragulaNavHost
+import com.fragula2.compose.rememberSwipeBackNavigator
 import com.fragula2.compose.swipeable
 import com.fragula2.sample.compose.screen.DetailsScreen
 import com.fragula2.sample.compose.screen.ListScreen
@@ -34,7 +35,8 @@ class ComposeActivity : ComponentActivity() {
                             )
                         }
                     ) {
-                        val navController = rememberNavController()
+                        val swipeBackNavigator = rememberSwipeBackNavigator()
+                        val navController = rememberNavController(swipeBackNavigator)
                         FragulaNavHost(navController, startDestination = "list") {
                             swipeable("list") {
                                 ListScreen(navController)
