@@ -5,8 +5,8 @@ It is an adaptation of an earlier version created by **@shikleev** and now maint
 
 ![Android CI](https://github.com/massivemadness/Fragula/workflows/Android%20CI/badge.svg) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Fragula-red.svg?style=flat)](https://android-arsenal.com/details/1/8405)
 
-| Dark Theme | Light Theme |
-| :---------------: | :---------------: |
+|                                                             Dark Theme                                                              |                                                                Light Theme                                                                |
+|:-----------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------:|
 | <img src="https://raw.githubusercontent.com/massivemadness/Fragula/master/.github/images/showcase.gif" align="center" width="70%"/> | <img src="https://raw.githubusercontent.com/massivemadness/Fragula/master/.github/images/showcase_light.gif" align="center" width="70%"/> |
 
 ---
@@ -50,7 +50,7 @@ Add this to your module’s `build.gradle` file:
 ```gradle
 dependencies {
   ...
-  implementation 'com.fragula2:fragula-core:2.4'
+  implementation 'com.fragula2:fragula-core:2.4.1'
 }
 ```
 
@@ -298,7 +298,7 @@ Add this to your module’s `build.gradle` file:
 ```gradle
 dependencies {
   ...
-  implementation 'com.fragula2:fragula-compose:2.4'
+  implementation 'com.fragula2:fragula-compose:2.4.1'
 }
 ```
 
