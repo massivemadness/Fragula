@@ -9,6 +9,8 @@ android {
     compileSdkVersion versions.compileSdk
     buildToolsVersion versions.buildTools
 
+    namespace "com.fragula2.sample"
+
     defaultConfig {
         applicationId "com.fragula2.sample"
 
