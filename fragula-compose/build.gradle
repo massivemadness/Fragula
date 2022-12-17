@@ -36,6 +36,12 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
     buildFeatures {
         compose true
     }
