@@ -12,11 +12,12 @@ import androidx.navigation.plusAssign
 import com.fragula2.animation.SwipeController
 import com.fragula2.common.SwipeDirection
 import com.fragula2.navigation.SwipeBackNavigator
+import androidx.navigation.fragment.R as NavR
 
 class FragulaNavHostFragment : NavHostFragment() {
 
     private val containerId: Int
-        get() = if (id != 0 && id != View.NO_ID) id else R.id.nav_host_fragment_container
+        get() = if (id != 0 && id != View.NO_ID) id else NavR.id.nav_host_fragment_container
 
     private var swipeDirection = SwipeDirection.LEFT_TO_RIGHT
 

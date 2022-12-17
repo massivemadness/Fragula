@@ -14,6 +14,7 @@ import com.fragula2.sample.utils.applySystemWindowInsetsPadding
 import com.fragula2.sample.utils.decorFitsSystemWindows
 import com.fragula2.sample.utils.getColorAttr
 import com.fragula2.utils.findSwipeController
+import com.google.android.material.R as MtrlR
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         // Animate arrow icon
         DrawerArrowDrawable(this@MainActivity).also { arrow ->
             binding.toolbar.navigationIcon = arrow.apply {
-                color = getColorAttr(R.attr.colorOnPrimary)
+                color = getColorAttr(MtrlR.attr.colorOnPrimary)
             }
             binding.toolbar.setNavigationOnClickListener {
                 when (arrow.progress) {
