@@ -12,16 +12,16 @@ ext {
     ]
 
     // Plugins
-    agp_version = '7.3.1'
+    agp_version = '7.4.0'
 
     // Core
-    kotlin_version = '1.7.10'
+    kotlin_version = '1.8.0'
     core_version = '1.9.0'
     activity_version = '1.6.1'
     fragment_version = '1.5.5'
 
     // UI
-    appcompat_version = '1.5.1'
+    appcompat_version = '1.6.0'
     materialdesign_version = '1.7.0'
     constraintlayout_version = '2.1.3'
     viewpager2_version = '1.0.0'
@@ -29,7 +29,8 @@ ext {
 
     // Compose
     compose_version = '1.3.1'
-    compose_activity_version = '1.6.1'
+    compose_ui_version = '1.3.3'
+    compose_compiler_version = '1.4.0'
 
     // AAC
     lifecycle_version = '2.5.1'
@@ -37,8 +38,8 @@ ext {
 
     // Tests
     junit_version = '4.13.2'
-    junit_ext_version = '1.1.4'
-    test_runner_version = '1.5.1'
+    junit_ext_version = '1.1.5'
+    test_runner_version = '1.5.2'
 
     // Lint
     ktlint_version = '0.40.0'
@@ -52,7 +53,7 @@ ext {
     library = [
 
             // Core
-            kotlin: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            kotlin: "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
             core: "androidx.core:core-ktx:$core_version",
             activity: "androidx.activity:activity-ktx:$activity_version",
             fragment: "androidx.fragment:fragment-ktx:$fragment_version",
@@ -65,13 +66,13 @@ ext {
             coil: "io.coil-kt:coil:$coil_version",
 
             // Compose
-            compose_ui: "androidx.compose.ui:ui:$compose_version",
+            compose_ui: "androidx.compose.ui:ui:$compose_ui_version",
             compose_foundation: "androidx.compose.foundation:foundation:$compose_version",
             compose_material: "androidx.compose.material:material:$compose_version",
-            compose_activity: "androidx.activity:activity-compose:$compose_activity_version",
-            compose_preview: "androidx.compose.ui:ui-tooling-preview:$compose_version",
-            compose_tooling: "androidx.compose.ui:ui-tooling:$compose_version",
-            compose_manifest: "androidx.compose.ui:ui-test-manifest:$compose_version",
+            compose_activity: "androidx.activity:activity-compose:$activity_version",
+            compose_preview: "androidx.compose.ui:ui-tooling-preview:$compose_ui_version",
+            compose_tooling: "androidx.compose.ui:ui-tooling:$compose_ui_version",
+            compose_manifest: "androidx.compose.ui:ui-test-manifest:$compose_ui_version",
             compose_navigation: "androidx.navigation:navigation-compose:$navigation_version",
 
             // AAC

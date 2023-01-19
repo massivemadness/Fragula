@@ -32,7 +32,7 @@ android {
         jvmTarget = '11'
     }
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion compose_compiler_version
     }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'

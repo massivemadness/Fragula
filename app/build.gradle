@@ -30,7 +30,7 @@ android {
         jvmTarget = '11'
     }
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion compose_compiler_version
     }
     sourceSets {
         androidTest.java.srcDirs += 'src/androidTest/kotlin'
