@@ -101,6 +101,9 @@ fun FragulaNavHost(
         SwipeableBox(
             navController = navController,
             backStackEntryIndex = index,
+            scrimColor = scrimColor,
+            scrimAmount = scrimAmount,
+            // parallax
             animDurationMs = animDurationMs,
             elevation = elevation,
             modifier = modifier.fillMaxSize(),
@@ -124,6 +127,9 @@ fun FragulaNavHost(
 private fun SwipeableBox(
     navController: NavHostController,
     backStackEntryIndex: Int,
+    scrimColor: Color,
+    scrimAmount: Float,
+    // parallax
     animDurationMs: Int,
     elevation: Dp,
     modifier: Modifier = Modifier,
@@ -173,6 +179,18 @@ private fun SwipeableBox(
             }
         }
 
+        val applyScrim by remember {
+            derivedStateOf { scrollPosition > pageStart && scrollPosition < pageEnd }
+        }
+        if (applyScrim) {
+            PageScrim(
+                positionProvider = { scrollPosition },
+                pageEnd = pageEnd,
+                scrimColor = scrimColor,
+                scrimAmount = scrimAmount,
+            )
+        }
+
         Box(modifier = modifier.animateDrag(
             onScrollChanged = { position ->
                 if (swipeState == SwipeState.FOLLOW_POINTER) {
@@ -197,7 +215,7 @@ private fun SwipeableBox(
         }
 
         val applyElevation by remember {
-            derivedStateOf { scrollPosition > pageStart }
+            derivedStateOf { scrollPosition > pageStart && scrollPosition < pageEnd }
         }
         if (applyElevation) {
             PageElevation(
@@ -205,6 +223,24 @@ private fun SwipeableBox(
                 elevation = elevation
             )
         }
+    }
+}
+
+@Composable
+private fun PageScrim(
+    positionProvider: () -> Float,
+    pageEnd: Float,
+    scrimColor: Color,
+    scrimAmount: Float,
+) {
+    Canvas(modifier = Modifier.fillMaxSize()
+        .graphicsLayer {
+            val progress = positionProvider() / (pageEnd * 0.01f)
+            val scrollOffset = progress * 0.01f // range 0f..1f
+            alpha = (1.0f - scrollOffset) * scrimAmount
+        }
+    ) {
+        drawRect(color = scrimColor)
     }
 }
 
