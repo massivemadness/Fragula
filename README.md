@@ -248,13 +248,13 @@ there are attributes provided:
         This overrides the color used for the dimming when fragment is being dragged.
         The default value is #000000 for both light and dark themes.
     -->
-    <item name="fgl_dim_color">#000000</item>
+    <item name="fgl_scrim_color">#000000</item>
 
     <!--
         This overrides the amount of dimming when fragment is being dragged.
-        Think of it as a `fgl_dim_color` alpha multiplier.
+        Think of it as a `fgl_scrim_color` alpha multiplier.
     -->
-    <item name="fgl_dim_amount">0.10</item>
+    <item name="fgl_scrim_amount">0.15</item>
 
     <!--
         This overrides the parallax multiplier when fragment is being dragged.
@@ -399,8 +399,8 @@ fun FragulaNavHost(
     startDestination: String,
     modifier: Modifier = Modifier,
     route: String? = null,
-    dimColor: Color = DimColor, // Color used for the dimming
-    dimAmount: Float = 0.1f, // Percentage of dimming (depends on drag offset)
+    scrimColor: Color = ScrimColor, // Color used for the dimming
+    scrimAmount: Float = 0.15f, // Percentage of dimming (depends on drag offset)
     parallaxFactor: Float = 1.3f, // Parallax multiplier (depends on drag offset)
     animDurationMs: Int = 500, // Duration of swipe animation
     elevation: Dp = 3.dp, // Elevation applied on the composable

@@ -99,12 +99,12 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
                         R.attr.fgl_parallax_factor, R.dimen.parallax_factor_default
                     ),
                     requireContext().resolveFloat(
-                        R.attr.fgl_dim_amount, R.dimen.dim_amount_default
+                        R.attr.fgl_scrim_amount, R.dimen.scrim_amount_default
                     ),
                 )
             )
             viewPager.setBackgroundColor(
-                requireContext().resolveColor(R.attr.fgl_dim_color, R.color.dim_color_default)
+                requireContext().resolveColor(R.attr.fgl_scrim_color, R.color.scrim_color_default)
             )
             viewPager.pageOverScrollMode = View.OVER_SCROLL_NEVER
             viewPager.pageSwipeDirection = swipeDirection

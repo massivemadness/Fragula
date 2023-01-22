@@ -19,9 +19,9 @@
         <item name="android:statusBarColor">@color/colorStatusBar</item>
         <item name="android:navigationBarColor">@color/colorNavigationBar</item>
 
-        <!-- disable background dim -->
-        <item name="fgl_dim_color">@android:color/transparent</item>
-        <item name="fgl_dim_amount">0.0</item>
+        <!-- disable background scrim -->
+        <item name="fgl_scrim_color">@android:color/transparent</item>
+        <item name="fgl_scrim_amount">0.0</item>
     </style>
 
 </resources>

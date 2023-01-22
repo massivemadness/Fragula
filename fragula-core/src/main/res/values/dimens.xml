@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="dim_amount_default">0.10</dimen>
+    <dimen name="scrim_amount_default">0.15</dimen>
     <dimen name="parallax_factor_default">1.3</dimen>
     <dimen name="elevation_default">3dp</dimen>
 </resources>
