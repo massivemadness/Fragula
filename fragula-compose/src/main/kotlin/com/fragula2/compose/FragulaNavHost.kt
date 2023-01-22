@@ -1,6 +1,5 @@
 package com.fragula2.compose
 
-import android.util.Log
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
@@ -100,10 +99,10 @@ fun FragulaNavHost(
     for ((index, backStackEntry) in backStack.withIndex()) { // FIXME don't render all entries at once
         SwipeableBox(
             navController = navController,
-            backStackEntryIndex = index,
+            backStackIndex = index,
             scrimColor = scrimColor,
             scrimAmount = scrimAmount,
-            // parallax
+            parallaxFactor = parallaxFactor,
             animDurationMs = animDurationMs,
             elevation = elevation,
             modifier = modifier.fillMaxSize(),
@@ -126,10 +125,10 @@ fun FragulaNavHost(
 @Composable
 private fun SwipeableBox(
     navController: NavHostController,
-    backStackEntryIndex: Int,
+    backStackIndex: Int,
     scrimColor: Color,
     scrimAmount: Float,
-    // parallax
+    parallaxFactor: Float,
     animDurationMs: Int,
     elevation: Dp,
     modifier: Modifier = Modifier,
@@ -139,7 +138,7 @@ private fun SwipeableBox(
         val pageStart = 0f
         val pageEnd = constraints.maxWidth.toFloat()
 
-        var animateSlideIn by rememberSaveable { mutableStateOf(backStackEntryIndex > 0) }
+        var animateSlideIn by rememberSaveable { mutableStateOf(backStackIndex > 0) }
         var swipeState by rememberSwipeState()
         var pointerPosition by rememberSaveable {
             val initialValue = if (animateSlideIn) pageEnd else pageStart
@@ -169,13 +168,13 @@ private fun SwipeableBox(
             }
         }
 
-        DisposableEffect(backStackEntryIndex) {
+        DisposableEffect(backStackIndex) {
             if (animateSlideIn) {
                 animateSlideIn = false
                 swipeState = SwipeState.SWIPE_IN
             }
             onDispose {
-                Log.d("FragulaNavHost", "NavBackStackEntry disposed")
+                // TODO popBackStack animation
             }
         }
 
@@ -192,6 +191,7 @@ private fun SwipeableBox(
         }
 
         Box(modifier = modifier.animateDrag(
+            enabled = backStackIndex > 0,
             onScrollChanged = { position ->
                 if (swipeState == SwipeState.FOLLOW_POINTER) {
                     pointerPosition = position
@@ -255,9 +255,11 @@ private fun PageElevation(
             translationX = positionProvider() - elevation.toPx()
         }
     ) {
-        drawRect(brush = Brush.horizontalGradient(
-            colors = listOf(ElevationEnd, ElevationStart)
-        ))
+        drawRect(
+            brush = Brush.horizontalGradient(
+                colors = listOf(ElevationEnd, ElevationStart)
+            )
+        )
     }
 }
 

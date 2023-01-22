@@ -16,9 +16,11 @@ import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.input.pointer.util.addPointerInputChange
 
 internal fun Modifier.animateDrag(
+    enabled: Boolean,
     onScrollChanged: (Float) -> Unit = {},
     onScrollCancelled: (Float) -> Unit = {},
 ): Modifier = composed {
+    if (!enabled) return@composed this
     val velocityTracker = VelocityTracker()
     var dragOffset by remember { mutableStateOf(0f) }
     pointerInput(Unit) {
