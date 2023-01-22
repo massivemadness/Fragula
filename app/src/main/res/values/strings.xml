@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">Fragula</string>
-    <string name="app_compose">Fragula (Compose)</string>
+    <string name="app_compose">Fragula Compose</string>
 
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
     <string name="message">Message</string>

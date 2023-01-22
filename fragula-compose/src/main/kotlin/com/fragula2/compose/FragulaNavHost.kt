@@ -1,15 +1,15 @@
 package com.fragula2.compose
 
+import android.util.Log
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.SaveableStateHolder
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -82,145 +82,27 @@ fun FragulaNavHost(
 
     // region SETUP
 
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
-        "FragulaNavHost requires a ViewModelStoreOwner to be provided via LocalViewModelStoreOwner"
-    }
-    val onBackPressedDispatcherOwner = LocalOnBackPressedDispatcherOwner.current
-    val onBackPressedDispatcher = onBackPressedDispatcherOwner?.onBackPressedDispatcher
-
-    navController.setLifecycleOwner(lifecycleOwner)
-    navController.setViewModelStore(viewModelStoreOwner.viewModelStore)
-    if (onBackPressedDispatcher != null) {
-        navController.setOnBackPressedDispatcher(onBackPressedDispatcher)
-    }
-
-    DisposableEffect(navController) {
-        navController.enableOnBackPressed(true)
-        onDispose {
-            navController.enableOnBackPressed(false)
-        }
-    }
+    NavHostLifecycle(navController)
+    NavHostBackHandler(navController)
 
     navController.graph = graph
 
     val swipeBackNavigator = navController.navigatorProvider
         .get<Navigator<out NavDestination>>(SwipeBackNavigator.NAME) as? SwipeBackNavigator
         ?: return
-
-    val saveableStateHolder = rememberSaveableStateHolder()
     val backStack by swipeBackNavigator.backStack.collectAsState()
-    val transitionsInProgress by swipeBackNavigator.transitionsInProgress.collectAsState()
+    val saveableStateHolder = rememberSaveableStateHolder()
 
     // endregion
 
-    var initialAnimation by remember { mutableStateOf(true) }
-    var parallaxEffect by remember { mutableStateOf(0f) }
-    for (backStackEntry in backStack) { // FIXME don't render all entries at once
-        var dimmingEffect by remember { mutableStateOf(0f) }
-        BoxWithConstraints(
-            modifier = Modifier.fillMaxSize()
-                .background(dimColor.copy(alpha = dimmingEffect))
+    for ((index, backStackEntry) in backStack.withIndex()) { // FIXME don't render all entries at once
+        SwipeableBox(
+            navController = navController,
+            backStackEntryIndex = index,
+            animDurationMs = animDurationMs,
+            modifier = modifier.fillMaxSize(),
         ) {
-            val startPosition = 0f
-            val endPosition = constraints.maxWidth.toFloat()
-
-            var swipeState by rememberSwipeState()
-            var pointerPosition by remember {
-                val initialValue = if (initialAnimation) startPosition else endPosition
-                mutableStateOf(initialValue)
-            }
-            val scrollPosition by animateFloatAsState(
-                targetValue = when (swipeState) {
-                    SwipeState.FOLLOW_POINTER -> pointerPosition
-                    SwipeState.SWIPE_IN -> startPosition
-                    SwipeState.SWIPE_OUT -> endPosition
-                },
-                animationSpec = tween(
-                    durationMillis = if (swipeState != SwipeState.FOLLOW_POINTER) animDurationMs else 0,
-                    easing = SwipeInterpolator().toEasing()
-                )
-            ) { value ->
-                when (value) {
-                    startPosition -> {
-                        pointerPosition = startPosition
-                        swipeState = SwipeState.FOLLOW_POINTER
-                        transitionsInProgress.forEach { entry ->
-                            swipeBackNavigator.onTransitionComplete(entry)
-                        }
-                    }
-                    endPosition -> {
-                        pointerPosition = startPosition
-                        swipeState = SwipeState.FOLLOW_POINTER
-                        transitionsInProgress.forEach { entry ->
-                            swipeBackNavigator.onTransitionComplete(entry)
-                        }
-                        navController.popBackStack()
-                    }
-                }
-            }
-
-            val applyDraggable = backStackEntry.id != backStack.firstOrNull()?.id
-            val applyParallax = backStackEntry.id == backStack.penultOrNull()?.id
-            val calculateEffects = backStackEntry.id == backStack.lastOrNull()?.id
-
-            if (calculateEffects) {
-                val progress = scrollPosition / (endPosition * 0.01f)
-                val scrollOffset = progress * 0.01f // range 0f..1f
-                parallaxEffect = -maxWidth.value * (1.0f - scrollOffset) / parallaxFactor
-                dimmingEffect = (1.0f - scrollOffset) * dimAmount
-            }
-
-            DisposableEffect(backStackEntry) {
-                if (initialAnimation) {
-                    initialAnimation = false // FIXME animation on recomposition
-                } else {
-                    swipeState = SwipeState.SWIPE_IN
-                }
-                onDispose {
-                    // TODO pop transition
-                    // swipeState = SwipeState.SWIPE_OUT
-                }
-            }
-
-            Box(modifier = modifier.animateDrag(
-                enabled = applyDraggable,
-                onScrollChanged = { position ->
-                    if (swipeState == SwipeState.FOLLOW_POINTER) {
-                        pointerPosition = position
-                    }
-                },
-                onScrollCancelled = { velocity ->
-                    if (swipeState == SwipeState.FOLLOW_POINTER) {
-                        swipeState = when {
-                            velocity > 1000 -> SwipeState.SWIPE_OUT
-                            pointerPosition == 0f -> SwipeState.FOLLOW_POINTER
-                            pointerPosition > endPosition / 2 -> SwipeState.SWIPE_OUT
-                            pointerPosition < endPosition / 2 -> SwipeState.SWIPE_IN
-                            else -> SwipeState.FOLLOW_POINTER
-                        }
-                    }
-                },
-            ).graphicsLayer {
-                translationX = if (applyParallax) parallaxEffect else scrollPosition
-            }) {
-                val destination = backStackEntry.destination as SwipeBackNavigator.Destination
-                backStackEntry.LocalOwnersProvider(saveableStateHolder) {
-                    destination.content(backStackEntry)
-                }
-            }
-            if (scrollPosition > startPosition) {
-                Canvas(modifier = Modifier.fillMaxHeight()
-                    .requiredWidth(elevation)
-                    .graphicsLayer {
-                        translationX = scrollPosition - elevation.toPx()
-                    }
-                ) {
-                    drawRect(brush = Brush.horizontalGradient(
-                        colors = listOf(ElevationEnd, ElevationStart)
-                    ))
-                }
-            }
+            NavHostContent(saveableStateHolder, backStackEntry)
         }
     }
 
@@ -233,4 +115,117 @@ fun FragulaNavHost(
     DialogHost(dialogNavigator)
 
     // endregion
+}
+
+@Composable
+private fun SwipeableBox(
+    navController: NavHostController,
+    backStackEntryIndex: Int,
+    animDurationMs: Int,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    BoxWithConstraints(modifier) {
+        val pageStart = 0f
+        val pageEnd = constraints.maxWidth.toFloat()
+
+        var animateSlideIn by rememberSaveable { mutableStateOf(backStackEntryIndex > 0) }
+        var swipeState by rememberSwipeState()
+        var pointerPosition by rememberSaveable {
+            val initialValue = if (animateSlideIn) pageEnd else pageStart
+            mutableStateOf(initialValue)
+        }
+        val scrollPosition by animateFloatAsState(
+            targetValue = when (swipeState) {
+                SwipeState.FOLLOW_POINTER -> pointerPosition
+                SwipeState.SWIPE_IN -> pageStart
+                SwipeState.SWIPE_OUT -> pageEnd
+            },
+            animationSpec = tween(
+                durationMillis = if (swipeState != SwipeState.FOLLOW_POINTER) animDurationMs else 0,
+                easing = SwipeInterpolator().toEasing()
+            )
+        ) { value ->
+            when (value) {
+                pageStart -> {
+                    pointerPosition = pageStart
+                    swipeState = SwipeState.FOLLOW_POINTER
+                }
+                pageEnd -> {
+                    pointerPosition = pageStart
+                    swipeState = SwipeState.FOLLOW_POINTER
+                    navController.popBackStack()
+                }
+            }
+        }
+
+        DisposableEffect(backStackEntryIndex) {
+            if (animateSlideIn) {
+                animateSlideIn = false
+                swipeState = SwipeState.SWIPE_IN
+            }
+            onDispose {
+                Log.d("FragulaNavHost", "NavBackStackEntry disposed")
+            }
+        }
+
+        Box(modifier = modifier.animateDrag(
+            onScrollChanged = { position ->
+                if (swipeState == SwipeState.FOLLOW_POINTER) {
+                    pointerPosition = position
+                }
+            },
+            onScrollCancelled = { velocity ->
+                if (swipeState == SwipeState.FOLLOW_POINTER) {
+                    swipeState = when {
+                        velocity > 1000 -> SwipeState.SWIPE_OUT
+                        pointerPosition == 0f -> SwipeState.FOLLOW_POINTER
+                        pointerPosition > pageEnd / 2 -> SwipeState.SWIPE_OUT
+                        pointerPosition < pageEnd / 2 -> SwipeState.SWIPE_IN
+                        else -> SwipeState.FOLLOW_POINTER
+                    }
+                }
+            },
+        ).graphicsLayer {
+            translationX = scrollPosition
+        }) {
+            content()
+        }
+    }
+}
+
+@Composable
+private fun NavHostContent(
+    saveableStateHolder: SaveableStateHolder,
+    backStackEntry: NavBackStackEntry
+) {
+    val destination = backStackEntry.destination as SwipeBackNavigator.Destination
+    backStackEntry.LocalOwnersProvider(saveableStateHolder) {
+        destination.content(backStackEntry)
+    }
+}
+
+@Composable
+private fun NavHostLifecycle(navController: NavHostController) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
+        "FragulaNavHost requires a ViewModelStoreOwner to be provided via LocalViewModelStoreOwner"
+    }
+    navController.setLifecycleOwner(lifecycleOwner)
+    navController.setViewModelStore(viewModelStoreOwner.viewModelStore)
+}
+
+@Composable
+private fun NavHostBackHandler(navController: NavHostController) {
+    val onBackPressedDispatcherOwner = LocalOnBackPressedDispatcherOwner.current
+    val onBackPressedDispatcher = onBackPressedDispatcherOwner?.onBackPressedDispatcher
+    if (onBackPressedDispatcher != null) {
+        navController.setOnBackPressedDispatcher(onBackPressedDispatcher)
+    }
+    DisposableEffect(navController) {
+        navController.enableOnBackPressed(true)
+        onDispose {
+            navController.enableOnBackPressed(false)
+        }
+    }
 }

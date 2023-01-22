@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
+        <!--<activity
             android:name="com.fragula2.sample.MainActivity"
             android:windowSoftInputMode="adjustResize|stateHidden"
             android:launchMode="singleTop"
@@ -19,7 +19,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity>-->
 
         <activity
             android:name="com.fragula2.sample.compose.ComposeActivity"

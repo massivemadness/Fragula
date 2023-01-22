@@ -9,20 +9,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
-import androidx.compose.ui.input.pointer.consumePositionChange
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.input.pointer.util.addPointerInputChange
 
 internal fun Modifier.animateDrag(
-    enabled: Boolean = true,
     onScrollChanged: (Float) -> Unit = {},
     onScrollCancelled: (Float) -> Unit = {},
 ): Modifier = composed {
-    if (!enabled) return@composed this
+    val velocityTracker = VelocityTracker()
     var dragOffset by remember { mutableStateOf(0f) }
     pointerInput(Unit) {
-        val velocityTracker = VelocityTracker()
         detectHorizontalDragGestures(
             onHorizontalDrag = { change, dragAmount ->
                 dragOffset += dragAmount
@@ -30,8 +29,10 @@ internal fun Modifier.animateDrag(
                     dragOffset = 0f
                 }
                 velocityTracker.addPointerInputChange(change)
-                change.consumePositionChange()
-                onScrollChanged(dragOffset)
+                if (change.positionChange() != Offset.Zero) {
+                    onScrollChanged(dragOffset)
+                    change.consume()
+                }
             },
             onDragEnd = {
                 val velocity = velocityTracker.calculateVelocity().x
