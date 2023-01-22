@@ -4,12 +4,14 @@ import android.util.Log
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -100,6 +102,7 @@ fun FragulaNavHost(
             navController = navController,
             backStackEntryIndex = index,
             animDurationMs = animDurationMs,
+            elevation = elevation,
             modifier = modifier.fillMaxSize(),
         ) {
             NavHostContent(saveableStateHolder, backStackEntry)
@@ -122,6 +125,7 @@ private fun SwipeableBox(
     navController: NavHostController,
     backStackEntryIndex: Int,
     animDurationMs: Int,
+    elevation: Dp,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
@@ -191,6 +195,33 @@ private fun SwipeableBox(
         }) {
             content()
         }
+
+        val applyElevation by remember {
+            derivedStateOf { scrollPosition > pageStart }
+        }
+        if (applyElevation) {
+            PageElevation(
+                positionProvider = { scrollPosition },
+                elevation = elevation
+            )
+        }
+    }
+}
+
+@Composable
+private fun PageElevation(
+    positionProvider: () -> Float,
+    elevation: Dp,
+) {
+    Canvas(modifier = Modifier.fillMaxHeight()
+        .requiredWidth(elevation)
+        .graphicsLayer {
+            translationX = positionProvider() - elevation.toPx()
+        }
+    ) {
+        drawRect(brush = Brush.horizontalGradient(
+            colors = listOf(ElevationEnd, ElevationStart)
+        ))
     }
 }
 

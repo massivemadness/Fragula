@@ -34,7 +34,7 @@ class ComposeActivity : ComponentActivity() {
                                 title = { Text("Fragula") }
                             )
                         }
-                    ) {
+                    ) { paddingValues ->
                         val swipeBackNavigator = rememberSwipeBackNavigator()
                         val navController = rememberNavController(swipeBackNavigator)
                         FragulaNavHost(navController, startDestination = "list") {
