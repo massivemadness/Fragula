@@ -96,16 +96,21 @@ fun FragulaNavHost(
 
     // endregion
 
+    var parallaxOffset by rememberSaveable { mutableStateOf(0f) }
+
     for ((index, backStackEntry) in backStack.withIndex()) { // FIXME don't render all entries at once
         SwipeableBox(
             navController = navController,
             backStackIndex = index,
+            backStackSize = backStack.size,
             scrimColor = scrimColor,
             scrimAmount = scrimAmount,
             parallaxFactor = parallaxFactor,
             animDurationMs = animDurationMs,
             elevation = elevation,
             modifier = modifier.fillMaxSize(),
+            parallaxProvider = { parallaxOffset },
+            parallaxChanger = { parallaxOffset = it }
         ) {
             NavHostContent(saveableStateHolder, backStackEntry)
         }
@@ -126,12 +131,15 @@ fun FragulaNavHost(
 private fun SwipeableBox(
     navController: NavHostController,
     backStackIndex: Int,
+    backStackSize: Int,
     scrimColor: Color,
     scrimAmount: Float,
     parallaxFactor: Float,
     animDurationMs: Int,
     elevation: Dp,
     modifier: Modifier = Modifier,
+    parallaxProvider: () -> Float = { 0f },
+    parallaxChanger: (Float) -> Unit = {},
     content: @Composable () -> Unit,
 ) {
     BoxWithConstraints(modifier) {
@@ -166,6 +174,14 @@ private fun SwipeableBox(
                     navController.popBackStack()
                 }
             }
+        }
+
+        val applyParallax = backStackIndex == backStackSize - 2
+        val calculateParallax = backStackIndex == backStackSize - 1
+        if (calculateParallax) {
+            val progress = scrollPosition / (pageEnd * 0.01f)
+            val scrollOffset = progress * 0.01f // range 0f..1f
+            parallaxChanger(-maxWidth.value * (1.0f - scrollOffset) / parallaxFactor)
         }
 
         DisposableEffect(backStackIndex) {
@@ -209,7 +225,7 @@ private fun SwipeableBox(
                 }
             },
         ).graphicsLayer {
-            translationX = scrollPosition
+            translationX = if (applyParallax) parallaxProvider() else scrollPosition
         }) {
             content()
         }
