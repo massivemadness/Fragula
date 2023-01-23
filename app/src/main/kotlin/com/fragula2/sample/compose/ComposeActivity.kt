@@ -1,11 +1,17 @@
 package com.fragula2.sample.compose
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
+import androidx.compose.runtime.*
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
@@ -17,6 +23,7 @@ import com.fragula2.sample.compose.screen.ListScreen
 import com.fragula2.sample.compose.screen.ProfileScreen
 import com.fragula2.sample.compose.screen.TabScreen
 import com.fragula2.sample.compose.ui.FragulaTheme
+import com.google.accompanist.drawablepainter.rememberDrawablePainter
 
 class ComposeActivity : ComponentActivity() {
 
@@ -28,16 +35,34 @@ class ComposeActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
+                    val swipeBackNavigator = rememberSwipeBackNavigator()
+                    val navController = rememberNavController(swipeBackNavigator)
+                    var arrowProgress by remember { mutableStateOf(0f) }
                     Scaffold(
                         topBar = {
-                            TopAppBar(
-                                title = { Text("Fragula") }
+                            FragulaAppBar(
+                                arrowProgress = arrowProgress,
+                                onClick = {
+                                    if (arrowProgress == 0f) {
+                                        Toast.makeText(this, "Open drawer", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        navController.popBackStack()
+                                    }
+                                }
                             )
                         }
                     ) { paddingValues ->
-                        val swipeBackNavigator = rememberSwipeBackNavigator()
-                        val navController = rememberNavController(swipeBackNavigator)
-                        FragulaNavHost(navController, startDestination = "list") {
+                        FragulaNavHost(
+                            navController = navController,
+                            startDestination = "list",
+                            onPageScrolled = { position, positionOffset, _ ->
+                                arrowProgress = when {
+                                    position > 0 -> 1f
+                                    positionOffset > 0 -> 1f - positionOffset
+                                    else -> 0f
+                                }
+                            }
+                        ) {
                             swipeable("list") {
                                 ListScreen(navController)
                             }
@@ -71,4 +96,25 @@ class ComposeActivity : ComponentActivity() {
             }
         }
     }
+}
+
+@Composable
+private fun FragulaAppBar(
+    arrowProgress: Float = 0f,
+    onClick: () -> Unit = {},
+) {
+    TopAppBar(
+        title = { Text("Fragula") },
+        navigationIcon = {
+            IconButton(onClick = { onClick() }) {
+                val icon = DrawerArrowDrawable(LocalContext.current).apply {
+                    progress = arrowProgress
+                }
+                Icon(
+                    painter = rememberDrawablePainter(icon),
+                    contentDescription = null,
+                )
+            }
+        }
+    )
 }

@@ -64,6 +64,7 @@ dependencies {
     implementation library.compose_preview
     debugImplementation library.compose_tooling
     debugImplementation library.compose_manifest
+    implementation library.drawablepainter
 
     // AAC
     implementation library.viewmodel
