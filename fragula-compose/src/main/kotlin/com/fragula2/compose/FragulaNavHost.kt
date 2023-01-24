@@ -99,7 +99,7 @@ fun FragulaNavHost(
 
     // endregion
 
-    var parallaxOffset by rememberSaveable { mutableStateOf(0f) }
+    var parallaxOffset by remember { mutableStateOf(0f) }
 
     for ((index, backStackEntry) in backStack.withIndex()) { // FIXME don't render all entries at once
         SwipeableBox(
@@ -159,15 +159,15 @@ private fun SwipeableBox(
         var animateSlideIn by rememberSaveable {
             mutableStateOf(position > 0)
         }
-        var pointerPosition by rememberSaveable {
+        var pointerPosition by remember {
             val initialValue = if (animateSlideIn) pageEnd else pageStart
             mutableStateOf(initialValue)
         }
         val scrollPosition by animateFloatAsState(
             targetValue = when (swipeState) {
                 SwipeState.FOLLOW_POINTER -> pointerPosition
-                SwipeState.SWIPE_IN -> pageStart
-                SwipeState.SWIPE_OUT -> pageEnd
+                SwipeState.SLIDE_IN -> pageStart
+                SwipeState.SLIDE_OUT -> pageEnd
             },
             animationSpec = tween(
                 durationMillis = if (swipeState != SwipeState.FOLLOW_POINTER) animDurationMs else 0,
@@ -200,7 +200,7 @@ private fun SwipeableBox(
         DisposableEffect(position) {
             if (animateSlideIn) {
                 animateSlideIn = false
-                swipeState = SwipeState.SWIPE_IN
+                swipeState = SwipeState.SLIDE_IN
             }
             onDispose {
                 // TODO popBackStack animation
@@ -229,10 +229,10 @@ private fun SwipeableBox(
             onScrollCancelled = { velocity ->
                 if (swipeState == SwipeState.FOLLOW_POINTER) {
                     swipeState = when {
-                        velocity > 1000 -> SwipeState.SWIPE_OUT
+                        velocity > 1000 -> SwipeState.SLIDE_OUT
                         pointerPosition == 0f -> SwipeState.FOLLOW_POINTER
-                        pointerPosition > pageEnd / 2 -> SwipeState.SWIPE_OUT
-                        pointerPosition < pageEnd / 2 -> SwipeState.SWIPE_IN
+                        pointerPosition > pageEnd / 2 -> SwipeState.SLIDE_OUT
+                        pointerPosition < pageEnd / 2 -> SwipeState.SLIDE_IN
                         else -> SwipeState.FOLLOW_POINTER
                     }
                 }

@@ -401,6 +401,7 @@ fun FragulaNavHost(
     startDestination: String,
     modifier: Modifier = Modifier,
     route: String? = null,
+    onPageScrolled: (Int, Float, Int) -> Unit, // Scroll listener (position, offset, offsetPixels)
     scrimColor: Color = ScrimColor, // Color used for the dimming
     scrimAmount: Float = 0.15f, // Percentage of dimming (depends on drag offset)
     parallaxFactor: Float = 1.3f, // Parallax multiplier (depends on drag offset)
