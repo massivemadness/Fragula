@@ -319,8 +319,7 @@ setContent {
            modifier = Modifier.fillMaxSize(), 
            color = MaterialTheme.colors.background,
         ) {
-            val swipeBackNavigator = rememberSwipeBackNavigator()
-            val navController = rememberNavController(swipeBackNavigator)
+            val navController = rememberFragulaNavController()
             FragulaNavHost(navController, startDestination = "list") {
                 // ...
             }
@@ -332,8 +331,7 @@ setContent {
 **Second,** you need to replace your `composable(...)` destinations with `swipeable(...)` as shown below:
 
 ```kotlin
-val swipeBackNavigator = rememberSwipeBackNavigator()
-val navController = rememberNavController(swipeBackNavigator)
+val navController = rememberFragulaNavController()
 FragulaNavHost(navController, startDestination = "list") {
     swipeable("list") {
         ListScreen(navController)

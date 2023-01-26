@@ -2,12 +2,25 @@ package com.fragula2.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavDestination
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigator
+import androidx.navigation.*
+import androidx.navigation.compose.rememberNavController
 
 @Composable
+fun rememberFragulaNavController(
+    vararg navigators: Navigator<out NavDestination>
+): NavHostController {
+    val swipeBackNavigator = remember { SwipeBackNavigator() }
+    return rememberNavController(swipeBackNavigator, *navigators)
+}
+
+@Composable
+@Deprecated(
+    message = "Replace rememberNavController with rememberFragulaNavController",
+    replaceWith = ReplaceWith(
+        "rememberFragulaNavController()",
+        "com.fragula2.compose.rememberFragulaNavController"
+    )
+)
 fun rememberSwipeBackNavigator(): SwipeBackNavigator {
     return remember { SwipeBackNavigator() }
 }

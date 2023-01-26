@@ -155,10 +155,8 @@ private fun SwipeableBox(
             -maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
         }
 
-        var swipeState by rememberSwipeState()
-        var animateSlideIn by rememberSaveable {
-            mutableStateOf(position > 0)
-        }
+        var swipeState by rememberSaveable { mutableStateOf(SwipeState.FOLLOW_POINTER) }
+        var animateSlideIn by rememberSaveable { mutableStateOf(position > 0) }
         var pointerPosition by remember {
             val initialValue = if (animateSlideIn) pageEnd else pageStart
             mutableStateOf(initialValue)
@@ -229,7 +227,7 @@ private fun SwipeableBox(
             onScrollCancelled = { velocity ->
                 if (swipeState == SwipeState.FOLLOW_POINTER) {
                     swipeState = when {
-                        velocity > 1000 -> SwipeState.SLIDE_OUT
+                        velocity > 1000 -> SwipeState.SLIDE_OUT // Fling
                         pointerPosition == 0f -> SwipeState.FOLLOW_POINTER
                         pointerPosition > pageEnd / 2 -> SwipeState.SLIDE_OUT
                         pointerPosition < pageEnd / 2 -> SwipeState.SLIDE_IN

@@ -13,10 +13,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.fragula2.compose.FragulaNavHost
-import com.fragula2.compose.rememberSwipeBackNavigator
+import com.fragula2.compose.rememberFragulaNavController
 import com.fragula2.compose.swipeable
 import com.fragula2.sample.compose.screen.DetailsScreen
 import com.fragula2.sample.compose.screen.ListScreen
@@ -35,8 +34,7 @@ class ComposeActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val swipeBackNavigator = rememberSwipeBackNavigator()
-                    val navController = rememberNavController(swipeBackNavigator)
+                    val navController = rememberFragulaNavController()
                     var arrowProgress by remember { mutableStateOf(0f) }
                     Scaffold(
                         topBar = {
