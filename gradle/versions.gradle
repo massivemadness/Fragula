@@ -13,6 +13,7 @@ ext {
 
     // Plugins
     agp_version = '7.4.0'
+    validator_version = '0.12.1'
 
     // Core
     kotlin_version = '1.8.0'
@@ -50,7 +51,8 @@ ext {
     plugin = [
             android_gradle_plugin: "com.android.tools.build:gradle:$agp_version",
             kotlin_gradle_plugin: "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version",
-            safeargs_gradle_plugin: "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
+            safeargs_gradle_plugin: "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version",
+            validator_gradle_plugin: "org.jetbrains.kotlinx:binary-compatibility-validator:$validator_version"
     ]
 
     library = [

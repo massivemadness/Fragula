@@ -1,0 +1,91 @@
+public final class com/fragula2/BuildConfig {
+	public static final field BUILD_TYPE Ljava/lang/String;
+	public static final field DEBUG Z
+	public static final field LIBRARY_PACKAGE_NAME Ljava/lang/String;
+	public fun <init> ()V
+}
+
+public final class com/fragula2/FragulaNavHostFragment : androidx/navigation/fragment/NavHostFragment {
+	public static final field Companion Lcom/fragula2/FragulaNavHostFragment$Companion;
+	public fun <init> ()V
+	public static final fun findSwipeController (Landroidx/fragment/app/Fragment;)Lcom/fragula2/animation/SwipeController;
+	public fun onInflate (Landroid/content/Context;Landroid/util/AttributeSet;Landroid/os/Bundle;)V
+}
+
+public final class com/fragula2/FragulaNavHostFragment$Companion {
+	public final fun findSwipeController (Landroidx/fragment/app/Fragment;)Lcom/fragula2/animation/SwipeController;
+}
+
+public final class com/fragula2/adapter/NavBackStackAdapter : androidx/viewpager2/adapter/FragmentStateAdapter {
+	public fun <init> (Landroidx/fragment/app/Fragment;)V
+	public final fun addAll (Ljava/util/List;)V
+	public fun createFragment (I)Landroidx/fragment/app/Fragment;
+	public fun getItemCount ()I
+	public final fun pop ()V
+	public final fun push (Landroidx/navigation/NavBackStackEntry;)V
+}
+
+public abstract interface class com/fragula2/animation/OnSwipeListener {
+	public abstract fun onPageScrolled (IFI)V
+}
+
+public abstract interface class com/fragula2/animation/SwipeController {
+	public abstract fun addOnSwipeListener (Lcom/fragula2/animation/OnSwipeListener;)V
+	public abstract fun isUserInputEnabled ()Z
+	public abstract fun removeOnSwipeListener (Lcom/fragula2/animation/OnSwipeListener;)V
+	public abstract fun setUserInputEnabled (Z)V
+}
+
+public final class com/fragula2/animation/SwipeTransformer : androidx/viewpager2/widget/ViewPager2$PageTransformer {
+	public fun <init> (Lcom/fragula2/common/SwipeDirection;FF)V
+	public fun transformPage (Landroid/view/View;F)V
+}
+
+public abstract interface class com/fragula2/navigation/Navigable {
+	public abstract fun navigate (Landroidx/navigation/NavBackStackEntry;)V
+	public abstract fun popBackStack (Landroidx/navigation/NavBackStackEntry;)V
+}
+
+public final class com/fragula2/navigation/SwipeBackDestination : androidx/navigation/NavDestination {
+	public fun <init> (Landroidx/navigation/Navigator;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getClassName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun onInflate (Landroid/content/Context;Landroid/util/AttributeSet;)V
+}
+
+public final class com/fragula2/navigation/SwipeBackFragment : androidx/fragment/app/Fragment, com/fragula2/animation/SwipeController, com/fragula2/navigation/Navigable {
+	public static final field Companion Lcom/fragula2/navigation/SwipeBackFragment$Companion;
+	public fun <init> ()V
+	public fun addOnSwipeListener (Lcom/fragula2/animation/OnSwipeListener;)V
+	public fun isUserInputEnabled ()Z
+	public fun navigate (Landroidx/navigation/NavBackStackEntry;)V
+	public fun onDestroyView ()V
+	public fun onViewCreated (Landroid/view/View;Landroid/os/Bundle;)V
+	public fun popBackStack (Landroidx/navigation/NavBackStackEntry;)V
+	public fun removeOnSwipeListener (Lcom/fragula2/animation/OnSwipeListener;)V
+	public fun setUserInputEnabled (Z)V
+}
+
+public final class com/fragula2/navigation/SwipeBackFragment$Companion {
+	public final fun newInstance (Lcom/fragula2/common/SwipeDirection;)Lcom/fragula2/navigation/SwipeBackFragment;
+}
+
+public final class com/fragula2/navigation/SwipeBackNavigator : androidx/navigation/Navigator {
+	public static final field Companion Lcom/fragula2/navigation/SwipeBackNavigator$Companion;
+	public fun <init> (Landroidx/fragment/app/FragmentManager;Lcom/fragula2/common/SwipeDirection;Ljava/lang/String;I)V
+	public synthetic fun createDestination ()Landroidx/navigation/NavDestination;
+	public fun createDestination ()Lcom/fragula2/navigation/SwipeBackDestination;
+	public fun navigate (Ljava/util/List;Landroidx/navigation/NavOptions;Landroidx/navigation/Navigator$Extras;)V
+	public fun onRestoreState (Landroid/os/Bundle;)V
+	public fun onSaveState ()Landroid/os/Bundle;
+	public fun popBackStack (Landroidx/navigation/NavBackStackEntry;Z)V
+}
+
+public final class com/fragula2/navigation/SwipeBackNavigator$Companion {
+}
+
+public final class com/fragula2/utils/FragmentKt {
+	public static final fun findSwipeController (Landroidx/fragment/app/Fragment;)Lcom/fragula2/animation/SwipeController;
+}
+
