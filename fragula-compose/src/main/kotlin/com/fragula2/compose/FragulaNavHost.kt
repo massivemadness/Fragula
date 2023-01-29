@@ -116,6 +116,7 @@ fun FragulaNavHost(
                 onPageScrolled(position, positionOffset, positionOffsetPixels)
                 parallaxOffset = positionOffset
             },
+            scrollFinished = { swipeBackNavigator.markTransitionComplete(backStackEntry) },
             modifier = modifier.fillMaxSize(),
         ) {
             NavHostContent(saveableStateHolder, backStackEntry)
@@ -145,6 +146,7 @@ private fun SwipeableBox(
     elevation: Dp,
     offsetProvider: () -> Float,
     positionChanger: (Int, Float, Int) -> Unit,
+    scrollFinished: () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
@@ -176,11 +178,13 @@ private fun SwipeableBox(
                 pageStart -> {
                     pointerPosition = pageStart
                     swipeState = SwipeState.FOLLOW_POINTER
+                    scrollFinished()
                 }
                 pageEnd -> {
                     pointerPosition = pageStart
                     swipeState = SwipeState.FOLLOW_POINTER
                     navController.popBackStack()
+                    scrollFinished()
                 }
             }
         }

@@ -49,7 +49,7 @@ class SwipeBackNavigator : Navigator<SwipeBackNavigator.Destination>() {
         state.popWithTransition(popUpTo, savedState)
     }
 
-    internal fun onTransitionComplete(entry: NavBackStackEntry) {
+    internal fun markTransitionComplete(entry: NavBackStackEntry) {
         state.markTransitionComplete(entry)
     }
 
