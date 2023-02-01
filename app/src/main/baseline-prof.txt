@@ -1,13 +1,11 @@
-HPLandroidx/compose/foundation/HoverableKt$hoverable$2;->invoke(Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/Modifier;
 HPLandroidx/compose/runtime/SnapshotStateKt__SnapshotStateKt;->rememberUpdatedState(Ljava/lang/Object;Landroidx/compose/runtime/Composer;I)Landroidx/compose/runtime/State;
-HPLandroidx/compose/runtime/collection/IdentityArrayMap;->find(Ljava/lang/Object;)I
+HPLandroidx/compose/runtime/snapshots/SnapshotIdSet;->get(I)Z
+HPLandroidx/compose/ui/node/DelegatableNodeKt;->requireOwner(Landroidx/compose/ui/node/DelegatableNode;)Landroidx/compose/ui/node/Owner;
 HPLandroidx/emoji2/text/EmojiMetadata;-><init>(Landroidx/emoji2/text/MetadataRepo;I)V
 HPLandroidx/emoji2/text/MetadataRepo$Node;->get(I)Landroidx/emoji2/text/MetadataRepo$Node;
 HPLandroidx/emoji2/text/MetadataRepo;->getMetadataList()Landroidx/emoji2/text/flatbuffer/MetadataList;
 HPLandroidx/emoji2/text/flatbuffer/Table;->__offset(I)I
 HPLandroidx/emoji2/text/flatbuffer/Table;->__reset(ILjava/nio/ByteBuffer;)V
-HPLandroidx/emoji2/text/flatbuffer/Table;->__vector_len(I)I
-HPLkotlin/coroutines/CombinedContext;->minusKey(Lkotlin/coroutines/CoroutineContext$Key;)Lkotlin/coroutines/CoroutineContext;
 HSPLandroidx/activity/ComponentActivity$$ExternalSyntheticLambda0;-><init>(Landroidx/activity/ComponentActivity;)V
 HSPLandroidx/activity/ComponentActivity$$ExternalSyntheticLambda1;-><init>(Landroidx/activity/ComponentActivity;)V
 HSPLandroidx/activity/ComponentActivity$$ExternalSyntheticLambda1;->saveState()Landroid/os/Bundle;
@@ -489,6 +487,7 @@ HSPLandroidx/compose/foundation/HoverableKt$hoverable$2;-><init>(Landroidx/compo
 HSPLandroidx/compose/foundation/HoverableKt$hoverable$2;->access$invoke$tryEmitExit(Landroidx/compose/runtime/MutableState;Landroidx/compose/foundation/interaction/MutableInteractionSource;)V
 HSPLandroidx/compose/foundation/HoverableKt$hoverable$2;->invoke$lambda-1(Landroidx/compose/runtime/MutableState;)Landroidx/compose/foundation/interaction/HoverInteraction$Enter;
 HSPLandroidx/compose/foundation/HoverableKt$hoverable$2;->invoke$tryEmitExit(Landroidx/compose/runtime/MutableState;Landroidx/compose/foundation/interaction/MutableInteractionSource;)V
+HSPLandroidx/compose/foundation/HoverableKt$hoverable$2;->invoke(Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/Modifier;
 HSPLandroidx/compose/foundation/HoverableKt$hoverable$2;->invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
 HSPLandroidx/compose/foundation/HoverableKt;->hoverable(Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/interaction/MutableInteractionSource;Z)Landroidx/compose/ui/Modifier;
 HSPLandroidx/compose/foundation/ImageKt$Image$2$measure$1;-><clinit>()V
@@ -2563,6 +2562,7 @@ HSPLandroidx/compose/runtime/collection/IdentityArrayMap;-><init>(I)V
 HSPLandroidx/compose/runtime/collection/IdentityArrayMap;-><init>(IILkotlin/jvm/internal/DefaultConstructorMarker;)V
 HSPLandroidx/compose/runtime/collection/IdentityArrayMap;->clear()V
 HSPLandroidx/compose/runtime/collection/IdentityArrayMap;->contains(Ljava/lang/Object;)Z
+HSPLandroidx/compose/runtime/collection/IdentityArrayMap;->find(Ljava/lang/Object;)I
 HSPLandroidx/compose/runtime/collection/IdentityArrayMap;->get(Ljava/lang/Object;)Ljava/lang/Object;
 HSPLandroidx/compose/runtime/collection/IdentityArrayMap;->getKeys$runtime_release()[Ljava/lang/Object;
 HSPLandroidx/compose/runtime/collection/IdentityArrayMap;->getSize$runtime_release()I
@@ -2951,7 +2951,6 @@ HSPLandroidx/compose/runtime/snapshots/SnapshotIdSet;-><init>(JJI[I)V
 HSPLandroidx/compose/runtime/snapshots/SnapshotIdSet;->access$getEMPTY$cp()Landroidx/compose/runtime/snapshots/SnapshotIdSet;
 HSPLandroidx/compose/runtime/snapshots/SnapshotIdSet;->andNot(Landroidx/compose/runtime/snapshots/SnapshotIdSet;)Landroidx/compose/runtime/snapshots/SnapshotIdSet;
 HSPLandroidx/compose/runtime/snapshots/SnapshotIdSet;->clear(I)Landroidx/compose/runtime/snapshots/SnapshotIdSet;
-HSPLandroidx/compose/runtime/snapshots/SnapshotIdSet;->get(I)Z
 HSPLandroidx/compose/runtime/snapshots/SnapshotIdSet;->lowest(I)I
 HSPLandroidx/compose/runtime/snapshots/SnapshotIdSet;->or(Landroidx/compose/runtime/snapshots/SnapshotIdSet;)Landroidx/compose/runtime/snapshots/SnapshotIdSet;
 HSPLandroidx/compose/runtime/snapshots/SnapshotIdSet;->set(I)Landroidx/compose/runtime/snapshots/SnapshotIdSet;
@@ -4363,7 +4362,6 @@ HSPLandroidx/compose/ui/node/DelegatableNodeKt;->has-64DMado(Landroidx/compose/u
 HSPLandroidx/compose/ui/node/DelegatableNodeKt;->localChild(Landroidx/compose/ui/node/DelegatableNode;I)Landroidx/compose/ui/Modifier$Node;
 HSPLandroidx/compose/ui/node/DelegatableNodeKt;->requireCoordinator-64DMado(Landroidx/compose/ui/node/DelegatableNode;I)Landroidx/compose/ui/node/NodeCoordinator;
 HSPLandroidx/compose/ui/node/DelegatableNodeKt;->requireLayoutNode(Landroidx/compose/ui/node/DelegatableNode;)Landroidx/compose/ui/node/LayoutNode;
-HSPLandroidx/compose/ui/node/DelegatableNodeKt;->requireOwner(Landroidx/compose/ui/node/DelegatableNode;)Landroidx/compose/ui/node/Owner;
 HSPLandroidx/compose/ui/node/DepthSortedSet$DepthComparator$1;-><init>()V
 HSPLandroidx/compose/ui/node/DepthSortedSet$DepthComparator$1;->compare(Landroidx/compose/ui/node/LayoutNode;Landroidx/compose/ui/node/LayoutNode;)I
 HSPLandroidx/compose/ui/node/DepthSortedSet$DepthComparator$1;->compare(Ljava/lang/Object;Ljava/lang/Object;)I
@@ -6503,6 +6501,7 @@ HSPLandroidx/emoji2/text/flatbuffer/MetadataList;->listLength()I
 HSPLandroidx/emoji2/text/flatbuffer/Table;-><init>()V
 HSPLandroidx/emoji2/text/flatbuffer/Table;->__indirect(I)I
 HSPLandroidx/emoji2/text/flatbuffer/Table;->__vector(I)I
+HSPLandroidx/emoji2/text/flatbuffer/Table;->__vector_len(I)I
 HSPLandroidx/emoji2/text/flatbuffer/Utf8;-><init>()V
 HSPLandroidx/emoji2/text/flatbuffer/Utf8;->getDefault()Landroidx/emoji2/text/flatbuffer/Utf8;
 HSPLandroidx/emoji2/text/flatbuffer/Utf8Safe;-><init>()V
@@ -7077,10 +7076,11 @@ HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$4$1;-><init>(Landroidx/
 HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$5$1;-><init>(Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/MutableState;)V
 HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$5$1;->invoke(IFI)V
 HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$5$1;->invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
-HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$6;-><init>(Landroidx/compose/runtime/saveable/SaveableStateHolder;Landroidx/navigation/NavBackStackEntry;)V
-HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$6;->invoke(Landroidx/compose/runtime/Composer;I)V
-HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$6;->invoke(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
-HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$7;-><init>(Landroidx/navigation/NavHostController;Landroidx/navigation/NavGraph;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;JFFIFI)V
+HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$6;-><init>(Lcom/fragula2/compose/SwipeBackNavigator;Landroidx/navigation/NavBackStackEntry;)V
+HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$7;-><init>(Landroidx/compose/runtime/saveable/SaveableStateHolder;Landroidx/navigation/NavBackStackEntry;)V
+HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$7;->invoke(Landroidx/compose/runtime/Composer;I)V
+HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$7;->invoke(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$8;-><init>(Landroidx/navigation/NavHostController;Landroidx/navigation/NavGraph;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;JFFIFI)V
 HSPLcom/fragula2/compose/FragulaNavHostKt$NavHostBackHandler$1$invoke$$inlined$onDispose$1;-><init>(Landroidx/navigation/NavHostController;)V
 HSPLcom/fragula2/compose/FragulaNavHostKt$NavHostBackHandler$1$invoke$$inlined$onDispose$1;->dispose()V
 HSPLcom/fragula2/compose/FragulaNavHostKt$NavHostBackHandler$1;-><init>(Landroidx/navigation/NavHostController;)V
@@ -7110,12 +7110,12 @@ HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1$applyScrim$2$1;-><init>
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1$applyScrim$2$1;->invoke()Ljava/lang/Boolean;
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1$applyScrim$2$1;->invoke()Ljava/lang/Object;
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1$parallaxFormula$1$1;-><init>(Landroidx/compose/foundation/layout/BoxWithConstraintsScope;Lkotlin/jvm/functions/Function0;F)V
-HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1$scrollPosition$2;-><init>(FFLandroidx/navigation/NavHostController;Landroidx/compose/runtime/MutableState;Landroidx/compose/runtime/MutableState;)V
+HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1$scrollPosition$2;-><init>(FLkotlin/jvm/functions/Function0;FLandroidx/navigation/NavHostController;Landroidx/compose/runtime/MutableState;Landroidx/compose/runtime/MutableState;)V
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1$swipeState$2;-><clinit>()V
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1$swipeState$2;-><init>()V
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1$swipeState$2;->invoke()Landroidx/compose/runtime/MutableState;
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1$swipeState$2;->invoke()Ljava/lang/Object;
-HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1;-><init>(Lkotlin/jvm/functions/Function0;FIIIILkotlin/jvm/functions/Function3;JFLandroidx/compose/ui/Modifier;FLandroidx/navigation/NavHostController;Lkotlin/jvm/functions/Function2;I)V
+HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1;-><init>(Lkotlin/jvm/functions/Function0;FIIIILkotlin/jvm/functions/Function3;JFLandroidx/compose/ui/Modifier;FLkotlin/jvm/functions/Function0;Landroidx/navigation/NavHostController;Lkotlin/jvm/functions/Function2;I)V
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1;->access$invoke$lambda$4(Landroidx/compose/runtime/MutableState;)Z
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1;->access$invoke$lambda$9(Landroidx/compose/runtime/State;)F
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1;->invoke$lambda$1(Landroidx/compose/runtime/MutableState;)Lcom/fragula2/compose/SwipeState;
@@ -7133,7 +7133,7 @@ HSPLcom/fragula2/compose/FragulaNavHostKt;->FragulaNavHost_L_v2icQ$lambda$7(Land
 HSPLcom/fragula2/compose/FragulaNavHostKt;->NavHostBackHandler(Landroidx/navigation/NavHostController;Landroidx/compose/runtime/Composer;I)V
 HSPLcom/fragula2/compose/FragulaNavHostKt;->NavHostContent(Landroidx/compose/runtime/saveable/SaveableStateHolder;Landroidx/navigation/NavBackStackEntry;Landroidx/compose/runtime/Composer;I)V
 HSPLcom/fragula2/compose/FragulaNavHostKt;->NavHostLifecycle(Landroidx/navigation/NavHostController;Landroidx/compose/runtime/Composer;I)V
-HSPLcom/fragula2/compose/FragulaNavHostKt;->SwipeableBox-nfF_gEY(Landroidx/navigation/NavHostController;IIJFFIFLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;III)V
+HSPLcom/fragula2/compose/FragulaNavHostKt;->SwipeableBox-GsAr1S8(Landroidx/navigation/NavHostController;IIJFFIFLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;III)V
 HSPLcom/fragula2/compose/FragulaNavHostKt;->access$FragulaNavHost_L_v2icQ$lambda$7(Landroidx/compose/runtime/MutableState;F)V
 HSPLcom/fragula2/compose/FragulaNavHostKt;->access$NavHostContent(Landroidx/compose/runtime/saveable/SaveableStateHolder;Landroidx/navigation/NavBackStackEntry;Landroidx/compose/runtime/Composer;I)V
 HSPLcom/fragula2/compose/FragulaNavHostKt;->swipeable$default(Landroidx/navigation/NavGraphBuilder;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
@@ -7509,6 +7509,7 @@ HSPLkotlin/coroutines/AbstractCoroutineContextKey;-><init>(Lkotlin/coroutines/Co
 HSPLkotlin/coroutines/CombinedContext;-><init>(Lkotlin/coroutines/CoroutineContext;Lkotlin/coroutines/CoroutineContext$Element;)V
 HSPLkotlin/coroutines/CombinedContext;->fold(Ljava/lang/Object;Lkotlin/jvm/functions/Function2;)Ljava/lang/Object;
 HSPLkotlin/coroutines/CombinedContext;->get(Lkotlin/coroutines/CoroutineContext$Key;)Lkotlin/coroutines/CoroutineContext$Element;
+HSPLkotlin/coroutines/CombinedContext;->minusKey(Lkotlin/coroutines/CoroutineContext$Key;)Lkotlin/coroutines/CoroutineContext;
 HSPLkotlin/coroutines/CombinedContext;->plus(Lkotlin/coroutines/CoroutineContext;)Lkotlin/coroutines/CoroutineContext;
 HSPLkotlin/coroutines/ContinuationInterceptor$DefaultImpls;->get(Lkotlin/coroutines/ContinuationInterceptor;Lkotlin/coroutines/CoroutineContext$Key;)Lkotlin/coroutines/CoroutineContext$Element;
 HSPLkotlin/coroutines/ContinuationInterceptor$DefaultImpls;->minusKey(Lkotlin/coroutines/ContinuationInterceptor;Lkotlin/coroutines/CoroutineContext$Key;)Lkotlin/coroutines/CoroutineContext;
@@ -10578,6 +10579,7 @@ Lcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$4$1;
 Lcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$5$1;
 Lcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$6;
 Lcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$7;
+Lcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$8;
 Lcom/fragula2/compose/FragulaNavHostKt$NavHostBackHandler$1$invoke$$inlined$onDispose$1;
 Lcom/fragula2/compose/FragulaNavHostKt$NavHostBackHandler$1;
 Lcom/fragula2/compose/FragulaNavHostKt$NavHostContent$1;

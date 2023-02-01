@@ -16,19 +16,27 @@ class StartupBenchmark {
     val benchmarkRule = MacrobenchmarkRule()
 
     @Test
-    fun startupCompilationNone() = startup(CompilationMode.None())
+    fun startupXmlCompilationNone() = startup(AppVariant.XML, CompilationMode.None())
 
     @Test
-    fun startupCompilationPartial() = startup(CompilationMode.Partial())
+    fun startupXmlCompilationPartial() = startup(AppVariant.XML, CompilationMode.Partial())
 
-    private fun startup(compilationMode: CompilationMode) = benchmarkRule.measureRepeated(
-        packageName = "com.fragula2.sample",
-        metrics = listOf(StartupTimingMetric()),
-        compilationMode = compilationMode,
-        startupMode = StartupMode.COLD,
-        iterations = 5,
-    ) {
-        pressHome()
-        startActivityAndWait()
+    @Test
+    fun startupComposeCompilationNone() = startup(AppVariant.COMPOSE, CompilationMode.None())
+
+    @Test
+    fun startupComposeCompilationPartial() = startup(AppVariant.COMPOSE, CompilationMode.Partial())
+
+    private fun startup(appVariant: AppVariant, compilationMode: CompilationMode) {
+        benchmarkRule.measureRepeated(
+            packageName = "com.fragula2.sample",
+            metrics = listOf(StartupTimingMetric()),
+            compilationMode = compilationMode,
+            startupMode = StartupMode.COLD,
+            iterations = 5,
+        ) {
+            pressHome()
+            startActivityAndWait(appVariant)
+        }
     }
 }

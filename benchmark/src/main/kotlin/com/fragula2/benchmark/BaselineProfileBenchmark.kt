@@ -15,10 +15,17 @@ class BaselineProfileBenchmark {
     val baselineProfileRule = BaselineProfileRule()
 
     @Test
-    fun generate() = baselineProfileRule.collectBaselineProfile(
-        packageName = "com.fragula2.sample"
-    ) {
-        pressHome()
-        startActivityAndWait()
+    fun generateXmlProfile() = generate(AppVariant.XML)
+
+    @Test
+    fun generateComposeProfile() = generate(AppVariant.COMPOSE)
+
+    private fun generate(appVariant: AppVariant) {
+        baselineProfileRule.collectBaselineProfile(
+            packageName = "com.fragula2.sample"
+        ) {
+            pressHome()
+            startActivityAndWait(appVariant)
+        }
     }
 }
