@@ -111,11 +111,13 @@ fun FragulaNavHost(
             animDurationMs = animDurationMs,
             elevation = elevation,
             offsetProvider = { parallaxOffset },
+            systemBackProvider = { swipeBackNavigator.systemBack.value != null },
             positionChanger = { position, positionOffset, positionOffsetPixels ->
                 onPageScrolled(position, positionOffset, positionOffsetPixels)
                 parallaxOffset = positionOffset
             },
-            scrollFinished = { swipeBackNavigator.markTransitionComplete(backStackEntry) },
+            onScrollCancelled = { swipeBackNavigator.slideOut = it == SwipeState.SLIDE_OUT },
+            onScrollFinished = { swipeBackNavigator.markTransitionComplete(backStackEntry) },
             modifier = modifier.fillMaxSize(),
         ) {
             NavHostContent(saveableStateHolder, backStackEntry)
@@ -144,8 +146,10 @@ private fun SwipeableBox(
     animDurationMs: Int,
     elevation: Dp,
     offsetProvider: () -> Float,
+    systemBackProvider: () -> Boolean,
     positionChanger: (Int, Float, Int) -> Unit,
-    scrollFinished: () -> Unit,
+    onScrollCancelled: (SwipeState) -> Unit,
+    onScrollFinished: () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
@@ -177,13 +181,13 @@ private fun SwipeableBox(
                 pageStart -> {
                     pointerPosition = pageStart
                     swipeState = SwipeState.FOLLOW_POINTER
-                    scrollFinished()
+                    onScrollFinished()
                 }
                 pageEnd -> {
                     pointerPosition = pageStart
                     swipeState = SwipeState.FOLLOW_POINTER
                     navController.popBackStack()
-                    scrollFinished()
+                    onScrollFinished()
                 }
             }
         }
@@ -196,15 +200,16 @@ private fun SwipeableBox(
             val positionOffsetPixels = (pageEnd * (1.0f - positionOffset)).toInt()
             val positionActual = if (scrollPosition > pageStart) position - 1 else position
             positionChanger(positionActual, positionOffset, positionOffsetPixels)
+
+            if (systemBackProvider()) { // system back button
+                swipeState = SwipeState.SLIDE_OUT
+            }
         }
 
-        DisposableEffect(position) {
+        LaunchedEffect(position) {
             if (animateSlideIn) {
                 animateSlideIn = false
                 swipeState = SwipeState.SLIDE_IN
-            }
-            onDispose {
-                // TODO popBackStack animation
             }
         }
 
@@ -237,6 +242,7 @@ private fun SwipeableBox(
                             pointerPosition < pageEnd / 2 -> SwipeState.SLIDE_IN
                             else -> SwipeState.FOLLOW_POINTER
                         }
+                        onScrollCancelled(swipeState)
                     }
                 },
             ).graphicsLayer {
