@@ -10,7 +10,7 @@ import coil.transform.RoundedCornersTransformation
 import com.fragula2.sample.databinding.ItemChatBinding
 
 class ChatAdapter(
-    private val onClick: (Chat) -> Unit
+    private val onClick: (Chat) -> Unit,
 ) : ListAdapter<Chat, ChatAdapter.ChatViewHolder>(diffCallback) {
 
     companion object {
@@ -34,7 +34,7 @@ class ChatAdapter(
 
     class ChatViewHolder(
         private val binding: ItemChatBinding,
-        private val onClick: (Chat) -> Unit
+        private val onClick: (Chat) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {

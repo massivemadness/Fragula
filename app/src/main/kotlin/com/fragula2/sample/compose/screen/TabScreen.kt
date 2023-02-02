@@ -16,7 +16,7 @@ fun TabScreen(navController: NavController, text: String) {
     Box(
         modifier = Modifier.fillMaxSize()
             .background(MaterialTheme.colors.background),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = text,

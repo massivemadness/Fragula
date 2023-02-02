@@ -87,24 +87,28 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         scrollDuration = requireContext()
             .resolveInteger(R.attr.fgl_anim_duration, R.integer.anim_duration_default).toLong()
         elevation = view.findViewById<View>(R.id.elevation).also { elevation ->
-            elevation.updateLayoutAngle(swipeDirection,
-                requireContext().resolveDimen(R.attr.fgl_elevation, R.dimen.elevation_default)
+            elevation.updateLayoutAngle(
+                swipeDirection = swipeDirection,
+                requireContext().resolveDimen(R.attr.fgl_elevation, R.dimen.elevation_default),
             )
         }
         viewPager = view.findViewById<ViewPager2>(R.id.viewPager).also { viewPager ->
             viewPager.registerOnPageChangeCallback(onPageChangeCallback)
             viewPager.setPageTransformer(
-                SwipeTransformer(swipeDirection,
+                SwipeTransformer(
+                    swipeDirection = swipeDirection,
                     requireContext().resolveFloat(
-                        R.attr.fgl_parallax_factor, R.dimen.parallax_factor_default
+                        R.attr.fgl_parallax_factor,
+                        R.dimen.parallax_factor_default,
                     ),
                     requireContext().resolveFloat(
-                        R.attr.fgl_scrim_amount, R.dimen.scrim_amount_default
+                        R.attr.fgl_scrim_amount,
+                        R.dimen.scrim_amount_default,
                     ),
-                )
+                ),
             )
             viewPager.setBackgroundColor(
-                requireContext().resolveColor(R.attr.fgl_scrim_color, R.color.scrim_color_default)
+                requireContext().resolveColor(R.attr.fgl_scrim_color, R.color.scrim_color_default),
             )
             viewPager.pageOverScrollMode = View.OVER_SCROLL_NEVER
             viewPager.pageSwipeDirection = swipeDirection
@@ -125,8 +129,9 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     }
 
     override fun navigate(entry: NavBackStackEntry) {
-        if (fakeScroll)
+        if (fakeScroll) {
             return delayedTransitions.put { navigate(entry) }
+        }
         fakeScroll = true
         activity?.requestViewLock(true)
         navBackStackAdapter?.push(entry)
@@ -142,8 +147,9 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
             userScroll = false
             return
         }
-        if (fakeScroll)
+        if (fakeScroll) {
             return delayedTransitions.put { popBackStack(popUpTo) }
+        }
         fakeScroll = true
         activity?.requestViewLock(true)
         viewPager?.fakeDragTo(false, swipeDirection, scrollDuration) {

@@ -33,8 +33,7 @@ class NavBackStackAdapter(private val fragment: Fragment) : FragmentStateAdapter
     }
 
     fun pop() {
-        if (currentList.size <= 1)
-            return
+        if (currentList.size <= 1) return
         val index = currentList.size - 1
         currentList.removeAt(index)
         notifyItemRemoved(index)

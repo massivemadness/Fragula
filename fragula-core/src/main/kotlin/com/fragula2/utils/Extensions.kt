@@ -19,6 +19,7 @@ import com.fragula2.common.SwipeInterpolator
 internal var ViewPager2.pageOverScrollMode: Int
     @RestrictTo(LIBRARY_GROUP)
     get() = getChildAt(0).overScrollMode
+
     @RestrictTo(LIBRARY_GROUP)
     set(value) { getChildAt(0).overScrollMode = value }
 
@@ -41,6 +42,7 @@ internal var ViewPager2.pageSwipeDirection: SwipeDirection
         }
         else -> throw IllegalStateException("Unsupported ViewPager2 orientation")
     }
+
     @RestrictTo(LIBRARY_GROUP)
     set(value) {
         when (value) {
@@ -68,7 +70,7 @@ internal fun ViewPager2.fakeDragTo(
     stepForward: Boolean,
     swipeDirection: SwipeDirection,
     scrollDuration: Long,
-    block: () -> Unit
+    block: () -> Unit,
 ) {
     val page = if (stepForward) currentItem + 1 else currentItem - 1
     val (from, to) = when (swipeDirection) {
@@ -153,11 +155,11 @@ internal fun Activity.requestViewLock(locked: Boolean) {
     if (locked) {
         window?.setFlags(
             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
         )
     } else {
         window?.clearFlags(
-            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
         )
     }
 }

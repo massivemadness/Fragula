@@ -32,7 +32,7 @@ class ComposeActivity : ComponentActivity() {
             FragulaTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                    color = MaterialTheme.colors.background,
                 ) {
                     val navController = rememberFragulaNavController()
                     var arrowProgress by remember { mutableStateOf(0f) }
@@ -46,9 +46,9 @@ class ComposeActivity : ComponentActivity() {
                                     } else {
                                         navController.popBackStack()
                                     }
-                                }
+                                },
                             )
-                        }
+                        },
                     ) { paddingValues ->
                         FragulaNavHost(
                             navController = navController,
@@ -59,33 +59,42 @@ class ComposeActivity : ComponentActivity() {
                                     positionOffset > 0 -> 1f - positionOffset
                                     else -> 0f
                                 }
-                            }
+                            },
                         ) {
                             swipeable("list") {
                                 ListScreen(navController)
                             }
-                            swipeable("details/{chatId}", arguments = listOf(
-                                navArgument("chatId") { NavType.StringType }
-                            )) { backStackEntry ->
+                            swipeable(
+                                route = "details/{chatId}",
+                                arguments = listOf(
+                                    navArgument("chatId") { NavType.StringType },
+                                ),
+                            ) { backStackEntry ->
                                 DetailsScreen(
                                     navController = navController,
-                                    chatId = backStackEntry.arguments?.getString("chatId") ?: ""
+                                    chatId = backStackEntry.arguments?.getString("chatId") ?: "",
                                 )
                             }
-                            swipeable("profile/{chatId}", arguments = listOf(
-                                navArgument("chatId") { NavType.StringType }
-                            )) { backStackEntry ->
+                            swipeable(
+                                route = "profile/{chatId}",
+                                arguments = listOf(
+                                    navArgument("chatId") { NavType.StringType },
+                                ),
+                            ) { backStackEntry ->
                                 ProfileScreen(
                                     navController = navController,
-                                    chatId = backStackEntry.arguments?.getString("chatId") ?: ""
+                                    chatId = backStackEntry.arguments?.getString("chatId") ?: "",
                                 )
                             }
-                            swipeable("tab/{text}", arguments = listOf(
-                                navArgument("text") { NavType.StringType }
-                            )) { backStackEntry ->
+                            swipeable(
+                                route = "tab/{text}",
+                                arguments = listOf(
+                                    navArgument("text") { NavType.StringType },
+                                ),
+                            ) { backStackEntry ->
                                 TabScreen(
                                     navController = navController,
-                                    text = backStackEntry.arguments?.getString("text") ?: ""
+                                    text = backStackEntry.arguments?.getString("text") ?: "",
                                 )
                             }
                         }
@@ -113,6 +122,6 @@ private fun FragulaAppBar(
                     contentDescription = null,
                 )
             }
-        }
+        },
     )
 }

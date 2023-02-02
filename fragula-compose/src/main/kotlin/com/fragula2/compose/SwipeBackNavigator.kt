@@ -7,7 +7,7 @@ import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun rememberFragulaNavController(
-    vararg navigators: Navigator<out NavDestination>
+    vararg navigators: Navigator<out NavDestination>,
 ): NavHostController {
     val swipeBackNavigator = remember { SwipeBackNavigator() }
     return rememberNavController(swipeBackNavigator, *navigators)
@@ -18,8 +18,8 @@ fun rememberFragulaNavController(
     message = "Replace rememberNavController with rememberFragulaNavController",
     replaceWith = ReplaceWith(
         "rememberFragulaNavController()",
-        "com.fragula2.compose.rememberFragulaNavController"
-    )
+        "com.fragula2.compose.rememberFragulaNavController",
+    ),
 )
 fun rememberSwipeBackNavigator(): SwipeBackNavigator {
     return remember { SwipeBackNavigator() }
@@ -34,7 +34,7 @@ class SwipeBackNavigator : Navigator<SwipeBackNavigator.Destination>() {
     override fun navigate(
         entries: List<NavBackStackEntry>,
         navOptions: NavOptions?,
-        navigatorExtras: Extras?
+        navigatorExtras: Extras?,
     ) {
         entries.forEach { entry ->
             state.pushWithTransition(entry)
@@ -56,7 +56,7 @@ class SwipeBackNavigator : Navigator<SwipeBackNavigator.Destination>() {
     @NavDestination.ClassType(Composable::class)
     class Destination(
         navigator: SwipeBackNavigator,
-        internal val content: @Composable (NavBackStackEntry) -> Unit
+        internal val content: @Composable (NavBackStackEntry) -> Unit,
     ) : NavDestination(navigator)
 
     companion object {

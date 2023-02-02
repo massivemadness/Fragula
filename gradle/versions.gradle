@@ -46,7 +46,7 @@ ext {
     macrobenchmark_version = '1.1.1'
 
     // Lint
-    ktlint_version = '0.40.0'
+    ktlint_version = '0.48.2'
 
     plugin = [
             android_gradle_plugin: "com.android.tools.build:gradle:$agp_version",

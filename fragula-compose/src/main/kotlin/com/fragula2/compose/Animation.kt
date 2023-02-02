@@ -41,7 +41,7 @@ internal fun Modifier.animateDrag(
                 velocityTracker.resetTracking()
                 onScrollCancelled(velocity)
                 dragOffset = 0f
-            }
+            },
         )
     }
 }

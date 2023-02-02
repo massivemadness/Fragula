@@ -14,6 +14,6 @@ fun interface OnSwipeListener {
     fun onPageScrolled(
         position: Int,
         positionOffset: Float,
-        positionOffsetPixels: Int
+        positionOffsetPixels: Int,
     )
 }
