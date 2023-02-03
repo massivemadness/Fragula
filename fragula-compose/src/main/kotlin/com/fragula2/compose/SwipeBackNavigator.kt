@@ -1,8 +1,6 @@
 package com.fragula2.compose
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.navigation.*
 import androidx.navigation.compose.rememberNavController
 
@@ -29,9 +27,10 @@ fun rememberSwipeBackNavigator(): SwipeBackNavigator {
 @Navigator.Name("swipeable")
 class SwipeBackNavigator : Navigator<SwipeBackNavigator.Destination>() {
 
-    internal val systemBack = mutableStateOf<Pair<NavBackStackEntry, Boolean>?>(null)
     internal val transitionsInProgress get() = state.transitionsInProgress
     internal val backStack get() = state.backStack
+
+    internal var systemBack by mutableStateOf<Pair<NavBackStackEntry, Boolean>?>(null)
     internal var slideOut = false
 
     override fun navigate(
@@ -57,15 +56,15 @@ class SwipeBackNavigator : Navigator<SwipeBackNavigator.Destination>() {
                 )
                 slideOut = false
             }
-            systemBack.value == null -> {
-                systemBack.value = popUpTo to savedState
+            systemBack == null -> {
+                systemBack = popUpTo to savedState
             }
-            systemBack.value != null -> {
+            systemBack != null -> {
                 state.popWithTransition(
-                    popUpTo = systemBack.value?.first ?: return,
-                    saveState = systemBack.value?.second ?: return,
+                    popUpTo = systemBack?.first ?: return,
+                    saveState = systemBack?.second ?: return,
                 )
-                systemBack.value = null
+                systemBack = null
             }
         }
     }

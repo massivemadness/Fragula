@@ -111,7 +111,7 @@ fun FragulaNavHost(
             animDurationMs = animDurationMs,
             elevation = elevation,
             offsetProvider = { parallaxOffset },
-            systemBackProvider = { swipeBackNavigator.systemBack.value != null },
+            systemBackProvider = { swipeBackNavigator.systemBack != null },
             positionChanger = { position, positionOffset, positionOffsetPixels ->
                 onPageScrolled(position, positionOffset, positionOffsetPixels)
                 parallaxOffset = positionOffset
