@@ -46,7 +46,7 @@ fun ChatItem(chat: Chat, onClick: () -> Unit = {}) {
     Row(
         modifier = Modifier.fillMaxWidth()
             .background(MaterialTheme.colors.surface)
-            .clickable { onClick() }
+            .clickable { onClick() },
     ) {
         Image(
             painter = painterResource(chat.image),
@@ -58,7 +58,7 @@ fun ChatItem(chat: Chat, onClick: () -> Unit = {}) {
         )
         Column(
             modifier = Modifier.padding(vertical = 8.dp)
-                .padding(end = 16.dp)
+                .padding(end = 16.dp),
         ) {
             Text(
                 text = chatState.name,
@@ -70,7 +70,7 @@ fun ChatItem(chat: Chat, onClick: () -> Unit = {}) {
                 text = stringResource(chatState.lastMessage),
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colors.onBackground,
-                fontSize = 16.sp
+                fontSize = 16.sp,
             )
         }
     }
@@ -83,12 +83,12 @@ fun ChatItemPreviewLight() {
         id = "1",
         name = "Antonio Maretti",
         image = R.drawable.photo_female_1,
-        lastMessage = R.string.lorem_ipsum
+        lastMessage = R.string.lorem_ipsum,
     )
     FragulaTheme(darkTheme = false) {
         ChatItem(
             chat = chatMock,
-            onClick = {}
+            onClick = {},
         )
     }
 }
@@ -100,12 +100,12 @@ fun ChatItemPreviewDark() {
         id = "1",
         name = "Antonio Maretti",
         image = R.drawable.photo_female_1,
-        lastMessage = R.string.lorem_ipsum
+        lastMessage = R.string.lorem_ipsum,
     )
     FragulaTheme(darkTheme = true) {
         ChatItem(
             chat = chatMock,
-            onClick = {}
+            onClick = {},
         )
     }
 }

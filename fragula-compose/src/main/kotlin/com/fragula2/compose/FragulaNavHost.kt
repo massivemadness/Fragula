@@ -29,12 +29,13 @@ fun FragulaNavHost(
     startDestination: String,
     modifier: Modifier = Modifier,
     route: String? = null,
+    onPageScrolled: (Int, Float, Int) -> Unit = { _, _, _ -> },
     scrimColor: Color = ScrimColor,
     scrimAmount: Float = 0.15f,
     parallaxFactor: Float = 1.3f,
     animDurationMs: Int = 500,
     elevation: Dp = 3.dp,
-    builder: NavGraphBuilder.() -> Unit
+    builder: NavGraphBuilder.() -> Unit,
 ) {
     FragulaNavHost(
         navController = navController,
@@ -42,11 +43,12 @@ fun FragulaNavHost(
             navController.createGraph(startDestination, route, builder)
         },
         modifier = modifier,
+        onPageScrolled = onPageScrolled,
         scrimColor = scrimColor,
         scrimAmount = scrimAmount,
         parallaxFactor = parallaxFactor,
         animDurationMs = animDurationMs,
-        elevation = elevation
+        elevation = elevation,
     )
 }
 
@@ -54,7 +56,7 @@ fun NavGraphBuilder.swipeable(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),
-    content: @Composable (NavBackStackEntry) -> Unit
+    content: @Composable (NavBackStackEntry) -> Unit,
 ) {
     addDestination(
         SwipeBackNavigator.Destination(provider[SwipeBackNavigator::class], content).apply {
@@ -65,7 +67,7 @@ fun NavGraphBuilder.swipeable(
             deepLinks.forEach { deepLink ->
                 addDeepLink(deepLink)
             }
-        }
+        },
     )
 }
 
@@ -74,13 +76,13 @@ fun FragulaNavHost(
     navController: NavHostController,
     graph: NavGraph,
     modifier: Modifier,
+    onPageScrolled: (Int, Float, Int) -> Unit,
     scrimColor: Color,
     scrimAmount: Float,
     parallaxFactor: Float,
     animDurationMs: Int,
     elevation: Dp,
 ) {
-
     // region SETUP
 
     NavHostLifecycle(navController)
@@ -96,21 +98,27 @@ fun FragulaNavHost(
 
     // endregion
 
-    var parallaxOffset by rememberSaveable { mutableStateOf(0f) }
+    var parallaxOffset by remember { mutableStateOf(0f) }
 
     for ((index, backStackEntry) in backStack.withIndex()) { // FIXME don't render all entries at once
         SwipeableBox(
             navController = navController,
-            backStackIndex = index,
-            backStackSize = backStack.size,
+            position = index,
+            pageCount = backStack.size,
             scrimColor = scrimColor,
             scrimAmount = scrimAmount,
             parallaxFactor = parallaxFactor,
             animDurationMs = animDurationMs,
             elevation = elevation,
+            offsetProvider = { parallaxOffset },
+            systemBackProvider = { swipeBackNavigator.systemBack != null },
+            positionChanger = { position, positionOffset, positionOffsetPixels ->
+                onPageScrolled(position, positionOffset, positionOffsetPixels)
+                parallaxOffset = positionOffset
+            },
+            onScrollCancelled = { swipeBackNavigator.slideOut = it == SwipeState.SLIDE_OUT },
+            onScrollFinished = { swipeBackNavigator.markTransitionComplete(backStackEntry) },
             modifier = modifier.fillMaxSize(),
-            parallaxProvider = { parallaxOffset },
-            parallaxChanger = { parallaxOffset = it }
         ) {
             NavHostContent(saveableStateHolder, backStackEntry)
         }
@@ -130,67 +138,78 @@ fun FragulaNavHost(
 @Composable
 private fun SwipeableBox(
     navController: NavHostController,
-    backStackIndex: Int,
-    backStackSize: Int,
+    position: Int,
+    pageCount: Int,
     scrimColor: Color,
     scrimAmount: Float,
     parallaxFactor: Float,
     animDurationMs: Int,
     elevation: Dp,
+    offsetProvider: () -> Float,
+    systemBackProvider: () -> Boolean,
+    positionChanger: (Int, Float, Int) -> Unit,
+    onScrollCancelled: (SwipeState) -> Unit,
+    onScrollFinished: () -> Unit,
     modifier: Modifier = Modifier,
-    parallaxProvider: () -> Float = { 0f },
-    parallaxChanger: (Float) -> Unit = {},
     content: @Composable () -> Unit,
 ) {
     BoxWithConstraints(modifier) {
         val pageStart = 0f
         val pageEnd = constraints.maxWidth.toFloat()
+        val parallaxFormula = {
+            -maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
+        }
 
-        var animateSlideIn by rememberSaveable { mutableStateOf(backStackIndex > 0) }
-        var swipeState by rememberSwipeState()
-        var pointerPosition by rememberSaveable {
+        var swipeState by rememberSaveable { mutableStateOf(SwipeState.FOLLOW_POINTER) }
+        var animateSlideIn by rememberSaveable { mutableStateOf(position > 0) }
+        var pointerPosition by remember {
             val initialValue = if (animateSlideIn) pageEnd else pageStart
             mutableStateOf(initialValue)
         }
         val scrollPosition by animateFloatAsState(
             targetValue = when (swipeState) {
                 SwipeState.FOLLOW_POINTER -> pointerPosition
-                SwipeState.SWIPE_IN -> pageStart
-                SwipeState.SWIPE_OUT -> pageEnd
+                SwipeState.SLIDE_IN -> pageStart
+                SwipeState.SLIDE_OUT -> pageEnd
             },
             animationSpec = tween(
                 durationMillis = if (swipeState != SwipeState.FOLLOW_POINTER) animDurationMs else 0,
-                easing = SwipeInterpolator().toEasing()
-            )
+                easing = SwipeInterpolator().toEasing(),
+            ),
         ) { value ->
             when (value) {
                 pageStart -> {
                     pointerPosition = pageStart
                     swipeState = SwipeState.FOLLOW_POINTER
+                    onScrollFinished()
                 }
                 pageEnd -> {
                     pointerPosition = pageStart
                     swipeState = SwipeState.FOLLOW_POINTER
                     navController.popBackStack()
+                    onScrollFinished()
                 }
             }
         }
 
-        val applyParallax = backStackIndex == backStackSize - 2
-        val calculateParallax = backStackIndex == backStackSize - 1
-        if (calculateParallax) {
+        val applyParallax = position == pageCount - 2
+        val calculatePosition = position == pageCount - 1
+        if (calculatePosition) {
             val progress = scrollPosition / (pageEnd * 0.01f)
-            val scrollOffset = progress * 0.01f // range 0f..1f
-            parallaxChanger(-maxWidth.value * (1.0f - scrollOffset) / parallaxFactor)
+            val positionOffset = progress * 0.01f // range 0f..1f
+            val positionOffsetPixels = (pageEnd * (1.0f - positionOffset)).toInt()
+            val positionActual = if (scrollPosition > pageStart) position - 1 else position
+            positionChanger(positionActual, positionOffset, positionOffsetPixels)
+
+            if (systemBackProvider()) { // system back button
+                swipeState = SwipeState.SLIDE_OUT
+            }
         }
 
-        DisposableEffect(backStackIndex) {
+        LaunchedEffect(position) {
             if (animateSlideIn) {
                 animateSlideIn = false
-                swipeState = SwipeState.SWIPE_IN
-            }
-            onDispose {
-                // TODO popBackStack animation
+                swipeState = SwipeState.SLIDE_IN
             }
         }
 
@@ -206,27 +225,30 @@ private fun SwipeableBox(
             )
         }
 
-        Box(modifier = modifier.animateDrag(
-            enabled = backStackIndex > 0,
-            onScrollChanged = { position ->
-                if (swipeState == SwipeState.FOLLOW_POINTER) {
-                    pointerPosition = position
-                }
-            },
-            onScrollCancelled = { velocity ->
-                if (swipeState == SwipeState.FOLLOW_POINTER) {
-                    swipeState = when {
-                        velocity > 1000 -> SwipeState.SWIPE_OUT
-                        pointerPosition == 0f -> SwipeState.FOLLOW_POINTER
-                        pointerPosition > pageEnd / 2 -> SwipeState.SWIPE_OUT
-                        pointerPosition < pageEnd / 2 -> SwipeState.SWIPE_IN
-                        else -> SwipeState.FOLLOW_POINTER
+        Box(
+            modifier = modifier.animateDrag(
+                enabled = position > 0,
+                onScrollChanged = { position ->
+                    if (swipeState == SwipeState.FOLLOW_POINTER) {
+                        pointerPosition = position
                     }
-                }
+                },
+                onScrollCancelled = { velocity ->
+                    if (swipeState == SwipeState.FOLLOW_POINTER) {
+                        swipeState = when {
+                            velocity > 1000 -> SwipeState.SLIDE_OUT // Fling
+                            pointerPosition == 0f -> SwipeState.FOLLOW_POINTER
+                            pointerPosition > pageEnd / 2 -> SwipeState.SLIDE_OUT
+                            pointerPosition < pageEnd / 2 -> SwipeState.SLIDE_IN
+                            else -> SwipeState.FOLLOW_POINTER
+                        }
+                        onScrollCancelled(swipeState)
+                    }
+                },
+            ).graphicsLayer {
+                translationX = if (applyParallax) parallaxFormula() else scrollPosition
             },
-        ).graphicsLayer {
-            translationX = if (applyParallax) parallaxProvider() else scrollPosition
-        }) {
+        ) {
             content()
         }
 
@@ -236,7 +258,7 @@ private fun SwipeableBox(
         if (applyElevation) {
             PageElevation(
                 positionProvider = { scrollPosition },
-                elevation = elevation
+                elevation = elevation,
             )
         }
     }
@@ -249,12 +271,13 @@ private fun PageScrim(
     scrimColor: Color,
     scrimAmount: Float,
 ) {
-    Canvas(modifier = Modifier.fillMaxSize()
-        .graphicsLayer {
-            val progress = positionProvider() / (pageEnd * 0.01f)
-            val scrollOffset = progress * 0.01f // range 0f..1f
-            alpha = (1.0f - scrollOffset) * scrimAmount
-        }
+    Canvas(
+        modifier = Modifier.fillMaxSize()
+            .graphicsLayer {
+                val progress = positionProvider() / (pageEnd * 0.01f)
+                val scrollOffset = progress * 0.01f // range 0f..1f
+                alpha = (1.0f - scrollOffset) * scrimAmount
+            },
     ) {
         drawRect(color = scrimColor)
     }
@@ -265,16 +288,17 @@ private fun PageElevation(
     positionProvider: () -> Float,
     elevation: Dp,
 ) {
-    Canvas(modifier = Modifier.fillMaxHeight()
-        .requiredWidth(elevation)
-        .graphicsLayer {
-            translationX = positionProvider() - elevation.toPx()
-        }
+    Canvas(
+        modifier = Modifier.fillMaxHeight()
+            .requiredWidth(elevation)
+            .graphicsLayer {
+                translationX = positionProvider() - elevation.toPx()
+            },
     ) {
         drawRect(
             brush = Brush.horizontalGradient(
-                colors = listOf(ElevationEnd, ElevationStart)
-            )
+                colors = listOf(ElevationEnd, ElevationStart),
+            ),
         )
     }
 }
@@ -282,7 +306,7 @@ private fun PageElevation(
 @Composable
 private fun NavHostContent(
     saveableStateHolder: SaveableStateHolder,
-    backStackEntry: NavBackStackEntry
+    backStackEntry: NavBackStackEntry,
 ) {
     val destination = backStackEntry.destination as SwipeBackNavigator.Destination
     backStackEntry.LocalOwnersProvider(saveableStateHolder) {

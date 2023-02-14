@@ -18,7 +18,7 @@ fun getChats(): List<Chat> {
             id = index.toString(),
             name = name,
             image = images.getResourceId(index, -1),
-            lastMessage = R.string.lorem_ipsum
+            lastMessage = R.string.lorem_ipsum,
         )
     }
     images.recycle()

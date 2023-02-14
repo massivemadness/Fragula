@@ -26,7 +26,7 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         binding.recyclerView.setHasFixedSize(true)
         binding.recyclerView.applySystemWindowInsetsPadding(applyBottom = true)
         binding.recyclerView.addItemDecoration(
-            DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+            DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL),
         )
         binding.recyclerView.adapter = ChatAdapter { chat ->
             val direction = ListFragmentDirections.actionToDetailFragment(chat)
@@ -41,9 +41,9 @@ class ListFragment : Fragment(R.layout.fragment_list) {
                         id = UUID.randomUUID().toString(),
                         name = name,
                         image = images.getResourceId(index, -1),
-                        lastMessage = R.string.lorem_ipsum
+                        lastMessage = R.string.lorem_ipsum,
                     )
-                }
+                },
             )
             images.recycle()
         }

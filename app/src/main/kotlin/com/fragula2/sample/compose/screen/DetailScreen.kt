@@ -51,25 +51,25 @@ fun DetailsScreen(navController: NavController, chatId: String) {
                 fromMe = true,
                 picture = null,
                 time = "12:31",
-                modifier = Modifier.align(Alignment.End)
+                modifier = Modifier.align(Alignment.End),
             )
             MessageBox(
                 fromMe = false,
                 picture = randomImage(),
                 time = "12:38",
-                modifier = Modifier.align(Alignment.Start)
+                modifier = Modifier.align(Alignment.Start),
             )
             MessageBox(
                 fromMe = true,
                 picture = null,
                 time = "12:45",
-                modifier = Modifier.align(Alignment.End)
+                modifier = Modifier.align(Alignment.End),
             )
             MessageBox(
                 fromMe = false,
                 picture = null,
                 time = "12:47",
-                modifier = Modifier.align(Alignment.Start)
+                modifier = Modifier.align(Alignment.Start),
             )
         }
         SendBox {
@@ -84,7 +84,7 @@ fun ProfileButton(chat: Chat, onClick: () -> Unit) {
         modifier = Modifier.fillMaxWidth()
             .height(28.dp)
             .background(MaterialTheme.colors.surface)
-            .clickable { onClick() }
+            .clickable { onClick() },
     ) {
         Row(modifier = Modifier.align(Alignment.Center)) {
             Image(
@@ -113,9 +113,9 @@ fun ProfileButtonPreview() {
                 id = "1",
                 name = "Person Name",
                 image = R.drawable.photo_female_1,
-                lastMessage = R.string.lorem_ipsum
+                lastMessage = R.string.lorem_ipsum,
             ),
-            onClick = {}
+            onClick = {},
         )
     }
 }
@@ -124,7 +124,7 @@ fun ProfileButtonPreview() {
 fun SendBox(onClick: (String) -> Unit) {
     Surface(
         modifier = Modifier.fillMaxWidth()
-            .height(48.dp)
+            .height(48.dp),
     ) {
         Row {
             val message = stringResource(R.string.message)
@@ -138,13 +138,13 @@ fun SendBox(onClick: (String) -> Unit) {
                     Text(text = stringResource(R.string.message))
                 },*/
                 textStyle = MaterialTheme.typography.body1.copy(
-                    color = MaterialTheme.colors.onSurface
+                    color = MaterialTheme.colors.onSurface,
                 ),
                 cursorBrush = SolidColor(MaterialTheme.colors.onPrimary),
                 singleLine = true,
                 modifier = Modifier.weight(1f)
                     .align(Alignment.CenterVertically)
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 16.dp),
             )
             Image(
                 painter = painterResource(R.drawable.ic_send),
@@ -153,9 +153,9 @@ fun SendBox(onClick: (String) -> Unit) {
                     .padding(horizontal = 12.dp)
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
-                        indication = rememberRipple(bounded = false)
+                        indication = rememberRipple(bounded = false),
                     ) { onClick(text) },
-                colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary)
+                colorFilter = ColorFilter.tint(MaterialTheme.colors.secondary),
             )
         }
     }
@@ -174,7 +174,7 @@ fun MessageBox(
     fromMe: Boolean,
     picture: Painter?,
     time: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val image = remember { picture }
     Card(
@@ -202,7 +202,7 @@ fun MessageBox(
                     modifier = Modifier.padding(
                         top = 56.dp, // TODO use column instead
                         start = 8.dp,
-                        bottom = 8.dp
+                        bottom = 8.dp,
                     ).clip(RoundedCornerShape(16f)),
                 )
             }

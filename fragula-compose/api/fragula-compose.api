@@ -1,0 +1,52 @@
+public final class com/fragula2/compose/BuildConfig {
+	public static final field BUILD_TYPE Ljava/lang/String;
+	public static final field DEBUG Z
+	public static final field LIBRARY_PACKAGE_NAME Ljava/lang/String;
+	public fun <init> ()V
+}
+
+public final class com/fragula2/compose/ComposableSingletons$SwipeBackNavigatorKt {
+	public static final field INSTANCE Lcom/fragula2/compose/ComposableSingletons$SwipeBackNavigatorKt;
+	public static field lambda-1 Lkotlin/jvm/functions/Function3;
+	public fun <init> ()V
+	public final fun getLambda-1$fragula_compose_release ()Lkotlin/jvm/functions/Function3;
+}
+
+public final class com/fragula2/compose/FragulaNavHostKt {
+	public static final fun FragulaNavHost-Gl-hl1A (Landroidx/navigation/NavHostController;Ljava/lang/String;Landroidx/compose/ui/Modifier;Ljava/lang/String;Lkotlin/jvm/functions/Function3;JFFIFLkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;III)V
+	public static final fun FragulaNavHost-L-v2icQ (Landroidx/navigation/NavHostController;Landroidx/navigation/NavGraph;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;JFFIFLandroidx/compose/runtime/Composer;I)V
+	public static final fun swipeable (Landroidx/navigation/NavGraphBuilder;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Lkotlin/jvm/functions/Function3;)V
+	public static synthetic fun swipeable$default (Landroidx/navigation/NavGraphBuilder;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
+}
+
+public final class com/fragula2/compose/SwipeBackNavigator : androidx/navigation/Navigator {
+	public static final field $stable I
+	public static final field Companion Lcom/fragula2/compose/SwipeBackNavigator$Companion;
+	public fun <init> ()V
+	public synthetic fun createDestination ()Landroidx/navigation/NavDestination;
+	public fun createDestination ()Lcom/fragula2/compose/SwipeBackNavigator$Destination;
+	public fun navigate (Ljava/util/List;Landroidx/navigation/NavOptions;Landroidx/navigation/Navigator$Extras;)V
+	public fun popBackStack (Landroidx/navigation/NavBackStackEntry;Z)V
+}
+
+public final class com/fragula2/compose/SwipeBackNavigator$Companion {
+}
+
+public final class com/fragula2/compose/SwipeBackNavigator$Destination : androidx/navigation/NavDestination {
+	public static final field $stable I
+	public fun <init> (Lcom/fragula2/compose/SwipeBackNavigator;Lkotlin/jvm/functions/Function3;)V
+}
+
+public final class com/fragula2/compose/SwipeBackNavigatorKt {
+	public static final fun rememberFragulaNavController ([Landroidx/navigation/Navigator;Landroidx/compose/runtime/Composer;I)Landroidx/navigation/NavHostController;
+	public static final fun rememberSwipeBackNavigator (Landroidx/compose/runtime/Composer;I)Lcom/fragula2/compose/SwipeBackNavigator;
+}
+
+public final class com/fragula2/compose/SwipeState : java/lang/Enum {
+	public static final field FOLLOW_POINTER Lcom/fragula2/compose/SwipeState;
+	public static final field SLIDE_IN Lcom/fragula2/compose/SwipeState;
+	public static final field SLIDE_OUT Lcom/fragula2/compose/SwipeState;
+	public static fun valueOf (Ljava/lang/String;)Lcom/fragula2/compose/SwipeState;
+	public static fun values ()[Lcom/fragula2/compose/SwipeState;
+}
+

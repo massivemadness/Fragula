@@ -23,7 +23,7 @@ class SwipeBackNavigator(
     override fun navigate(
         entries: List<NavBackStackEntry>,
         navOptions: NavOptions?,
-        navigatorExtras: Extras?
+        navigatorExtras: Extras?,
     ) {
         if (fragmentManager.isStateSaved) {
             Log.i(TAG, "Ignoring navigate() call: FragmentManager has already saved its state")
@@ -67,7 +67,7 @@ class SwipeBackNavigator(
         } else {
             fragmentManager.popBackStack(
                 popUpTo.id,
-                FragmentManager.POP_BACK_STACK_INCLUSIVE
+                FragmentManager.POP_BACK_STACK_INCLUSIVE,
             )
         }
         state.pop(popUpTo, savedState)

@@ -50,7 +50,7 @@ Add this to your module’s `build.gradle` file:
 ```gradle
 dependencies {
   ...
-  implementation 'com.fragula2:fragula-core:2.5'
+  implementation 'com.fragula2:fragula-core:2.6'
 }
 ```
 
@@ -298,7 +298,7 @@ Add this to your module’s `build.gradle` file:
 ```gradle
 dependencies {
   ...
-  implementation 'com.fragula2:fragula-compose:2.5'
+  implementation 'com.fragula2:fragula-compose:2.6'
 }
 ```
 
@@ -319,8 +319,7 @@ setContent {
            modifier = Modifier.fillMaxSize(), 
            color = MaterialTheme.colors.background,
         ) {
-            val swipeBackNavigator = rememberSwipeBackNavigator()
-            val navController = rememberNavController(swipeBackNavigator)
+            val navController = rememberFragulaNavController()
             FragulaNavHost(navController, startDestination = "list") {
                 // ...
             }
@@ -332,8 +331,7 @@ setContent {
 **Second,** you need to replace your `composable(...)` destinations with `swipeable(...)` as shown below:
 
 ```kotlin
-val swipeBackNavigator = rememberSwipeBackNavigator()
-val navController = rememberNavController(swipeBackNavigator)
+val navController = rememberFragulaNavController()
 FragulaNavHost(navController, startDestination = "list") {
     swipeable("list") {
         ListScreen(navController)
@@ -401,6 +399,7 @@ fun FragulaNavHost(
     startDestination: String,
     modifier: Modifier = Modifier,
     route: String? = null,
+    onPageScrolled: (Int, Float, Int) -> Unit, // Scroll listener (position, offset, offsetPixels)
     scrimColor: Color = ScrimColor, // Color used for the dimming
     scrimAmount: Float = 0.15f, // Percentage of dimming (depends on drag offset)
     parallaxFactor: Float = 1.3f, // Parallax multiplier (depends on drag offset)

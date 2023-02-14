@@ -33,7 +33,7 @@ fun View.applySystemWindowInsetsPadding(
     applyLeft: Boolean = false,
     applyTop: Boolean = false,
     applyRight: Boolean = false,
-    applyBottom: Boolean = false
+    applyBottom: Boolean = false,
 ) {
     ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
         val statusBarType = WindowInsetsCompat.Type.statusBars()
@@ -49,7 +49,7 @@ fun View.applySystemWindowInsetsPadding(
             left = leftInset,
             top = topInset,
             right = rightInset,
-            bottom = bottomInset
+            bottom = bottomInset,
         )
 
         insets

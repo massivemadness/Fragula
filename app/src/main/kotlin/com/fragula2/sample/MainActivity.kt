@@ -52,12 +52,12 @@ class MainActivity : AppCompatActivity() {
                 if (position > 0) {
                     binding.drawerLayout.setDrawerLockMode(
                         DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
-                        GravityCompat.START
+                        GravityCompat.START,
                     )
                 } else {
                     binding.drawerLayout.setDrawerLockMode(
                         DrawerLayout.LOCK_MODE_UNLOCKED,
-                        GravityCompat.START
+                        GravityCompat.START,
                     )
                 }
             }
