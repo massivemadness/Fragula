@@ -4,7 +4,7 @@ ext {
             minSdk: 23,
             targetSdk: 33,
             compileSdk: 33,
-            buildTools: '33.0.0',
+            buildTools: '33.0.2',
 
             // Library
             publishVersionName: '2.5',
@@ -12,7 +12,7 @@ ext {
     ]
 
     // Plugins
-    agp_version = '7.4.0'
+    agp_version = '7.4.1'
     validator_version = '0.12.1'
 
     // Core
@@ -23,8 +23,8 @@ ext {
     profileinstaller_version = '1.2.2'
 
     // UI
-    appcompat_version = '1.6.0'
-    materialdesign_version = '1.7.0'
+    appcompat_version = '1.6.1'
+    materialdesign_version = '1.8.0'
     constraintlayout_version = '2.1.3'
     viewpager2_version = '1.0.0'
     coil_version = '2.2.2'

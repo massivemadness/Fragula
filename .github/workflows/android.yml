@@ -26,3 +26,10 @@ jobs:
         with:
           name: Sample App (Debug)
           path: ./app/build/outputs/apk/debug/app-debug.apk
+  lint:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check Kotlin code style
+        run: ./gradlew ktlint
