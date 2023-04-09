@@ -83,7 +83,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = findNavController()
-        swipeDirection = SwipeDirection.find(requireArguments().getInt(ARG_SWIPE_DIRECTION))
+        swipeDirection = SwipeDirection.of(requireArguments().getInt(ARG_SWIPE_DIRECTION))
         scrollDuration = requireContext()
             .resolveInteger(R.attr.fgl_anim_duration, R.integer.anim_duration_default).toLong()
         elevation = view.findViewById<View>(R.id.elevation).also { elevation ->

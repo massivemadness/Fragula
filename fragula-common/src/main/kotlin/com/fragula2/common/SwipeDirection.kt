@@ -8,7 +8,7 @@ enum class SwipeDirection(val value: Int) {
 
     companion object {
 
-        fun find(value: Int): SwipeDirection {
+        fun of(value: Int): SwipeDirection {
             return checkNotNull(values().find { it.value == value })
         }
     }
