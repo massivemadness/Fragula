@@ -42,6 +42,9 @@ android {
             withJavadocJar()
         }
     }
+    buildFeatures {
+        buildConfig false
+    }
 }
 
 dependencies {
