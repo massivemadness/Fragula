@@ -12,11 +12,11 @@ ext {
     ]
 
     // Plugins
-    agp_version = '7.4.2'
+    agp_version = '8.0.0'
     validator_version = '0.13.0'
 
     // Core
-    kotlin_version = '1.8.10'
+    kotlin_version = '1.8.20'
     core_version = '1.10.0'
     activity_version = '1.7.0'
     fragment_version = '1.5.6'
@@ -32,7 +32,7 @@ ext {
     // Compose
     compose_version = '1.4.1'
     compose_ui_version = '1.4.1'
-    compose_compiler_version = '1.4.4'
+    compose_compiler_version = '1.4.5'
     accompanist_version = '0.28.0'
 
     // AAC
