@@ -28,6 +28,9 @@ jobs:
       - name: Check Kotlin code style
         run: ./gradlew ktlint
 
+      - name: Check project's public API
+        run: ./gradlew apiCheck
+
       - name: Upload Debug APK
         uses: actions/upload-artifact@v3
         with:
