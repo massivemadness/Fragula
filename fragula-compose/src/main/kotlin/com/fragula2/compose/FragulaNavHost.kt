@@ -30,6 +30,7 @@ fun FragulaNavHost(
     modifier: Modifier = Modifier,
     route: String? = null,
     onPageScrolled: (Int, Float, Int) -> Unit = { _, _, _ -> },
+    scrollable: Boolean = true,
     scrimColor: Color = ScrimColor,
     scrimAmount: Float = 0.15f,
     parallaxFactor: Float = 1.3f,
@@ -44,6 +45,7 @@ fun FragulaNavHost(
         },
         modifier = modifier,
         onPageScrolled = onPageScrolled,
+        scrollable = scrollable,
         scrimColor = scrimColor,
         scrimAmount = scrimAmount,
         parallaxFactor = parallaxFactor,
@@ -77,6 +79,7 @@ fun FragulaNavHost(
     graph: NavGraph,
     modifier: Modifier,
     onPageScrolled: (Int, Float, Int) -> Unit,
+    scrollable: Boolean,
     scrimColor: Color,
     scrimAmount: Float,
     parallaxFactor: Float,
@@ -105,6 +108,7 @@ fun FragulaNavHost(
             navController = navController,
             position = index,
             pageCount = backStack.size,
+            scrollable = scrollable,
             scrimColor = scrimColor,
             scrimAmount = scrimAmount,
             parallaxFactor = parallaxFactor,
@@ -140,6 +144,7 @@ private fun SwipeableBox(
     navController: NavHostController,
     position: Int,
     pageCount: Int,
+    scrollable: Boolean,
     scrimColor: Color,
     scrimAmount: Float,
     parallaxFactor: Float,
@@ -227,7 +232,7 @@ private fun SwipeableBox(
 
         Box(
             modifier = modifier.animateDrag(
-                enabled = position > 0,
+                enabled = position > 0 && scrollable,
                 onScrollChanged = { position ->
                     if (swipeState == SwipeState.FOLLOW_POINTER) {
                         pointerPosition = position
