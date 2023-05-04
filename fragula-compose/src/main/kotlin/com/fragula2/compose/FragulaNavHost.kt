@@ -115,7 +115,7 @@ fun FragulaNavHost(
             animDurationMs = animDurationMs,
             elevation = elevation,
             offsetProvider = { parallaxOffset },
-            systemBackProvider = { swipeBackNavigator.systemBack != null },
+            backToProvider = { swipeBackNavigator.backTo != null },
             positionChanger = { position, positionOffset, positionOffsetPixels ->
                 onPageScrolled(position, positionOffset, positionOffsetPixels)
                 parallaxOffset = positionOffset
@@ -151,7 +151,7 @@ private fun SwipeableBox(
     animDurationMs: Int,
     elevation: Dp,
     offsetProvider: () -> Float,
-    systemBackProvider: () -> Boolean,
+    backToProvider: () -> Boolean,
     positionChanger: (Int, Float, Int) -> Unit,
     onScrollCancelled: (SwipeState) -> Unit,
     onScrollFinished: () -> Unit,
@@ -206,7 +206,7 @@ private fun SwipeableBox(
             val positionActual = if (scrollPosition > pageStart) position - 1 else position
             positionChanger(positionActual, positionOffset, positionOffsetPixels)
 
-            if (systemBackProvider()) { // system back button
+            if (backToProvider()) { // popBackStack() was called
                 swipeState = SwipeState.SLIDE_OUT
             }
         }
@@ -231,28 +231,29 @@ private fun SwipeableBox(
         }
 
         Box(
-            modifier = modifier.animateDrag(
-                enabled = position > 0 && scrollable,
-                onScrollChanged = { position ->
-                    if (swipeState == SwipeState.FOLLOW_POINTER) {
-                        pointerPosition = position
-                    }
-                },
-                onScrollCancelled = { velocity ->
-                    if (swipeState == SwipeState.FOLLOW_POINTER) {
-                        swipeState = when {
-                            velocity > 1000 -> SwipeState.SLIDE_OUT // Fling
-                            pointerPosition == 0f -> SwipeState.FOLLOW_POINTER
-                            pointerPosition > pageEnd / 2 -> SwipeState.SLIDE_OUT
-                            pointerPosition < pageEnd / 2 -> SwipeState.SLIDE_IN
-                            else -> SwipeState.FOLLOW_POINTER
+            modifier = modifier
+                .animateDrag(
+                    enabled = position > 0 && scrollable,
+                    onScrollChanged = { position ->
+                        if (swipeState == SwipeState.FOLLOW_POINTER) {
+                            pointerPosition = position
                         }
-                        onScrollCancelled(swipeState)
-                    }
+                    },
+                    onScrollCancelled = { velocity ->
+                        if (swipeState == SwipeState.FOLLOW_POINTER) {
+                            swipeState = when {
+                                velocity > 1000 -> SwipeState.SLIDE_OUT // Fling
+                                pointerPosition == 0f -> SwipeState.FOLLOW_POINTER
+                                pointerPosition > pageEnd / 2 -> SwipeState.SLIDE_OUT
+                                pointerPosition < pageEnd / 2 -> SwipeState.SLIDE_IN
+                                else -> SwipeState.FOLLOW_POINTER
+                            }
+                            onScrollCancelled(swipeState)
+                        }
+                    })
+                .graphicsLayer {
+                    translationX = if (applyParallax) parallaxFormula() else scrollPosition
                 },
-            ).graphicsLayer {
-                translationX = if (applyParallax) parallaxFormula() else scrollPosition
-            },
         ) {
             content()
         }
@@ -277,7 +278,8 @@ private fun PageScrim(
     scrimAmount: Float,
 ) {
     Canvas(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .graphicsLayer {
                 val progress = positionProvider() / (pageEnd * 0.01f)
                 val scrollOffset = progress * 0.01f // range 0f..1f
@@ -294,7 +296,8 @@ private fun PageElevation(
     elevation: Dp,
 ) {
     Canvas(
-        modifier = Modifier.fillMaxHeight()
+        modifier = Modifier
+            .fillMaxHeight()
             .requiredWidth(elevation)
             .graphicsLayer {
                 translationX = positionProvider() - elevation.toPx()

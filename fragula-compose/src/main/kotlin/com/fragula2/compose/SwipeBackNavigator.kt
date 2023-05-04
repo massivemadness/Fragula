@@ -30,7 +30,7 @@ class SwipeBackNavigator : Navigator<SwipeBackNavigator.Destination>() {
     internal val transitionsInProgress get() = state.transitionsInProgress
     internal val backStack get() = state.backStack
 
-    internal var systemBack by mutableStateOf<Pair<NavBackStackEntry, Boolean>?>(null)
+    internal var backTo by mutableStateOf<BackTo?>(null)
     internal var slideOut = false
 
     override fun navigate(
@@ -56,15 +56,15 @@ class SwipeBackNavigator : Navigator<SwipeBackNavigator.Destination>() {
                 )
                 slideOut = false
             }
-            systemBack == null -> {
-                systemBack = popUpTo to savedState
+            backTo == null -> {
+                backTo = BackTo(popUpTo, savedState)
             }
-            systemBack != null -> {
+            backTo != null -> {
                 state.popWithTransition(
-                    popUpTo = systemBack?.first ?: return,
-                    saveState = systemBack?.second ?: return,
+                    popUpTo = backTo?.popUpTo ?: return,
+                    saveState = backTo?.saveState ?: return,
                 )
-                systemBack = null
+                backTo = null
             }
         }
     }
