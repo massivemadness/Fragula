@@ -12,18 +12,6 @@ fun rememberFragulaNavController(
     return rememberNavController(swipeBackNavigator, *navigators)
 }
 
-@Composable
-@Deprecated(
-    message = "Replace rememberNavController with rememberFragulaNavController",
-    replaceWith = ReplaceWith(
-        "rememberFragulaNavController()",
-        "com.fragula2.compose.rememberFragulaNavController",
-    ),
-)
-fun rememberSwipeBackNavigator(): SwipeBackNavigator {
-    return remember { SwipeBackNavigator() }
-}
-
 @Navigator.Name("swipeable")
 class SwipeBackNavigator : Navigator<SwipeBackNavigator.Destination>() {
 
