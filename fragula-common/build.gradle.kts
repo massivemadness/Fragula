@@ -1,31 +1,24 @@
-import com.fragula2.gradle.Gradle
+//import com.fragula2.gradle.Gradle
 
 plugins {
     id("com.android.library")
-    id("kotlin-android")
-    id("binary-compatibility-validator")
+    kotlin("android")
+    id("org.jetbrains.kotlinx.binary-compatibility-validator")
 }
 
-Gradle.Maven.libraryGroupId = "com.fragula2"
-Gradle.Maven.libraryArtifactId = "fragula-common"
+//Gradle.Maven.libraryGroupId = "com.fragula2"
+//Gradle.Maven.libraryArtifactId = "fragula-common"
 
-apply(from = "../gradle/publish.gradle")
+//apply(from = "../gradle/publish.gradle")
 
 android {
-    compileSdk = Gradle.Build.compileSdk
-    buildToolsVersion = Gradle.Build.buildTools
+    compileSdk = 33
 
-    group = Gradle.Maven.libraryGroupId
-    version = Gradle.Maven.libraryVersionName
     namespace = "com.fragula2.common"
 
     defaultConfig {
-        minSdk = Gradle.Build.minSdk
-        targetSdk = Gradle.Build.targetSdk
-
+        minSdk = 23
         consumerProguardFiles("consumer-rules.pro")
-
-        base.archivesName.set(Gradle.Maven.libraryArtifactId)
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -50,5 +43,6 @@ android {
 dependencies {
 
     // Core
-    implementation(libs.kotlin)
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.21")
+//    implementation(libs.kotlin)
 }

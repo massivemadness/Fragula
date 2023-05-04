@@ -1,31 +1,32 @@
-import com.fragula2.gradle.Gradle
+//import com.fragula2.gradle.Gradle
 
 plugins {
     id("com.android.library")
-    id("kotlin-android")
-    id("binary-compatibility-validator")
+//    id("kotlin-android")
+    kotlin("android")
+    id("org.jetbrains.kotlinx.binary-compatibility-validator")
+//    id("binary-compatibility-validator")
 }
 
-Gradle.Maven.libraryGroupId = "com.fragula2"
-Gradle.Maven.libraryArtifactId = "fragula-compose"
-
-apply(from = "../gradle/publish.gradle")
+//Gradle.Maven.libraryGroupId = "com.fragula2"
+//Gradle.Maven.libraryArtifactId = "fragula-compose"
+//
+//apply(from = "../gradle/publish.gradle")
 
 android {
-    compileSdk = Gradle.Build.compileSdk
-    buildToolsVersion = Gradle.Build.buildTools
+    compileSdk = 33
 
-    group = Gradle.Maven.libraryGroupId
-    version = Gradle.Maven.libraryVersionName
+//    group = ""
+//    version = "2.6"
     namespace = "com.fragula2.compose"
 
     defaultConfig {
-        minSdk = Gradle.Build.minSdk
-        targetSdk = Gradle.Build.targetSdk
+        minSdk = 23
+//        targetSdk = 33
 
         consumerProguardFiles("consumer-rules.pro")
 
-        base.archivesName.set(Gradle.Maven.libraryArtifactId)
+//        base.archivesName.set(Gradle.Maven.libraryArtifactId)
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -35,7 +36,7 @@ android {
         jvmTarget = "17"
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+        kotlinCompilerExtensionVersion = "1.4.7"
     }
     sourceSets {
         named("main") {
@@ -56,12 +57,16 @@ android {
 dependencies {
 
     // Core
-    implementation(libs.kotlin)
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.21")
+//    implementation(libs.kotlin)
 
     // Compose
-    implementation(libs.compose.ui)
-    implementation(libs.compose.foundation)
-    implementation(libs.compose.navigation)
+    implementation("androidx.compose.ui:ui:1.4.3")
+//    implementation(libs.compose.ui)
+    implementation("androidx.compose.foundation:foundation:1.4.3")
+//    implementation(libs.compose.foundation)
+    implementation("androidx.navigation:navigation-compose:2.5.3")
+//    implementation(libs.compose.navigation)
 
     // Common
     api(project(":fragula-common"))

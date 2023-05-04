@@ -1,7 +1,7 @@
 include(
-    ":app",
-    ":benchmark",
-    ":fragula-core",
+//    ":app",
+//    ":benchmark",
+//    ":fragula-core",
     ":fragula-common",
     ":fragula-compose",
 )

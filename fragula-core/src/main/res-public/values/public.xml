@@ -1,7 +1,0 @@
-<resources>
-    <attr name="fgl_scrim_color" format="color" />
-    <attr name="fgl_scrim_amount" format="float" />
-    <attr name="fgl_parallax_factor" format="float" />
-    <attr name="fgl_anim_duration" format="integer" />
-    <attr name="fgl_elevation" format="dimension" />
-</resources>
