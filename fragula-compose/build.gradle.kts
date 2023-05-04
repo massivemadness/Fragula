@@ -4,6 +4,11 @@ plugins {
     kotlin("android")
 }
 
+
+group = "com.fragula2.compose"
+version = "2.7.0"
+
+
 android {
     compileSdk = 33
 
