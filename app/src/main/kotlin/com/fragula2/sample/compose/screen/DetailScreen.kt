@@ -34,7 +34,8 @@ import com.fragula2.sample.compose.ui.randomImage
 fun DetailsScreen(navController: NavController, chatId: String) {
     val chat = getChats().find { it.id == chatId } ?: error("Chat not found")
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colors.background),
     ) {
         ProfileButton(chat) {
@@ -42,7 +43,8 @@ fun DetailsScreen(navController: NavController, chatId: String) {
         }
         val scrollState = rememberScrollState()
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .weight(1f)
                 .verticalScroll(scrollState),
             verticalArrangement = Arrangement.Bottom,
@@ -81,7 +83,8 @@ fun DetailsScreen(navController: NavController, chatId: String) {
 @Composable
 fun ProfileButton(chat: Chat, onClick: () -> Unit) {
     Box(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .height(28.dp)
             .background(MaterialTheme.colors.surface)
             .clickable { onClick() },
@@ -90,13 +93,15 @@ fun ProfileButton(chat: Chat, onClick: () -> Unit) {
             Image(
                 painter = painterResource(chat.image),
                 contentDescription = null,
-                modifier = Modifier.padding(2.dp)
+                modifier = Modifier
+                    .padding(2.dp)
                     .clip(CircleShape),
             )
             Text(
                 text = stringResource(R.string.open_profile),
                 color = MaterialTheme.colors.onSurface,
-                modifier = Modifier.padding(horizontal = 6.dp)
+                modifier = Modifier
+                    .padding(horizontal = 6.dp)
                     .align(Alignment.CenterVertically),
                 fontSize = 16.sp,
             )
@@ -123,7 +128,8 @@ fun ProfileButtonPreview() {
 @Composable
 fun SendBox(onClick: (String) -> Unit) {
     Surface(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .height(48.dp),
     ) {
         Row {
@@ -142,14 +148,16 @@ fun SendBox(onClick: (String) -> Unit) {
                 ),
                 cursorBrush = SolidColor(MaterialTheme.colors.onPrimary),
                 singleLine = true,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
                     .align(Alignment.CenterVertically)
                     .padding(horizontal = 16.dp),
             )
             Image(
                 painter = painterResource(R.drawable.ic_send),
                 contentDescription = null,
-                modifier = Modifier.align(Alignment.CenterVertically)
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
                     .padding(horizontal = 12.dp)
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
@@ -178,7 +186,8 @@ fun MessageBox(
 ) {
     val image = remember { picture }
     Card(
-        modifier = modifier.requiredWidth(280.dp)
+        modifier = modifier
+            .requiredWidth(280.dp)
             .padding(all = 6.dp),
         shape = RoundedCornerShape(8.dp),
         elevation = 0.dp,
@@ -199,16 +208,19 @@ fun MessageBox(
                 Image(
                     painter = image,
                     contentDescription = null,
-                    modifier = Modifier.padding(
-                        top = 56.dp, // TODO use column instead
-                        start = 8.dp,
-                        bottom = 8.dp,
-                    ).clip(RoundedCornerShape(16f)),
+                    modifier = Modifier
+                        .padding(
+                            top = 56.dp, // TODO use column instead
+                            start = 8.dp,
+                            bottom = 8.dp,
+                        )
+                        .clip(RoundedCornerShape(16f)),
                 )
             }
             Text(
                 text = time,
-                modifier = Modifier.padding(all = 4.dp)
+                modifier = Modifier
+                    .padding(all = 4.dp)
                     .padding(end = 4.dp)
                     .align(Alignment.BottomEnd),
                 color = MaterialTheme.colors.onBackground,

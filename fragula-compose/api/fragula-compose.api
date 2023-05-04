@@ -35,11 +35,3 @@ public final class com/fragula2/compose/SwipeBackNavigatorKt {
 	public static final fun rememberSwipeBackNavigator (Landroidx/compose/runtime/Composer;I)Lcom/fragula2/compose/SwipeBackNavigator;
 }
 
-public final class com/fragula2/compose/SwipeState : java/lang/Enum {
-	public static final field FOLLOW_POINTER Lcom/fragula2/compose/SwipeState;
-	public static final field SLIDE_IN Lcom/fragula2/compose/SwipeState;
-	public static final field SLIDE_OUT Lcom/fragula2/compose/SwipeState;
-	public static fun valueOf (Ljava/lang/String;)Lcom/fragula2/compose/SwipeState;
-	public static fun values ()[Lcom/fragula2/compose/SwipeState;
-}
-

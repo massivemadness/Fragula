@@ -25,7 +25,8 @@ import com.fragula2.sample.compose.ui.getChats
 fun ProfileScreen(navController: NavController, chatId: String) {
     val chat = getChats().find { it.id == chatId } ?: error("Chat not found")
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .background(MaterialTheme.colors.background),
         verticalArrangement = Arrangement.Top,
@@ -34,13 +35,15 @@ fun ProfileScreen(navController: NavController, chatId: String) {
         Image(
             painter = painterResource(chat.image),
             contentDescription = null,
-            modifier = Modifier.padding(top = 56.dp)
+            modifier = Modifier
+                .padding(top = 56.dp)
                 .size(102.dp)
                 .clip(CircleShape),
         )
         Text(
             text = chat.name,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(top = 24.dp, start = 42.dp, end = 42.dp),
             color = MaterialTheme.colors.onSurface,
             textAlign = TextAlign.Center,
@@ -48,7 +51,8 @@ fun ProfileScreen(navController: NavController, chatId: String) {
         )
         Text(
             text = stringResource(R.string.lorem_ipsum),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(top = 8.dp, start = 42.dp, end = 42.dp),
             color = MaterialTheme.colors.onBackground,
             textAlign = TextAlign.Center,
@@ -80,7 +84,8 @@ fun SocialButton(
 ) {
     OutlinedButton(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
             .height(64.dp),
     ) {
         Text(

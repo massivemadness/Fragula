@@ -42,7 +42,7 @@ class ComposeActivity : ComponentActivity() {
                                 arrowProgress = arrowProgress,
                                 onClick = {
                                     if (arrowProgress == 0f) {
-                                        Toast.makeText(this, "Open drawer", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(this, "Open", Toast.LENGTH_SHORT).show()
                                     } else {
                                         navController.popBackStack()
                                     }

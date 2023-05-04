@@ -44,20 +44,23 @@ fun ListScreen(navController: NavController) {
 fun ChatItem(chat: Chat, onClick: () -> Unit = {}) {
     val chatState by remember { mutableStateOf(chat) }
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .background(MaterialTheme.colors.surface)
             .clickable { onClick() },
     ) {
         Image(
             painter = painterResource(chat.image),
             contentDescription = null,
-            modifier = Modifier.padding(horizontal = 8.dp)
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
                 .size(50.dp)
                 .align(alignment = Alignment.CenterVertically)
                 .clip(CircleShape),
         )
         Column(
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier
+                .padding(vertical = 8.dp)
                 .padding(end = 16.dp),
         ) {
             Text(

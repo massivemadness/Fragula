@@ -250,7 +250,8 @@ private fun SwipeableBox(
                             }
                             onScrollCancelled(swipeState)
                         }
-                    })
+                    },
+                )
                 .graphicsLayer {
                     translationX = if (applyParallax) parallaxFormula() else scrollPosition
                 },
