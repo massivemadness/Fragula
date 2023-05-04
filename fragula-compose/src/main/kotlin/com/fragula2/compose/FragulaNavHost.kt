@@ -56,12 +56,13 @@ fun FragulaNavHost(
 
 fun NavGraphBuilder.swipeable(
     route: String,
+    canBack: Boolean = true,
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),
     content: @Composable (NavBackStackEntry) -> Unit,
 ) {
     addDestination(
-        SwipeBackNavigator.Destination(provider[SwipeBackNavigator::class], content).apply {
+        SwipeBackNavigator.Destination(provider[SwipeBackNavigator::class],canBack = canBack, content).apply {
             this.route = route
             arguments.forEach { (argumentName, argument) ->
                 addArgument(argumentName, argument)
@@ -110,12 +111,15 @@ fun FragulaNavHost(
             pageCount = backStack.size,
             scrollable = scrollable,
             scrimColor = scrimColor,
+            backStackEntry = backStackEntry,
             scrimAmount = scrimAmount,
             parallaxFactor = parallaxFactor,
             animDurationMs = animDurationMs,
             elevation = elevation,
             offsetProvider = { parallaxOffset },
-            systemBackProvider = { swipeBackNavigator.systemBack != null },
+            systemBackProvider = {
+                swipeBackNavigator.systemBack != null
+             },
             positionChanger = { position, positionOffset, positionOffsetPixels ->
                 onPageScrolled(position, positionOffset, positionOffsetPixels)
                 parallaxOffset = positionOffset
@@ -145,6 +149,7 @@ private fun SwipeableBox(
     position: Int,
     pageCount: Int,
     scrollable: Boolean,
+    backStackEntry: NavBackStackEntry,
     scrimColor: Color,
     scrimAmount: Float,
     parallaxFactor: Float,
@@ -232,7 +237,7 @@ private fun SwipeableBox(
 
         Box(
             modifier = modifier.animateDrag(
-                enabled = position > 0 && scrollable,
+                enabled = (position > 0 && scrollable) && ((backStackEntry.destination as SwipeBackNavigator.Destination).canBack),
                 onScrollChanged = { position ->
                     if (swipeState == SwipeState.FOLLOW_POINTER) {
                         pointerPosition = position

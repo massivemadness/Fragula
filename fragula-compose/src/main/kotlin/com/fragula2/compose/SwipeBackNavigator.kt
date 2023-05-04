@@ -44,27 +44,37 @@ class SwipeBackNavigator : Navigator<SwipeBackNavigator.Destination>() {
     }
 
     override fun createDestination(): Destination {
-        return Destination(this) { }
+        return Destination(this,canBack = true) { }
     }
 
     override fun popBackStack(popUpTo: NavBackStackEntry, savedState: Boolean) {
         when {
             slideOut -> {
-                state.popWithTransition(
-                    popUpTo = popUpTo,
-                    saveState = savedState,
-                )
+                val canBack = (popUpTo.destination as Destination).canBack
+                if(canBack){
+                    state.popWithTransition(
+                        popUpTo = popUpTo,
+                        saveState = savedState,
+                    )
+                }
                 slideOut = false
             }
             systemBack == null -> {
-                systemBack = popUpTo to savedState
+                val canBack = (popUpTo.destination as Destination).canBack
+                if(canBack){
+                    systemBack = popUpTo to savedState
+                }
             }
             systemBack != null -> {
-                state.popWithTransition(
-                    popUpTo = systemBack?.first ?: return,
-                    saveState = systemBack?.second ?: return,
-                )
-                systemBack = null
+                val back = systemBack?:return
+                val canBack = (popUpTo.destination as Destination).canBack
+                if(canBack){
+                    state.popWithTransition(
+                        popUpTo = back.first,
+                        saveState = back.second,
+                    )
+                    systemBack = null
+                }
             }
         }
     }
@@ -76,6 +86,7 @@ class SwipeBackNavigator : Navigator<SwipeBackNavigator.Destination>() {
     @NavDestination.ClassType(Composable::class)
     class Destination(
         navigator: SwipeBackNavigator,
+        internal val canBack:Boolean,
         internal val content: @Composable (NavBackStackEntry) -> Unit,
     ) : NavDestination(navigator)
 
