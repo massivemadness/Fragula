@@ -50,7 +50,7 @@ Add this to your module’s `build.gradle` file:
 ```gradle
 dependencies {
   ...
-  implementation 'com.fragula2:fragula-core:2.6'
+  implementation 'com.fragula2:fragula-core:2.7'
 }
 ```
 
@@ -298,7 +298,7 @@ Add this to your module’s `build.gradle` file:
 ```gradle
 dependencies {
   ...
-  implementation 'com.fragula2:fragula-compose:2.6'
+  implementation 'com.fragula2:fragula-compose:2.7'
 }
 ```
 

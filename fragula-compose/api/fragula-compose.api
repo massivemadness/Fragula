@@ -32,6 +32,5 @@ public final class com/fragula2/compose/SwipeBackNavigator$Destination : android
 
 public final class com/fragula2/compose/SwipeBackNavigatorKt {
 	public static final fun rememberFragulaNavController ([Landroidx/navigation/Navigator;Landroidx/compose/runtime/Composer;I)Landroidx/navigation/NavHostController;
-	public static final fun rememberSwipeBackNavigator (Landroidx/compose/runtime/Composer;I)Lcom/fragula2/compose/SwipeBackNavigator;
 }
 

@@ -11,8 +11,8 @@ object Gradle {
 
     object Maven {
 
-        const val libraryVersionName = "2.6"
-        const val libraryVersionCode = 15
+        const val libraryVersionName = "2.7"
+        const val libraryVersionCode = 16
 
         var libraryGroupId = ""
         var libraryArtifactId = ""
