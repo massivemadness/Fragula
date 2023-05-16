@@ -24,7 +24,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         override fun onPageScrollStateChanged(state: Int) {
             super.onPageScrollStateChanged(state)
             when (state) {
-                ViewPager2.SCROLL_STATE_DRAGGING -> Unit
+                ViewPager2.SCROLL_STATE_DRAGGING,
                 ViewPager2.SCROLL_STATE_SETTLING -> {
                     activity?.requestViewLock(true)
                 }

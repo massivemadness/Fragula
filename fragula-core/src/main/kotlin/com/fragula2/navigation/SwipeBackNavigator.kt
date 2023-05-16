@@ -41,9 +41,6 @@ class SwipeBackNavigator(
                 val swipeBackFragment = SwipeBackFragment.newInstance(swipeDirection)
                 replace(containerId, swipeBackFragment, fragmentTag)
                 setPrimaryNavigationFragment(swipeBackFragment)
-                if (!initialNavigation) {
-                    addToBackStack(entry.id)
-                }
                 setReorderingAllowed(true)
             }
         }
