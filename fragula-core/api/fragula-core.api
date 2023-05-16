@@ -25,10 +25,8 @@ public abstract interface class com/fragula2/animation/OnSwipeListener {
 public abstract interface class com/fragula2/animation/SwipeController {
 	public abstract fun addOnSwipeListener (Lcom/fragula2/animation/OnSwipeListener;)V
 	public abstract fun isScrollingEnabled ()Z
-	public abstract fun isUserInputEnabled ()Z
 	public abstract fun removeOnSwipeListener (Lcom/fragula2/animation/OnSwipeListener;)V
 	public abstract fun setScrollingEnabled (Z)V
-	public abstract fun setUserInputEnabled (Z)V
 }
 
 public final class com/fragula2/animation/SwipeTransformer : androidx/viewpager2/widget/ViewPager2$PageTransformer {
@@ -54,14 +52,12 @@ public final class com/fragula2/navigation/SwipeBackFragment : androidx/fragment
 	public fun <init> ()V
 	public fun addOnSwipeListener (Lcom/fragula2/animation/OnSwipeListener;)V
 	public fun isScrollingEnabled ()Z
-	public fun isUserInputEnabled ()Z
 	public fun navigate (Landroidx/navigation/NavBackStackEntry;)V
 	public fun onDestroyView ()V
 	public fun onViewCreated (Landroid/view/View;Landroid/os/Bundle;)V
 	public fun popBackStack (Landroidx/navigation/NavBackStackEntry;)V
 	public fun removeOnSwipeListener (Lcom/fragula2/animation/OnSwipeListener;)V
 	public fun setScrollingEnabled (Z)V
-	public fun setUserInputEnabled (Z)V
 }
 
 public final class com/fragula2/navigation/SwipeBackFragment$Companion {

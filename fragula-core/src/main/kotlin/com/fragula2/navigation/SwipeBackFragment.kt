@@ -168,16 +168,6 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         return viewPager?.isUserInputEnabled ?: false
     }
 
-    @Deprecated("Replace with `setScrollingEnabled`", ReplaceWith("setScrollingEnabled(enabled)"))
-    override fun setUserInputEnabled(enabled: Boolean) {
-        setScrollingEnabled(enabled)
-    }
-
-    @Deprecated("Replace with `isScrollingEnabled`", ReplaceWith("isScrollingEnabled()"))
-    override fun isUserInputEnabled(): Boolean {
-        return isScrollingEnabled()
-    }
-
     override fun addOnSwipeListener(listener: OnSwipeListener) {
         onSwipeListeners.add(listener)
     }
