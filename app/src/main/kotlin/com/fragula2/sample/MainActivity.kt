@@ -1,6 +1,7 @@
 package com.fragula2.sample
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.os.bundleOf
@@ -42,6 +43,9 @@ class MainActivity : AppCompatActivity() {
                 color = getColorAttr(MtrlR.attr.colorOnPrimary)
             }
             binding.toolbar.setNavigationOnClickListener {
+                // Return if user clicks the arrow when the activity's window is locked
+                val isLocked = window.attributes.flags and WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE != 0
+                if (isLocked) return@setNavigationOnClickListener
                 when (arrow.progress) {
                     0f -> binding.drawerLayout.openDrawer(GravityCompat.START)
                     1f -> navController.popBackStack()
