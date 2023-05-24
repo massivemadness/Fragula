@@ -3,7 +3,7 @@ package com.fragula2.gradle
 object Gradle {
 
     object Build {
-        const val minSdk = 23
+        const val minSdk = 21
         const val targetSdk = 33
         const val compileSdk = 33
         const val buildTools = "33.0.2"
