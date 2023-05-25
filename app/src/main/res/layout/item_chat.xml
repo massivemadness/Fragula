@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:foreground="?selectableItemBackground"
-    android:background="?colorSurface">
+    android:background="@drawable/chat_ripple_bg">
 
     <ImageView
         android:layout_width="50dp"
