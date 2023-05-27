@@ -6,26 +6,26 @@ plugins {
     id("binary-compatibility-validator")
 }
 
-Gradle.Maven.libraryGroupId = "com.fragula2"
-Gradle.Maven.libraryArtifactId = "fragula-core"
+Gradle.Fragula.libraryGroupId = "com.fragula2"
+Gradle.Fragula.libraryArtifactId = "fragula-core"
 
 apply(from = "../gradle/publish.gradle")
 
 android {
-    compileSdk = Gradle.Build.compileSdk
-    buildToolsVersion = Gradle.Build.buildTools
+    compileSdk = Gradle.Fragula.compileSdk
+    buildToolsVersion = Gradle.Fragula.buildTools
 
-    group = Gradle.Maven.libraryGroupId
-    version = Gradle.Maven.libraryVersionName
+    group = Gradle.Fragula.libraryGroupId
+    version = Gradle.Fragula.libraryVersionName
     namespace = "com.fragula2"
 
     defaultConfig {
-        minSdk = Gradle.Build.minSdk
-        targetSdk = Gradle.Build.targetSdk
+        minSdk = Gradle.Fragula.minSdk
+        targetSdk = Gradle.Fragula.targetSdk
 
         consumerProguardFiles("consumer-rules.pro")
 
-        base.archivesName.set(Gradle.Maven.libraryArtifactId)
+        base.archivesName.set(Gradle.Fragula.libraryArtifactId)
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

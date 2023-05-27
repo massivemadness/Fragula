@@ -3,13 +3,18 @@ package com.fragula2.gradle
 object Gradle {
 
     object Build {
-        const val minSdk = 21
+        const val minSdk = 23
         const val targetSdk = 33
         const val compileSdk = 33
         const val buildTools = "33.0.2"
     }
 
-    object Maven {
+    object Fragula {
+
+        const val minSdk = 21
+        const val targetSdk = 33
+        const val compileSdk = 33
+        const val buildTools = "33.0.2"
 
         const val libraryVersionName = "2.7"
         const val libraryVersionCode = 16
