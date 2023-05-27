@@ -20,19 +20,17 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("binary-compatibility-validator")
+    id("publish-module")
 }
 
-Gradle.Fragula.libraryGroupId = "com.fragula2"
-Gradle.Fragula.libraryArtifactId = "fragula-compose"
-
-apply(from = "../gradle/publish.gradle")
+publishModule {
+    libraryGroup = "com.fragula2"
+    libraryArtifact = "fragula-compose"
+    libraryVersion = "2.8"
+}
 
 android {
     compileSdk = Gradle.Fragula.compileSdk
-    buildToolsVersion = Gradle.Fragula.buildTools
-
-    group = Gradle.Fragula.libraryGroupId
-    version = Gradle.Fragula.libraryVersionName
     namespace = "com.fragula2.compose"
 
     defaultConfig {
@@ -40,8 +38,6 @@ android {
         targetSdk = Gradle.Fragula.targetSdk
 
         consumerProguardFiles("consumer-rules.pro")
-
-        base.archivesName.set(Gradle.Fragula.libraryArtifactId)
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -58,14 +54,14 @@ android {
             java.srcDir("src/main/kotlin")
         }
     }
+    buildFeatures {
+        compose = true
+    }
     publishing {
         singleVariant("release") {
             withSourcesJar()
             withJavadocJar()
         }
-    }
-    buildFeatures {
-        compose = true
     }
 }
 

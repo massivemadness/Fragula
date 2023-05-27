@@ -19,13 +19,13 @@ import com.fragula2.gradle.Gradle
 plugins {
     id("com.android.test")
     id("kotlin-android")
+    id("stub-module")
 }
 
 android {
     compileSdk = Gradle.Build.compileSdk
-    buildToolsVersion = Gradle.Build.buildTools
-
     namespace = "com.fragula2.benchmark"
+
     targetProjectPath = ":app"
     experimentalProperties["android.experimental.self-instrumenting"] = true
 

@@ -14,21 +14,9 @@
  * limitations under the License.
  */
 
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath(libs.plugin.android)
-        classpath(libs.plugin.kotlin)
-        classpath(libs.plugin.safeargs)
-        classpath(libs.plugin.validator)
-    }
-}
+import org.gradle.api.Plugin
+import org.gradle.api.Project
 
-tasks.register<Delete>("clean") {
-    delete(rootProject.buildDir)
+class StubModulePlugin : Plugin<Project> {
+    override fun apply(target: Project) = Unit
 }
-
-apply(from = "gradle/ktlint.gradle.kts")

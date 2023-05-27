@@ -14,10 +14,19 @@
  * limitations under the License.
  */
 
-plugins {
-    `kotlin-dsl`
-}
+package com.fragula2.gradle
 
-repositories {
-    mavenCentral()
+object Gradle {
+
+    object Build {
+        const val minSdk = 23
+        const val targetSdk = 33
+        const val compileSdk = 33
+    }
+
+    object Fragula {
+        const val minSdk = 21
+        const val targetSdk = 33
+        const val compileSdk = 33
+    }
 }

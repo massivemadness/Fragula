@@ -21,12 +21,11 @@ plugins {
     id("kotlin-android")
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs.kotlin")
+    id("stub-module")
 }
 
 android {
     compileSdk = Gradle.Build.compileSdk
-    buildToolsVersion = Gradle.Build.buildTools
-
     namespace = "com.fragula2.sample"
 
     defaultConfig {

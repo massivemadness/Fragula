@@ -14,28 +14,16 @@
  * limitations under the License.
  */
 
-package com.fragula2.gradle
-
-object Gradle {
-
-    object Build {
-        const val minSdk = 23
-        const val targetSdk = 33
-        const val compileSdk = 33
-        const val buildTools = "33.0.2"
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
     }
-
-    object Fragula {
-
-        const val minSdk = 21
-        const val targetSdk = 33
-        const val compileSdk = 33
-        const val buildTools = "33.0.2"
-
-        const val libraryVersionName = "2.7"
-        const val libraryVersionCode = 16
-
-        var libraryGroupId = ""
-        var libraryArtifactId = ""
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
     }
 }
+
+include(":convention")
