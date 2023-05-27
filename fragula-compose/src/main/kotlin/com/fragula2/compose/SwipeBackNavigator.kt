@@ -47,17 +47,18 @@ class SwipeBackNavigator : Navigator<SwipeBackNavigator.Destination>() {
             backTo == null -> {
                 backTo = BackTo(popUpTo, savedState)
             }
-            backTo != null -> {
-                state.popWithTransition(
-                    popUpTo = backTo?.popUpTo ?: return,
-                    saveState = backTo?.saveState ?: return,
-                )
-                backTo = null
-            }
+            else -> Unit // ignore back button
         }
     }
 
     internal fun markTransitionComplete(entry: NavBackStackEntry) {
+        if (backTo != null) {
+            state.popWithTransition(
+                popUpTo = backTo?.popUpTo ?: return,
+                saveState = backTo?.saveState ?: return,
+            )
+            backTo = null
+        }
         state.markTransitionComplete(entry)
     }
 

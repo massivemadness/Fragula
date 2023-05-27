@@ -120,7 +120,7 @@ fun FragulaNavHost(
                 onPageScrolled(position, positionOffset, positionOffsetPixels)
                 parallaxOffset = positionOffset
             },
-            onScrollCancelled = { swipeBackNavigator.slideOut = it == SwipeState.SLIDE_OUT },
+            onDragFinished = { swipeBackNavigator.slideOut = it == SwipeState.SLIDE_OUT },
             onScrollFinished = { swipeBackNavigator.markTransitionComplete(backStackEntry) },
             modifier = modifier.fillMaxSize(),
         ) {
@@ -153,7 +153,7 @@ private fun SwipeableBox(
     offsetProvider: () -> Float,
     backToProvider: () -> Boolean,
     positionChanger: (Int, Float, Int) -> Unit,
-    onScrollCancelled: (SwipeState) -> Unit,
+    onDragFinished: (SwipeState) -> Unit,
     onScrollFinished: () -> Unit,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
@@ -234,12 +234,12 @@ private fun SwipeableBox(
             modifier = modifier
                 .animateDrag(
                     enabled = position > 0 && scrollable,
-                    onScrollChanged = { position ->
+                    onDragChanged = { position ->
                         if (swipeState == SwipeState.FOLLOW_POINTER) {
                             pointerPosition = position
                         }
                     },
-                    onScrollCancelled = { velocity ->
+                    onDragFinished = { velocity ->
                         if (swipeState == SwipeState.FOLLOW_POINTER) {
                             swipeState = when {
                                 velocity > 1000 -> SwipeState.SLIDE_OUT // Fling
@@ -248,7 +248,7 @@ private fun SwipeableBox(
                                 pointerPosition < pageEnd / 2 -> SwipeState.SLIDE_IN
                                 else -> SwipeState.FOLLOW_POINTER
                             }
-                            onScrollCancelled(swipeState)
+                            onDragFinished(swipeState)
                         }
                     },
                 )
