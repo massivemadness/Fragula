@@ -16,7 +16,6 @@ import com.fragula2.animation.SwipeController
 import com.fragula2.animation.SwipeTransformer
 import com.fragula2.common.SwipeDirection
 import com.fragula2.utils.*
-import java.util.concurrent.LinkedBlockingQueue
 
 class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, SwipeController {
 
@@ -26,16 +25,19 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
             when (state) {
                 ViewPager2.SCROLL_STATE_DRAGGING,
                 ViewPager2.SCROLL_STATE_SETTLING -> {
+                    if (!fakeScroll) {
+                        userScroll = true
+                    }
                     activity?.requestViewLock(true)
                 }
                 ViewPager2.SCROLL_STATE_IDLE -> {
+                    userScroll = false
                     if (scrollToEnd) {
                         val itemCount = navBackStackAdapter?.itemCount ?: 0
                         val currentItem = viewPager?.currentItem ?: 0
                         if (itemCount - 1 > currentItem && !fakeScroll) {
-                            userScroll = true
+                            popImmediately = true
                             navController?.popBackStack()
-                            navBackStackAdapter?.pop()
                         }
                     }
                     activity?.requestViewLock(false)
@@ -64,7 +66,6 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     }
 
     private val onSwipeListeners = mutableListOf<OnSwipeListener>()
-    private val delayedTransitions = LinkedBlockingQueue<Runnable>()
 
     private var viewPager: ViewPager2? = null
     private var elevation: View? = null
@@ -75,6 +76,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
 
     private var userScroll = false
     private var fakeScroll = false
+    private var popImmediately = false
 
     private var scrollToEnd = false
     private var scrollOffset = 0.0f
@@ -129,35 +131,34 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     }
 
     override fun navigate(entry: NavBackStackEntry) {
-        if (fakeScroll) {
-            return delayedTransitions.put { navigate(entry) }
-        }
         fakeScroll = true
         activity?.requestViewLock(true)
         navBackStackAdapter?.push(entry)
         viewPager?.fakeDragTo(true, swipeDirection, scrollDuration) {
             activity?.requestViewLock(false)
             fakeScroll = false
-            nextTransition()
         }
     }
 
-    override fun popBackStack(popUpTo: NavBackStackEntry) {
-        if (userScroll) {
-            userScroll = false
+    override fun popBackStack(popUpTo: NavBackStackEntry, onScrollFinished: () -> Unit) {
+        if (popImmediately) {
+            popImmediately = false
+            navBackStackAdapter?.pop()
+            onScrollFinished()
             return
-        }
-        if (fakeScroll) {
-            return delayedTransitions.put { popBackStack(popUpTo) }
         }
         fakeScroll = true
         activity?.requestViewLock(true)
         viewPager?.fakeDragTo(false, swipeDirection, scrollDuration) {
             navBackStackAdapter?.pop()
+            onScrollFinished()
             activity?.requestViewLock(false)
             fakeScroll = false
-            nextTransition()
         }
+    }
+
+    override fun isAnimating(): Boolean {
+        return fakeScroll || userScroll
     }
 
     override fun setScrollingEnabled(enabled: Boolean) {
@@ -181,11 +182,6 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
             .filter { it.destination is SwipeBackDestination }
             .also { navBackStackAdapter?.addAll(it) }
             .size
-    }
-
-    private fun nextTransition() {
-        val runnable = delayedTransitions.poll()
-        runnable?.run()
     }
 
     companion object {

@@ -57,17 +57,20 @@ class SwipeBackNavigator(
             return
         }
         if (backStack.size > 1) {
-            val swipeBackFragment = fragmentManager.findFragmentByTag(fragmentTag)
-            if (swipeBackFragment is Navigable) {
-                swipeBackFragment.popBackStack(popUpTo)
+            val swipeBackFragment = fragmentManager.findFragmentByTag(fragmentTag) as Navigable
+            if (swipeBackFragment.isAnimating()) {
+                return
+            }
+            swipeBackFragment.popBackStack(popUpTo) {
+                state.pop(popUpTo, savedState)
             }
         } else {
             fragmentManager.popBackStack(
                 popUpTo.id,
                 FragmentManager.POP_BACK_STACK_INCLUSIVE,
             )
+            state.pop(popUpTo, savedState)
         }
-        state.pop(popUpTo, savedState)
     }
 
     override fun createDestination(): SwipeBackDestination {
