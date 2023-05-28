@@ -12,6 +12,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Create local.properties
+        run: |
+          echo "Creating local.properties file"
+          echo "signing.keyId=${{ secrets.SIGNING_KEY_ID }}" > local.properties
+          echo "signing.password=${{ secrets.SIGNING_PASSWORD }}" >> local.properties
+          echo "signing.secretKeyRingFile=${{ secrets.SIGNING_KEY_RING }}" >> local.properties
+          echo "ossrhUsername=${{ secrets.OSSRH_USERNAME }}" >> local.properties
+          echo "ossrhPassword=${{ secrets.OSSRH_PASSWORD }}" >> local.properties
+
       - name: Setup Java
         uses: actions/setup-java@v3
         with:

@@ -36,8 +36,8 @@ class PublishModulePlugin : Plugin<Project> {
                 apply("signing")
             }
 
-            val publishing = extensions["publishing"] as PublishingExtension
             val publishModule = extensions.create("publishModule", PublishModuleExtension::class.java)
+            val publishing = extensions["publishing"] as PublishingExtension
             val properties = Properties().apply {
                 load(rootProject.file("local.properties").inputStream())
             }
