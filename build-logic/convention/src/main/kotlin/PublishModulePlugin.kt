@@ -29,8 +29,8 @@ import java.util.Properties
  */
 class PublishModulePlugin : Plugin<Project> {
 
-    override fun apply(project: Project) {
-        with(project) {
+    override fun apply(target: Project) {
+        with(target) {
             with(pluginManager) {
                 apply("maven-publish")
                 apply("signing")

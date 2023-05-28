@@ -14,55 +14,26 @@
  * limitations under the License.
  */
 
-import com.fragula2.gradle.Gradle
-
 plugins {
-    id("com.android.library")
-    id("kotlin-android")
-    id("binary-compatibility-validator")
+    id("fragula-module")
     id("publish-module")
+}
+
+android {
+    namespace = "com.fragula2.compose"
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+    buildFeatures {
+        compose = true
+    }
 }
 
 publishModule {
     libraryGroup = "com.fragula2"
     libraryArtifact = "fragula-compose"
     libraryVersion = "2.8"
-}
-
-android {
-    compileSdk = Gradle.Fragula.compileSdk
-    namespace = "com.fragula2.compose"
-
-    defaultConfig {
-        minSdk = Gradle.Fragula.minSdk
-        targetSdk = Gradle.Fragula.targetSdk
-
-        consumerProguardFiles("consumer-rules.pro")
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
-    sourceSets {
-        named("main") {
-            java.srcDir("src/main/kotlin")
-        }
-    }
-    buildFeatures {
-        compose = true
-    }
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
 }
 
 dependencies {

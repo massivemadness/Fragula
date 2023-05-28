@@ -37,6 +37,10 @@ dependencies {
 
 gradlePlugin {
     plugins {
+        register("fragula-module") {
+            id = "fragula-module"
+            implementationClass = "FragulaModulePlugin"
+        }
         register("publish-module") {
             id = "publish-module"
             implementationClass = "PublishModulePlugin"
