@@ -16,7 +16,7 @@ HSPLcom/fragula2/animation/SwipeTransformer;-><init>(Lcom/fragula2/common/SwipeD
 HSPLcom/fragula2/animation/SwipeTransformer;->transformPage(Landroid/view/View;F)V
 HSPLcom/fragula2/common/SwipeDirection$Companion;-><init>()V
 HSPLcom/fragula2/common/SwipeDirection$Companion;-><init>(Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-HSPLcom/fragula2/common/SwipeDirection$Companion;->find(I)Lcom/fragula2/common/SwipeDirection;
+HSPLcom/fragula2/common/SwipeDirection$Companion;->of(I)Lcom/fragula2/common/SwipeDirection;
 HSPLcom/fragula2/common/SwipeDirection;->$values()[Lcom/fragula2/common/SwipeDirection;
 HSPLcom/fragula2/common/SwipeDirection;-><clinit>()V
 HSPLcom/fragula2/common/SwipeDirection;-><init>(Ljava/lang/String;II)V

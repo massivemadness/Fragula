@@ -5,7 +5,7 @@ HSPLcom/fragula2/compose/AnimationKt$animateDrag$3;->invoke(Ljava/lang/Object;Lj
 HSPLcom/fragula2/compose/AnimationKt$toEasing$1;-><init>(Landroid/animation/TimeInterpolator;)V
 HSPLcom/fragula2/compose/AnimationKt;->animateDrag(Landroidx/compose/ui/Modifier;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Landroidx/compose/ui/Modifier;
 HSPLcom/fragula2/compose/AnimationKt;->toEasing(Landroid/animation/TimeInterpolator;)Landroidx/compose/animation/core/Easing;
-HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$10;-><init>(Landroidx/navigation/NavHostController;Landroidx/navigation/NavGraph;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;JFFIFI)V
+HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$10;-><init>(Landroidx/navigation/NavHostController;Landroidx/navigation/NavGraph;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;ZJFFIFI)V
 HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$4$1;-><init>(Landroidx/compose/runtime/MutableState;)V
 HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$5;-><init>(Lcom/fragula2/compose/SwipeBackNavigator;)V
 HSPLcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$5;->invoke()Ljava/lang/Boolean;
@@ -50,7 +50,7 @@ HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1$swipeState$2;-><clinit>
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1$swipeState$2;-><init>()V
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1$swipeState$2;->invoke()Landroidx/compose/runtime/MutableState;
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1$swipeState$2;->invoke()Ljava/lang/Object;
-HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1;-><init>(Lkotlin/jvm/functions/Function0;FIIIILkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function0;JFLandroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function1;FLkotlin/jvm/functions/Function0;Landroidx/navigation/NavHostController;Lkotlin/jvm/functions/Function2;I)V
+HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1;-><init>(Lkotlin/jvm/functions/Function0;FIIIILkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function0;JFLandroidx/compose/ui/Modifier;ZLkotlin/jvm/functions/Function1;FLkotlin/jvm/functions/Function0;Landroidx/navigation/NavHostController;Lkotlin/jvm/functions/Function2;I)V
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1;->access$invoke$lambda$4(Landroidx/compose/runtime/MutableState;)Z
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1;->access$invoke$lambda$9(Landroidx/compose/runtime/State;)F
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1;->invoke$lambda$1(Landroidx/compose/runtime/MutableState;)Lcom/fragula2/compose/SwipeState;
@@ -61,15 +61,15 @@ HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1;->invoke$lambda$7(Landr
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1;->invoke$lambda$9(Landroidx/compose/runtime/State;)F
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1;->invoke(Landroidx/compose/foundation/layout/BoxWithConstraintsScope;Landroidx/compose/runtime/Composer;I)V
 HSPLcom/fragula2/compose/FragulaNavHostKt$SwipeableBox$1;->invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
-HSPLcom/fragula2/compose/FragulaNavHostKt;->FragulaNavHost-Gl-hl1A(Landroidx/navigation/NavHostController;Ljava/lang/String;Landroidx/compose/ui/Modifier;Ljava/lang/String;Lkotlin/jvm/functions/Function3;JFFIFLkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;III)V
-HSPLcom/fragula2/compose/FragulaNavHostKt;->FragulaNavHost-L-v2icQ(Landroidx/navigation/NavHostController;Landroidx/navigation/NavGraph;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;JFFIFLandroidx/compose/runtime/Composer;I)V
-HSPLcom/fragula2/compose/FragulaNavHostKt;->FragulaNavHost_L_v2icQ$lambda$4(Landroidx/compose/runtime/State;)Ljava/util/List;
-HSPLcom/fragula2/compose/FragulaNavHostKt;->FragulaNavHost_L_v2icQ$lambda$7(Landroidx/compose/runtime/MutableState;F)V
+HSPLcom/fragula2/compose/FragulaNavHostKt;->FragulaNavHost-Pxy4DCs(Landroidx/navigation/NavHostController;Ljava/lang/String;Landroidx/compose/ui/Modifier;Ljava/lang/String;Lkotlin/jvm/functions/Function3;ZJFFIFLkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;III)V
+HSPLcom/fragula2/compose/FragulaNavHostKt;->FragulaNavHost-WhgD3PA(Landroidx/navigation/NavHostController;Landroidx/navigation/NavGraph;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;ZJFFIFLandroidx/compose/runtime/Composer;I)V
+HSPLcom/fragula2/compose/FragulaNavHostKt;->FragulaNavHost_WhgD3PA$lambda$4(Landroidx/compose/runtime/State;)Ljava/util/List;
+HSPLcom/fragula2/compose/FragulaNavHostKt;->FragulaNavHost_WhgD3PA$lambda$7(Landroidx/compose/runtime/MutableState;F)V
 HSPLcom/fragula2/compose/FragulaNavHostKt;->NavHostBackHandler(Landroidx/navigation/NavHostController;Landroidx/compose/runtime/Composer;I)V
 HSPLcom/fragula2/compose/FragulaNavHostKt;->NavHostContent(Landroidx/compose/runtime/saveable/SaveableStateHolder;Landroidx/navigation/NavBackStackEntry;Landroidx/compose/runtime/Composer;I)V
 HSPLcom/fragula2/compose/FragulaNavHostKt;->NavHostLifecycle(Landroidx/navigation/NavHostController;Landroidx/compose/runtime/Composer;I)V
-HSPLcom/fragula2/compose/FragulaNavHostKt;->SwipeableBox-B102CiU(Landroidx/navigation/NavHostController;IIJFFIFLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;III)V
-HSPLcom/fragula2/compose/FragulaNavHostKt;->access$FragulaNavHost_L_v2icQ$lambda$7(Landroidx/compose/runtime/MutableState;F)V
+HSPLcom/fragula2/compose/FragulaNavHostKt;->SwipeableBox-1rivn1I(Landroidx/navigation/NavHostController;IIZJFFIFLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;III)V
+HSPLcom/fragula2/compose/FragulaNavHostKt;->access$FragulaNavHost_WhgD3PA$lambda$7(Landroidx/compose/runtime/MutableState;F)V
 HSPLcom/fragula2/compose/FragulaNavHostKt;->access$NavHostContent(Landroidx/compose/runtime/saveable/SaveableStateHolder;Landroidx/navigation/NavBackStackEntry;Landroidx/compose/runtime/Composer;I)V
 HSPLcom/fragula2/compose/FragulaNavHostKt;->swipeable$default(Landroidx/navigation/NavGraphBuilder;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
 HSPLcom/fragula2/compose/FragulaNavHostKt;->swipeable(Landroidx/navigation/NavGraphBuilder;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Lkotlin/jvm/functions/Function3;)V
@@ -81,7 +81,7 @@ HSPLcom/fragula2/compose/SwipeBackNavigator$Destination;->getContent$fragula_com
 HSPLcom/fragula2/compose/SwipeBackNavigator;-><clinit>()V
 HSPLcom/fragula2/compose/SwipeBackNavigator;-><init>()V
 HSPLcom/fragula2/compose/SwipeBackNavigator;->getBackStack$fragula_compose_release()Lkotlinx/coroutines/flow/StateFlow;
-HSPLcom/fragula2/compose/SwipeBackNavigator;->getSystemBack$fragula_compose_release()Lkotlin/Pair;
+HSPLcom/fragula2/compose/SwipeBackNavigator;->getBackTo$fragula_compose_release()Lcom/fragula2/compose/BackTo;
 HSPLcom/fragula2/compose/SwipeBackNavigator;->navigate(Ljava/util/List;Landroidx/navigation/NavOptions;Landroidx/navigation/Navigator$Extras;)V
 HSPLcom/fragula2/compose/SwipeBackNavigatorKt;->rememberFragulaNavController([Landroidx/navigation/Navigator;Landroidx/compose/runtime/Composer;I)Landroidx/navigation/NavHostController;
 HSPLcom/fragula2/compose/SwipeState;->$values()[Lcom/fragula2/compose/SwipeState;
@@ -94,6 +94,7 @@ Lcom/fragula2/common/SwipeInterpolator;
 Lcom/fragula2/compose/AnimationKt$animateDrag$3;
 Lcom/fragula2/compose/AnimationKt$toEasing$1;
 Lcom/fragula2/compose/AnimationKt;
+Lcom/fragula2/compose/BackTo;
 Lcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$10;
 Lcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$4$1;
 Lcom/fragula2/compose/FragulaNavHostKt$FragulaNavHost$5;
