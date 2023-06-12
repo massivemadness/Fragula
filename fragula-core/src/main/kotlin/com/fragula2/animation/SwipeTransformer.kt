@@ -29,12 +29,12 @@ class SwipeTransformer(
 
     override fun transformPage(page: View, position: Float) {
         when {
-            // Все фрагменты справа от текущего
+            // All fragments to the right of the current one
             position <= -1 -> {
                 page.visibility = View.INVISIBLE
                 page.alpha = 1.0f
             }
-            // Экран, который появляется справа от текущего при открытии нового фрагмента
+            // The screen that appears to the right of the current one when opening a new fragment
             position > 0 && position < 1 -> {
                 when (swipeDirection) {
                     SwipeDirection.LEFT_TO_RIGHT,
@@ -49,7 +49,7 @@ class SwipeTransformer(
                 page.visibility = View.VISIBLE
                 page.alpha = 1.0f
             }
-            // Анимация ухода текущего фрагмента при открытии нового
+            // Animation for the current fragment exiting when opening a new one
             position > -1 && position <= 0 -> {
                 when (swipeDirection) {
                     SwipeDirection.LEFT_TO_RIGHT -> {
@@ -68,7 +68,7 @@ class SwipeTransformer(
                 page.visibility = View.VISIBLE
                 page.alpha = 1.0f - abs(position * alphaFactor)
             }
-            // Все фрагменты слева от текущего
+            // All fragments to the left of the current one
             else -> {
                 page.visibility = View.INVISIBLE
                 page.alpha = 1.0f
