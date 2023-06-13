@@ -159,14 +159,18 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
     override fun popBackStack(popUpTo: NavBackStackEntry, onScrollFinished: () -> Unit) {
         if (popImmediately) {
             popImmediately = false
-            navBackStackAdapter?.pop()
+            viewPager?.post {
+                navBackStackAdapter?.pop()
+            }
             onScrollFinished()
             return
         }
         fakeScroll = true
         activity?.requestViewLock(true)
         viewPager?.fakeDragTo(false, swipeDirection, scrollDuration) {
-            navBackStackAdapter?.pop()
+            viewPager?.post {
+                navBackStackAdapter?.pop()
+            }
             onScrollFinished()
             activity?.requestViewLock(false)
             fakeScroll = false
