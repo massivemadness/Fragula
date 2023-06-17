@@ -38,7 +38,6 @@ class FragulaModulePlugin : Plugin<Project> {
 
                 defaultConfig {
                     minSdk = Gradle.Fragula.minSdk
-                    targetSdk = Gradle.Fragula.targetSdk
 
                     consumerProguardFiles("consumer-rules.pro")
                 }
