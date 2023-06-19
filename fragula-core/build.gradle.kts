@@ -40,7 +40,6 @@ dependencies {
     // AAC
     implementation(libs.androidx.navigation)
 
-
     // Common
     api(project(":fragula-common"))
 }
