@@ -20,4 +20,8 @@
     <attr name="fgl_parallax_factor" format="float" />
     <attr name="fgl_anim_duration" format="integer" />
     <attr name="fgl_elevation" format="dimension" />
+
+    <declare-styleable name="ViewPager2">
+        <attr name="android:orientation" />
+    </declare-styleable>
 </resources>

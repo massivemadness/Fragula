@@ -65,6 +65,9 @@
         <argument
             android:name="label"
             app:argType="string" />
+        <action
+            android:id="@+id/action_to_tabFragment"
+            app:destination="@id/tabFragment" />
     </swipeable>
 
 </navigation>
