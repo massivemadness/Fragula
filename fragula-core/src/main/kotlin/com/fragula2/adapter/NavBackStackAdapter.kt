@@ -19,8 +19,8 @@ package com.fragula2.adapter
 import android.annotation.SuppressLint
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavBackStackEntry
-import com.fragula2.viewpager2.adapter.FragmentStateAdapter
 import com.fragula2.navigation.SwipeBackDestination
+import com.fragula2.viewpager2.adapter.FragmentStateAdapter
 
 class NavBackStackAdapter(private val fragment: Fragment) : FragmentStateAdapter(fragment) {
 
