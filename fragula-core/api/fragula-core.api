@@ -9,7 +9,7 @@ public final class com/fragula2/FragulaNavHostFragment$Companion {
 	public final fun findSwipeController (Landroidx/fragment/app/Fragment;)Lcom/fragula2/animation/SwipeController;
 }
 
-public final class com/fragula2/adapter/NavBackStackAdapter : androidx/viewpager2/adapter/FragmentStateAdapter {
+public final class com/fragula2/adapter/NavBackStackAdapter : com/fragula2/viewpager2/adapter/FragmentStateAdapter {
 	public fun <init> (Landroidx/fragment/app/Fragment;)V
 	public final fun addAll (Ljava/util/List;)V
 	public fun createFragment (I)Landroidx/fragment/app/Fragment;
@@ -29,7 +29,7 @@ public abstract interface class com/fragula2/animation/SwipeController {
 	public abstract fun setScrollingEnabled (Z)V
 }
 
-public final class com/fragula2/animation/SwipeTransformer : androidx/viewpager2/widget/ViewPager2$PageTransformer {
+public final class com/fragula2/animation/SwipeTransformer : com/fragula2/viewpager2/widget/ViewPager2$PageTransformer {
 	public fun <init> (Lcom/fragula2/common/SwipeDirection;FF)V
 	public fun transformPage (Landroid/view/View;F)V
 }
@@ -82,5 +82,116 @@ public final class com/fragula2/navigation/SwipeBackNavigator$Companion {
 
 public final class com/fragula2/utils/FragmentKt {
 	public static final fun findSwipeController (Landroidx/fragment/app/Fragment;)Lcom/fragula2/animation/SwipeController;
+}
+
+public abstract class com/fragula2/viewpager2/adapter/FragmentStateAdapter : androidx/recyclerview/widget/RecyclerView$Adapter, com/fragula2/viewpager2/adapter/StatefulAdapter {
+	public fun <init> (Landroidx/fragment/app/Fragment;)V
+	public fun <init> (Landroidx/fragment/app/FragmentActivity;)V
+	public fun <init> (Landroidx/fragment/app/FragmentManager;Landroidx/lifecycle/Lifecycle;)V
+	public fun containsItem (J)Z
+	public abstract fun createFragment (I)Landroidx/fragment/app/Fragment;
+	public fun getItemId (I)J
+	public fun onAttachedToRecyclerView (Landroidx/recyclerview/widget/RecyclerView;)V
+	public synthetic fun onBindViewHolder (Landroidx/recyclerview/widget/RecyclerView$ViewHolder;I)V
+	public final fun onBindViewHolder (Lcom/fragula2/viewpager2/adapter/FragmentViewHolder;I)V
+	public synthetic fun onCreateViewHolder (Landroid/view/ViewGroup;I)Landroidx/recyclerview/widget/RecyclerView$ViewHolder;
+	public final fun onCreateViewHolder (Landroid/view/ViewGroup;I)Lcom/fragula2/viewpager2/adapter/FragmentViewHolder;
+	public fun onDetachedFromRecyclerView (Landroidx/recyclerview/widget/RecyclerView;)V
+	public synthetic fun onFailedToRecycleView (Landroidx/recyclerview/widget/RecyclerView$ViewHolder;)Z
+	public final fun onFailedToRecycleView (Lcom/fragula2/viewpager2/adapter/FragmentViewHolder;)Z
+	public synthetic fun onViewAttachedToWindow (Landroidx/recyclerview/widget/RecyclerView$ViewHolder;)V
+	public final fun onViewAttachedToWindow (Lcom/fragula2/viewpager2/adapter/FragmentViewHolder;)V
+	public synthetic fun onViewRecycled (Landroidx/recyclerview/widget/RecyclerView$ViewHolder;)V
+	public final fun onViewRecycled (Lcom/fragula2/viewpager2/adapter/FragmentViewHolder;)V
+	public final fun restoreState (Landroid/os/Parcelable;)V
+	public final fun saveState ()Landroid/os/Parcelable;
+	public final fun setHasStableIds (Z)V
+}
+
+public final class com/fragula2/viewpager2/adapter/FragmentViewHolder : androidx/recyclerview/widget/RecyclerView$ViewHolder {
+}
+
+public abstract interface class com/fragula2/viewpager2/adapter/StatefulAdapter {
+	public abstract fun restoreState (Landroid/os/Parcelable;)V
+	public abstract fun saveState ()Landroid/os/Parcelable;
+}
+
+public final class com/fragula2/viewpager2/widget/CompositePageTransformer : com/fragula2/viewpager2/widget/ViewPager2$PageTransformer {
+	public fun <init> ()V
+	public fun addTransformer (Lcom/fragula2/viewpager2/widget/ViewPager2$PageTransformer;)V
+	public fun removeTransformer (Lcom/fragula2/viewpager2/widget/ViewPager2$PageTransformer;)V
+	public fun transformPage (Landroid/view/View;F)V
+}
+
+public final class com/fragula2/viewpager2/widget/MarginPageTransformer : com/fragula2/viewpager2/widget/ViewPager2$PageTransformer {
+	public fun <init> (I)V
+	public fun transformPage (Landroid/view/View;F)V
+}
+
+public final class com/fragula2/viewpager2/widget/ViewPager2 : android/view/ViewGroup {
+	public static final field OFFSCREEN_PAGE_LIMIT_DEFAULT I
+	public static final field ORIENTATION_HORIZONTAL I
+	public static final field ORIENTATION_VERTICAL I
+	public static final field SCROLL_STATE_DRAGGING I
+	public static final field SCROLL_STATE_IDLE I
+	public static final field SCROLL_STATE_SETTLING I
+	public fun <init> (Landroid/content/Context;)V
+	public fun <init> (Landroid/content/Context;Landroid/util/AttributeSet;)V
+	public fun <init> (Landroid/content/Context;Landroid/util/AttributeSet;I)V
+	public fun <init> (Landroid/content/Context;Landroid/util/AttributeSet;II)V
+	public fun addItemDecoration (Landroidx/recyclerview/widget/RecyclerView$ItemDecoration;)V
+	public fun addItemDecoration (Landroidx/recyclerview/widget/RecyclerView$ItemDecoration;I)V
+	public fun beginFakeDrag ()Z
+	public fun canScrollHorizontally (I)Z
+	public fun canScrollVertically (I)Z
+	public fun endFakeDrag ()Z
+	public fun fakeDragBy (F)Z
+	public fun getAccessibilityClassName ()Ljava/lang/CharSequence;
+	public fun getAdapter ()Landroidx/recyclerview/widget/RecyclerView$Adapter;
+	public fun getCurrentItem ()I
+	public fun getItemDecorationAt (I)Landroidx/recyclerview/widget/RecyclerView$ItemDecoration;
+	public fun getItemDecorationCount ()I
+	public fun getOffscreenPageLimit ()I
+	public fun getOrientation ()I
+	public fun getScrollState ()I
+	public fun invalidateItemDecorations ()V
+	public fun isFakeDragging ()Z
+	public fun isUserInputEnabled ()Z
+	public fun onInitializeAccessibilityNodeInfo (Landroid/view/accessibility/AccessibilityNodeInfo;)V
+	public fun onViewAdded (Landroid/view/View;)V
+	public fun performAccessibilityAction (ILandroid/os/Bundle;)Z
+	public fun registerOnPageChangeCallback (Lcom/fragula2/viewpager2/widget/ViewPager2$OnPageChangeCallback;)V
+	public fun removeItemDecoration (Landroidx/recyclerview/widget/RecyclerView$ItemDecoration;)V
+	public fun removeItemDecorationAt (I)V
+	public fun requestTransform ()V
+	public fun setAdapter (Landroidx/recyclerview/widget/RecyclerView$Adapter;)V
+	public fun setCurrentItem (I)V
+	public fun setCurrentItem (IZ)V
+	public fun setLayoutDirection (I)V
+	public fun setOffscreenPageLimit (I)V
+	public fun setOrientation (I)V
+	public fun setPageTransformer (Lcom/fragula2/viewpager2/widget/ViewPager2$PageTransformer;)V
+	public fun setUserInputEnabled (Z)V
+	public fun unregisterOnPageChangeCallback (Lcom/fragula2/viewpager2/widget/ViewPager2$OnPageChangeCallback;)V
+}
+
+public abstract interface annotation class com/fragula2/viewpager2/widget/ViewPager2$OffscreenPageLimit : java/lang/annotation/Annotation {
+}
+
+public abstract class com/fragula2/viewpager2/widget/ViewPager2$OnPageChangeCallback {
+	public fun <init> ()V
+	public fun onPageScrollStateChanged (I)V
+	public fun onPageScrolled (IFI)V
+	public fun onPageSelected (I)V
+}
+
+public abstract interface annotation class com/fragula2/viewpager2/widget/ViewPager2$Orientation : java/lang/annotation/Annotation {
+}
+
+public abstract interface class com/fragula2/viewpager2/widget/ViewPager2$PageTransformer {
+	public abstract fun transformPage (Landroid/view/View;F)V
+}
+
+public abstract interface annotation class com/fragula2/viewpager2/widget/ViewPager2$ScrollState : java/lang/annotation/Annotation {
 }
 
