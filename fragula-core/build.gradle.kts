@@ -35,10 +35,11 @@ dependencies {
     implementation(libs.kotlin)
 
     // UI
-    implementation(libs.androidx.viewpager2)
+    implementation(libs.androidx.recyclerview)
 
     // AAC
     implementation(libs.androidx.navigation)
+
 
     // Common
     api(project(":fragula-common"))

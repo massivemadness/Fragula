@@ -17,8 +17,8 @@
 package com.fragula2.animation
 
 import android.view.View
-import androidx.viewpager2.widget.ViewPager2
 import com.fragula2.common.SwipeDirection
+import com.fragula2.viewpager2.widget.ViewPager2
 import kotlin.math.abs
 
 class SwipeTransformer(

@@ -24,14 +24,22 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.viewpager2.widget.ViewPager2
 import com.fragula2.R
 import com.fragula2.adapter.NavBackStackAdapter
 import com.fragula2.animation.OnSwipeListener
 import com.fragula2.animation.SwipeController
 import com.fragula2.animation.SwipeTransformer
 import com.fragula2.common.SwipeDirection
-import com.fragula2.utils.*
+import com.fragula2.viewpager2.widget.ViewPager2
+import com.fragula2.utils.fakeDragTo
+import com.fragula2.utils.pageOverScrollMode
+import com.fragula2.utils.pageSwipeDirection
+import com.fragula2.utils.requestViewLock
+import com.fragula2.utils.resolveColor
+import com.fragula2.utils.resolveDimen
+import com.fragula2.utils.resolveFloat
+import com.fragula2.utils.resolveInteger
+import com.fragula2.utils.updateLayoutAngle
 
 class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, SwipeController {
 
