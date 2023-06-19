@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.fragula2.sample.R
+import com.fragula2.sample.adapter.CardAdapter
 import com.fragula2.sample.databinding.FragmentTabBinding
 import com.fragula2.sample.utils.supportActionBar
 import com.fragula2.sample.utils.viewBinding
@@ -41,6 +42,9 @@ class TabFragment : Fragment(R.layout.fragment_tab) {
             navController.currentDestination?.getAction(direction.actionId)
                 ?.run { navController.navigate(direction) }
         }
+
+        binding.recyclerView.setHasFixedSize(false)
+        binding.recyclerView.adapter = CardAdapter()
     }
 
     override fun onResume() {

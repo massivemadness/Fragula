@@ -31,5 +31,6 @@
     <string name="tab_friends">Friends</string>
     <string name="tab_likes">Likes</string>
     <string name="tab_settings">Settings</string>
+    <string name="tab_nested">Nested</string>
 
 </resources>
