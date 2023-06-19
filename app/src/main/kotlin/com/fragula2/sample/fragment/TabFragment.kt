@@ -19,6 +19,7 @@ package com.fragula2.sample.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.fragula2.sample.R
 import com.fragula2.sample.databinding.FragmentTabBinding
@@ -29,10 +30,17 @@ class TabFragment : Fragment(R.layout.fragment_tab) {
 
     private val binding by viewBinding(FragmentTabBinding::bind)
     private val navArgs by navArgs<TabFragmentArgs>()
+    private val navController by lazy { findNavController() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.label.text = navArgs.label
+
+        binding.button.setOnClickListener {
+            val direction = TabFragmentDirections.actionToTabFragment("Nested")
+            navController.currentDestination?.getAction(direction.actionId)
+                ?.run { navController.navigate(direction) }
+        }
     }
 
     override fun onResume() {
