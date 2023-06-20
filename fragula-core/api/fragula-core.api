@@ -2,6 +2,7 @@ public final class com/fragula2/FragulaNavHostFragment : androidx/navigation/fra
 	public static final field Companion Lcom/fragula2/FragulaNavHostFragment$Companion;
 	public fun <init> ()V
 	public static final fun findSwipeController (Landroidx/fragment/app/Fragment;)Lcom/fragula2/animation/SwipeController;
+	public fun onCreate (Landroid/os/Bundle;)V
 	public fun onInflate (Landroid/content/Context;Landroid/util/AttributeSet;Landroid/os/Bundle;)V
 }
 
