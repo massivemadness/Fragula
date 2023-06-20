@@ -20,6 +20,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.View
+import androidx.activity.OnBackPressedDispatcherOwner
 import androidx.core.content.res.use
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavHostController
@@ -44,6 +45,14 @@ class FragulaNavHostFragment : NavHostFragment() {
                 array.getInteger(R.styleable.FragulaNavHostFragment_swipeDirection, 0),
             )
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        /* Set onBackPressedDispatcher for NavController to handle back button events,
+           as the code to set it was removed in Navigation 2.6.0. */
+        val onBackPressedDispatcher = (context as OnBackPressedDispatcherOwner).onBackPressedDispatcher
+        navController.setOnBackPressedDispatcher(onBackPressedDispatcher)
     }
 
     override fun onCreateNavHostController(navHostController: NavHostController) {
