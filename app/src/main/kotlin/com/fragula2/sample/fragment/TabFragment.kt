@@ -37,7 +37,12 @@ class TabFragment : Fragment(R.layout.fragment_tab) {
         super.onViewCreated(view, savedInstanceState)
         binding.label.text = navArgs.label
 
-        binding.button.setOnClickListener {
+        binding.openFragment.setOnClickListener {
+            val direction = TabFragmentDirections.actionToEmptyFragment()
+            navController.currentDestination?.getAction(direction.actionId)
+                ?.run { navController.navigate(direction) }
+        }
+        binding.openDialog.setOnClickListener {
             val direction = TabFragmentDirections.actionToEmptyDialogFragment()
             navController.currentDestination?.getAction(direction.actionId)
                 ?.run { navController.navigate(direction) }

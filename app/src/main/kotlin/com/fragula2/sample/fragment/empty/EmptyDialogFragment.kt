@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fragula2.sample.fragment
+package com.fragula2.sample.fragment.empty
 
 import android.app.Dialog
 import android.os.Bundle
