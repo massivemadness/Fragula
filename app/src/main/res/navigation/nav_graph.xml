@@ -66,8 +66,13 @@
             android:name="label"
             app:argType="string" />
         <action
-            android:id="@+id/action_to_tabFragment"
-            app:destination="@id/tabFragment" />
+            android:id="@+id/action_to_emptyDialogFragment"
+            app:destination="@id/emptyDialogFragment" />
     </swipeable>
+
+    <dialog
+        android:id="@+id/emptyDialogFragment"
+        android:name="com.fragula2.sample.fragment.EmptyDialogFragment"
+        android:label="EmptyDialogFragment" />
 
 </navigation>

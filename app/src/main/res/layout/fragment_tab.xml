@@ -77,6 +77,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_card"
-        tools:itemCount="10"/>
+        tools:itemCount="10" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

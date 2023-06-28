@@ -33,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
+            android:background="?colorPrimaryVariant"
             android:elevation="6dp"
             android:id="@+id/toolbar"
             tools:title="Fragula" />
@@ -51,7 +52,7 @@
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="?colorPrimaryVariant"
+        android:background="?colorSurface"
         android:id="@+id/navigation_view"
         app:headerLayout="@layout/item_header"
         app:menu="@menu/navigation_menu"

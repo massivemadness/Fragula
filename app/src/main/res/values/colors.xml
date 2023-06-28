@@ -18,7 +18,7 @@
 <resources>
 
     <color name="colorPrimary">#3B7AA5</color>
-    <color name="colorPrimaryVariant">#FFFFFF</color>
+    <color name="colorPrimaryVariant">#3B7AA5</color>
     <color name="colorSecondary">#3B7AA5</color>
     <color name="colorSecondaryVariant">#DFECD0</color>
     <color name="colorSurface">#FFFFFF</color>
