@@ -19,7 +19,10 @@ package com.fragula2.navigation
 import androidx.navigation.NavBackStackEntry
 
 interface Navigable {
-    fun navigate(entry: NavBackStackEntry)
+    fun navigate(
+        entry: NavBackStackEntry,
+        onScrollFinished: () -> Unit,
+    )
     fun popBackStack(
         popUpTo: NavBackStackEntry,
         onScrollFinished: () -> Unit,

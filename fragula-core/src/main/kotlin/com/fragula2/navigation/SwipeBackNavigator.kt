@@ -16,7 +16,6 @@
 
 package com.fragula2.navigation
 
-import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
@@ -29,7 +28,6 @@ import com.fragula2.common.SwipeDirection
 class SwipeBackNavigator(
     private val fragmentManager: FragmentManager,
     private val swipeDirection: SwipeDirection,
-    private val fragmentTag: String,
     private val containerId: Int,
 ) : Navigator<SwipeBackDestination>() {
 
@@ -53,18 +51,19 @@ class SwipeBackNavigator(
     private fun navigate(entry: NavBackStackEntry) {
         val initialNavigation = backStack.isEmpty()
         if (initialNavigation) {
-            fragmentManager.commit {
-                val swipeBackFragment = SwipeBackFragment.newInstance(swipeDirection)
-                replace(containerId, swipeBackFragment, fragmentTag)
-                setPrimaryNavigationFragment(swipeBackFragment)
-                setReorderingAllowed(true)
+            internalPushSelf(entry)
+        } else {
+            val swipeBackFragment = fragmentManager.findFragmentByTag(SwipeBackFragment.TAG)
+            if (swipeBackFragment is Navigable) {
+                if (swipeBackFragment.isAnimating()) {
+                    return
+                }
+                state.pushWithTransition(entry)
+                swipeBackFragment.navigate(entry) {
+                    state.markTransitionComplete(entry)
+                }
             }
         }
-        val swipeBackFragment = fragmentManager.findFragmentByTag(fragmentTag)
-        if (swipeBackFragment is Navigable) {
-            swipeBackFragment.navigate(entry)
-        }
-        state.push(entry)
     }
 
     override fun popBackStack(popUpTo: NavBackStackEntry, savedState: Boolean) {
@@ -72,20 +71,20 @@ class SwipeBackNavigator(
             Log.i(TAG, "Ignoring popBackStack() call: FragmentManager has already saved its state")
             return
         }
-        if (backStack.size > 1) {
-            val swipeBackFragment = fragmentManager.findFragmentByTag(fragmentTag) as Navigable
-            if (swipeBackFragment.isAnimating()) {
-                return
-            }
-            swipeBackFragment.popBackStack(popUpTo) {
-                state.pop(popUpTo, savedState)
-            }
+        val clearNavigation = backStack.size <= 1
+        if (clearNavigation) {
+            internalPopSelf(popUpTo, savedState)
         } else {
-            fragmentManager.popBackStack(
-                popUpTo.id,
-                FragmentManager.POP_BACK_STACK_INCLUSIVE,
-            )
-            state.pop(popUpTo, savedState)
+            val swipeBackFragment = fragmentManager.findFragmentByTag(SwipeBackFragment.TAG)
+            if (swipeBackFragment is Navigable) {
+                if (swipeBackFragment.isAnimating()) {
+                    return
+                }
+                state.popWithTransition(popUpTo, savedState)
+                swipeBackFragment.popBackStack(popUpTo) {
+                    state.markTransitionComplete(popUpTo)
+                }
+            }
         }
     }
 
@@ -93,10 +92,25 @@ class SwipeBackNavigator(
         return SwipeBackDestination(this)
     }
 
-    override fun onSaveState(): Bundle? = null
-    override fun onRestoreState(savedState: Bundle) = Unit
+    private fun internalPushSelf(entry: NavBackStackEntry) {
+        fragmentManager.commit {
+            val swipeBackFragment = SwipeBackFragment.newInstance(swipeDirection)
+            replace(containerId, swipeBackFragment, SwipeBackFragment.TAG)
+            setPrimaryNavigationFragment(swipeBackFragment)
+            setReorderingAllowed(true)
+        }
+        state.push(entry)
+    }
 
-    companion object {
+    private fun internalPopSelf(popUpTo: NavBackStackEntry, savedState: Boolean) {
+        fragmentManager.popBackStack(
+            popUpTo.id,
+            FragmentManager.POP_BACK_STACK_INCLUSIVE,
+        )
+        state.pop(popUpTo, savedState)
+    }
+
+    private companion object {
         private const val TAG = "SwipeBackNavigator"
     }
 }

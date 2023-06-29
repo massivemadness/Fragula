@@ -53,7 +53,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/label" />
 
-    <com.google.android.material.button.MaterialButton
+    <!--<com.google.android.material.button.MaterialButton
         style="@style/Widget.AppTheme.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="64dp"
@@ -64,7 +64,7 @@
         android:id="@+id/open_fragment"
         app:layout_constraintTop_toBottomOf="@id/editText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />-->
 
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.AppTheme.OutlinedButton"
@@ -74,7 +74,7 @@
         android:layout_marginEnd="52dp"
         android:text="@string/tab_dialog"
         android:id="@+id/open_dialog"
-        app:layout_constraintTop_toBottomOf="@id/open_fragment"
+        app:layout_constraintTop_toBottomOf="@id/editText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

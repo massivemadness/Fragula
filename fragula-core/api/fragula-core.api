@@ -37,7 +37,7 @@ public final class com/fragula2/animation/SwipeTransformer : com/fragula2/viewpa
 
 public abstract interface class com/fragula2/navigation/Navigable {
 	public abstract fun isAnimating ()Z
-	public abstract fun navigate (Landroidx/navigation/NavBackStackEntry;)V
+	public abstract fun navigate (Landroidx/navigation/NavBackStackEntry;Lkotlin/jvm/functions/Function0;)V
 	public abstract fun popBackStack (Landroidx/navigation/NavBackStackEntry;Lkotlin/jvm/functions/Function0;)V
 }
 
@@ -50,12 +50,11 @@ public final class com/fragula2/navigation/SwipeBackDestination : androidx/navig
 }
 
 public final class com/fragula2/navigation/SwipeBackFragment : androidx/fragment/app/Fragment, com/fragula2/animation/SwipeController, com/fragula2/navigation/Navigable {
-	public static final field Companion Lcom/fragula2/navigation/SwipeBackFragment$Companion;
 	public fun <init> ()V
 	public fun addOnSwipeListener (Lcom/fragula2/animation/OnSwipeListener;)V
 	public fun isAnimating ()Z
 	public fun isScrollingEnabled ()Z
-	public fun navigate (Landroidx/navigation/NavBackStackEntry;)V
+	public fun navigate (Landroidx/navigation/NavBackStackEntry;Lkotlin/jvm/functions/Function0;)V
 	public fun onDestroyView ()V
 	public fun onViewCreated (Landroid/view/View;Landroid/os/Bundle;)V
 	public fun popBackStack (Landroidx/navigation/NavBackStackEntry;Lkotlin/jvm/functions/Function0;)V
@@ -63,22 +62,12 @@ public final class com/fragula2/navigation/SwipeBackFragment : androidx/fragment
 	public fun setScrollingEnabled (Z)V
 }
 
-public final class com/fragula2/navigation/SwipeBackFragment$Companion {
-	public final fun newInstance (Lcom/fragula2/common/SwipeDirection;)Lcom/fragula2/navigation/SwipeBackFragment;
-}
-
 public final class com/fragula2/navigation/SwipeBackNavigator : androidx/navigation/Navigator {
-	public static final field Companion Lcom/fragula2/navigation/SwipeBackNavigator$Companion;
-	public fun <init> (Landroidx/fragment/app/FragmentManager;Lcom/fragula2/common/SwipeDirection;Ljava/lang/String;I)V
+	public fun <init> (Landroidx/fragment/app/FragmentManager;Lcom/fragula2/common/SwipeDirection;I)V
 	public synthetic fun createDestination ()Landroidx/navigation/NavDestination;
 	public fun createDestination ()Lcom/fragula2/navigation/SwipeBackDestination;
 	public fun navigate (Ljava/util/List;Landroidx/navigation/NavOptions;Landroidx/navigation/Navigator$Extras;)V
-	public fun onRestoreState (Landroid/os/Bundle;)V
-	public fun onSaveState ()Landroid/os/Bundle;
 	public fun popBackStack (Landroidx/navigation/NavBackStackEntry;Z)V
-}
-
-public final class com/fragula2/navigation/SwipeBackNavigator$Companion {
 }
 
 public final class com/fragula2/utils/FragmentKt {

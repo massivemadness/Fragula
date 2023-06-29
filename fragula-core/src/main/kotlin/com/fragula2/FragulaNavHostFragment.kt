@@ -28,6 +28,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.plusAssign
 import com.fragula2.animation.SwipeController
 import com.fragula2.common.SwipeDirection
+import com.fragula2.navigation.SwipeBackFragment
 import com.fragula2.navigation.SwipeBackNavigator
 import androidx.navigation.fragment.R as NavR
 
@@ -49,8 +50,11 @@ class FragulaNavHostFragment : NavHostFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /* Set onBackPressedDispatcher for NavController to handle back button events,
-           as the code to set it was removed in Navigation 2.6.0. */
+        /**
+         * Set [androidx.activity.OnBackPressedDispatcher] for this NavController to handle
+         * system back button, as the back button handling was delegated to the FragmentManager
+         * in androidx.navigation 2.6.0
+         */
         val onBackPressedDispatcher = (context as OnBackPressedDispatcherOwner).onBackPressedDispatcher
         navController.setOnBackPressedDispatcher(onBackPressedDispatcher)
     }
@@ -60,14 +64,11 @@ class FragulaNavHostFragment : NavHostFragment() {
         navHostController.navigatorProvider += SwipeBackNavigator(
             fragmentManager = childFragmentManager,
             swipeDirection = swipeDirection,
-            fragmentTag = FRAGMENT_TAG,
             containerId = containerId,
         )
     }
 
     companion object {
-
-        private const val FRAGMENT_TAG = "SwipeBackFragment"
 
         @JvmStatic
         fun findSwipeController(fragment: Fragment): SwipeController {
@@ -75,13 +76,13 @@ class FragulaNavHostFragment : NavHostFragment() {
             while (findFragment != null) {
                 if (findFragment is FragulaNavHostFragment) {
                     val fragmentManager = findFragment.childFragmentManager
-                    return fragmentManager.findFragmentByTag(FRAGMENT_TAG) as SwipeController
+                    return fragmentManager.findFragmentByTag(SwipeBackFragment.TAG) as SwipeController
                 }
                 val primaryNavFragment = findFragment.parentFragmentManager
                     .primaryNavigationFragment
                 if (primaryNavFragment is FragulaNavHostFragment) {
                     val fragmentManager = primaryNavFragment.childFragmentManager
-                    return fragmentManager.findFragmentByTag(FRAGMENT_TAG) as SwipeController
+                    return fragmentManager.findFragmentByTag(SwipeBackFragment.TAG) as SwipeController
                 }
                 findFragment = findFragment.parentFragment
             }

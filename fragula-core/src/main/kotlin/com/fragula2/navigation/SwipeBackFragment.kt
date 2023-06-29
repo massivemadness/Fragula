@@ -154,11 +154,12 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         elevation = null
     }
 
-    override fun navigate(entry: NavBackStackEntry) {
+    override fun navigate(entry: NavBackStackEntry, onScrollFinished: () -> Unit) {
         fakeScroll = true
         activity?.requestViewLock(true)
         navBackStackAdapter?.push(entry)
         viewPager?.fakeDragTo(true, swipeDirection, scrollDuration) {
+            onScrollFinished()
             activity?.requestViewLock(false)
             fakeScroll = false
         }
@@ -212,7 +213,9 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
             .size
     }
 
-    companion object {
+    internal companion object {
+
+        internal const val TAG = "SwipeBackFragment"
 
         private const val ARG_SWIPE_DIRECTION = "swipe_direction"
 
