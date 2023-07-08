@@ -21,7 +21,7 @@ junit = "4.13.2"
 junit-ext = "1.1.5"
 test-runner = "1.5.2"
 test-macrobenchmark = "1.1.1"
-ktlint = "0.49.1"
+ktlint = "0.50.0"
 
 [libraries]
 plugin-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
