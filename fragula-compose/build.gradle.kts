@@ -33,7 +33,7 @@ android {
 publishModule {
     libraryGroup = "com.fragula2"
     libraryArtifact = "fragula-compose"
-    libraryVersion = "2.8"
+    libraryVersion = "2.9"
 }
 
 dependencies {

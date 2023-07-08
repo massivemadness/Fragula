@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-import org.gradle.api.Plugin
-import org.gradle.api.Project
+package com.fragula2.gradle
 
-class StubModulePlugin : Plugin<Project> {
-    override fun apply(target: Project) = Unit
+interface PublishModuleExtension {
+    var libraryGroup: String
+    var libraryArtifact: String
+    var libraryVersion: String
 }

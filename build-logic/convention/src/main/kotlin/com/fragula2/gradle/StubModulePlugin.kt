@@ -16,17 +16,9 @@
 
 package com.fragula2.gradle
 
-object Gradle {
+import org.gradle.api.Plugin
+import org.gradle.api.Project
 
-    object Build {
-        const val minSdk = 23
-        const val targetSdk = 33
-        const val compileSdk = 33
-    }
-
-    object Fragula {
-        const val minSdk = 21
-        const val targetSdk = 33
-        const val compileSdk = 33
-    }
+class StubModulePlugin : Plugin<Project> {
+    override fun apply(target: Project) = Unit
 }

@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
-interface PublishModuleExtension {
-    var libraryGroup: String
-    var libraryArtifact: String
-    var libraryVersion: String
+package com.fragula2.gradle
+
+object BuildConst {
+
+    const val MIN_SDK = 23
+    const val TARGET_SDK = 33
+    const val COMPILE_SDK = 33
+
+    const val LIBRARY_MIN_SDK = 21
+    const val LIBRARY_COMPILE_SDK = 33
 }

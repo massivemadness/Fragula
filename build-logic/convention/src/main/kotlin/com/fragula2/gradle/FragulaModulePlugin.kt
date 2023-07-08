@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
+package com.fragula2.gradle
+
 import com.android.build.api.dsl.LibraryExtension
-import com.fragula2.gradle.Gradle
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -34,10 +35,10 @@ class FragulaModulePlugin : Plugin<Project> {
             }
 
             configure<LibraryExtension> {
-                compileSdk = Gradle.Fragula.compileSdk
+                compileSdk = BuildConst.LIBRARY_COMPILE_SDK
 
                 defaultConfig {
-                    minSdk = Gradle.Fragula.minSdk
+                    minSdk = BuildConst.LIBRARY_MIN_SDK
 
                     consumerProguardFiles("consumer-rules.pro")
                 }

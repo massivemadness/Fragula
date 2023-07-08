@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import com.fragula2.gradle.Gradle
+import com.fragula2.gradle.BuildConst
 
 plugins {
     id("com.android.application")
@@ -25,14 +25,14 @@ plugins {
 }
 
 android {
-    compileSdk = Gradle.Build.compileSdk
+    compileSdk = BuildConst.COMPILE_SDK
     namespace = "com.fragula2.sample"
 
     defaultConfig {
         applicationId = "com.fragula2.sample"
 
-        minSdk = Gradle.Build.minSdk
-        targetSdk = Gradle.Build.targetSdk
+        minSdk = BuildConst.MIN_SDK
+        targetSdk = BuildConst.TARGET_SDK
 
         versionCode = 10000
         versionName = "1.0"

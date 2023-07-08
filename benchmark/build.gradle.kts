@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import com.fragula2.gradle.Gradle
+import com.fragula2.gradle.BuildConst
 
 plugins {
     id("com.android.test")
@@ -23,15 +23,15 @@ plugins {
 }
 
 android {
-    compileSdk = Gradle.Build.compileSdk
+    compileSdk = BuildConst.COMPILE_SDK
     namespace = "com.fragula2.benchmark"
 
     targetProjectPath = ":app"
     experimentalProperties["android.experimental.self-instrumenting"] = true
 
     defaultConfig {
-        minSdk = Gradle.Build.minSdk
-        targetSdk = Gradle.Build.targetSdk
+        minSdk = BuildConst.MIN_SDK
+        targetSdk = BuildConst.TARGET_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

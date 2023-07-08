@@ -39,15 +39,15 @@ gradlePlugin {
     plugins {
         register("fragula-module") {
             id = "fragula-module"
-            implementationClass = "FragulaModulePlugin"
+            implementationClass = "com.fragula2.gradle.FragulaModulePlugin"
         }
         register("publish-module") {
             id = "publish-module"
-            implementationClass = "PublishModulePlugin"
+            implementationClass = "com.fragula2.gradle.PublishModulePlugin"
         }
         register("stub-module") {
             id = "stub-module"
-            implementationClass = "StubModulePlugin"
+            implementationClass = "com.fragula2.gradle.StubModulePlugin"
         }
     }
 }
