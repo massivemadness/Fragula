@@ -20,11 +20,23 @@ import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -33,17 +45,29 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
-import androidx.navigation.*
+import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDeepLink
+import androidx.navigation.NavDestination
+import androidx.navigation.NavGraph
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.Navigator
 import androidx.navigation.compose.DialogHost
 import androidx.navigation.compose.DialogNavigator
 import androidx.navigation.compose.LocalOwnersProvider
+import androidx.navigation.createGraph
+import androidx.navigation.get
+import com.fragula2.common.SwipeDirection
 import com.fragula2.common.SwipeInterpolator
+import kotlin.math.abs
 
 @Composable
 fun FragulaNavHost(
+    modifier: Modifier = Modifier,
     navController: NavHostController,
     startDestination: String,
-    modifier: Modifier = Modifier,
+    swipeDirection: SwipeDirection = SwipeDirection.LEFT_TO_RIGHT,
     route: String? = null,
     onPageScrolled: (Int, Float, Int) -> Unit = { _, _, _ -> },
     scrollable: Boolean = true,
@@ -60,6 +84,7 @@ fun FragulaNavHost(
             navController.createGraph(startDestination, route, builder)
         },
         modifier = modifier,
+        swipeDirection = swipeDirection,
         onPageScrolled = onPageScrolled,
         scrollable = scrollable,
         scrimColor = scrimColor,
@@ -94,6 +119,7 @@ fun FragulaNavHost(
     navController: NavHostController,
     graph: NavGraph,
     modifier: Modifier,
+    swipeDirection: SwipeDirection,
     onPageScrolled: (Int, Float, Int) -> Unit,
     scrollable: Boolean,
     scrimColor: Color,
@@ -122,6 +148,7 @@ fun FragulaNavHost(
     for ((index, backStackEntry) in backStack.withIndex()) { // FIXME don't render all entries at once
         SwipeableBox(
             navController = navController,
+            swipeDirection = swipeDirection,
             position = index,
             pageCount = backStack.size,
             scrollable = scrollable,
@@ -157,7 +184,9 @@ fun FragulaNavHost(
 
 @Composable
 private fun SwipeableBox(
+    modifier: Modifier = Modifier,
     navController: NavHostController,
+    swipeDirection: SwipeDirection,
     position: Int,
     pageCount: Int,
     scrollable: Boolean,
@@ -171,14 +200,17 @@ private fun SwipeableBox(
     positionChanger: (Int, Float, Int) -> Unit,
     onDragFinished: (SwipeState) -> Unit,
     onScrollFinished: () -> Unit,
-    modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
     BoxWithConstraints(modifier) {
         val pageStart = 0f
         val pageEnd = constraints.maxWidth.toFloat()
         val parallaxFormula = {
-            -maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
+            when (swipeDirection) {
+                SwipeDirection.LEFT_TO_RIGHT -> -maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
+                SwipeDirection.RIGHT_TO_LEFT -> maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
+                else -> TODO()
+            }
         }
 
         var swipeState by rememberSaveable { mutableStateOf(SwipeState.FOLLOW_POINTER) }
@@ -250,15 +282,15 @@ private fun SwipeableBox(
             modifier = modifier
                 .animateDrag(
                     enabled = position > 0 && scrollable,
+                    swipeDirection = swipeDirection,
                     onDragChanged = { position ->
                         if (swipeState == SwipeState.FOLLOW_POINTER) {
-                            pointerPosition = position
+                            pointerPosition = abs(position)
                         }
                     },
-                    onDragFinished = { velocity ->
+                    onDragFinished = {
                         if (swipeState == SwipeState.FOLLOW_POINTER) {
                             swipeState = when {
-                                velocity > 1000 -> SwipeState.SLIDE_OUT // Fling
                                 pointerPosition == 0f -> SwipeState.FOLLOW_POINTER
                                 pointerPosition > pageEnd / 2 -> SwipeState.SLIDE_OUT
                                 pointerPosition < pageEnd / 2 -> SwipeState.SLIDE_IN
@@ -269,7 +301,12 @@ private fun SwipeableBox(
                     },
                 )
                 .graphicsLayer {
-                    translationX = if (applyParallax) parallaxFormula() else scrollPosition
+                    val translation = when (swipeDirection) {
+                        SwipeDirection.LEFT_TO_RIGHT -> scrollPosition
+                        SwipeDirection.RIGHT_TO_LEFT -> -scrollPosition
+                        else -> TODO()
+                    }
+                    translationX = if (applyParallax) parallaxFormula() else translation
                 },
         ) {
             content()
@@ -280,7 +317,13 @@ private fun SwipeableBox(
         }
         if (applyElevation) {
             PageElevation(
-                positionProvider = { scrollPosition },
+                positionProvider = {
+                    when (swipeDirection) {
+                        SwipeDirection.LEFT_TO_RIGHT -> scrollPosition
+                        SwipeDirection.RIGHT_TO_LEFT -> pageEnd - scrollPosition
+                        else -> TODO()
+                    }
+                },
                 elevation = elevation,
             )
         }

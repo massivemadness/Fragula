@@ -30,9 +30,11 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.input.pointer.util.addPointerInputChange
+import com.fragula2.common.SwipeDirection
 
 internal fun Modifier.animateDrag(
     enabled: Boolean,
+    swipeDirection: SwipeDirection,
     onDragChanged: (Float) -> Unit = {},
     onDragFinished: (Float) -> Unit = {},
 ): Modifier = composed {
@@ -43,7 +45,9 @@ internal fun Modifier.animateDrag(
         detectHorizontalDragGestures(
             onHorizontalDrag = { change, dragAmount ->
                 dragOffset += dragAmount
-                if (dragOffset < 0f) {
+                if (dragOffset < 0f && swipeDirection == SwipeDirection.LEFT_TO_RIGHT) {
+                    dragOffset = 0f
+                } else if (dragOffset > 0f && swipeDirection == SwipeDirection.RIGHT_TO_LEFT) {
                     dragOffset = 0f
                 }
                 velocityTracker.addPointerInputChange(change)
