@@ -19,6 +19,7 @@ package com.fragula2.compose
 import android.animation.TimeInterpolator
 import androidx.compose.animation.core.Easing
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,12 +43,12 @@ internal fun Modifier.animateDrag(
     val velocityTracker = VelocityTracker()
     var dragOffset by remember { mutableStateOf(0f) }
     pointerInput(Unit) {
-        detectHorizontalDragGestures(
-            onHorizontalDrag = { change, dragAmount ->
+        if (swipeDirection == SwipeDirection.TOP_TO_BOTTOM || swipeDirection == SwipeDirection.BOTTOM_TO_TOP) {
+            detectVerticalDragGestures(onVerticalDrag = { change, dragAmount ->
                 dragOffset += dragAmount
-                if (dragOffset < 0f && swipeDirection == SwipeDirection.LEFT_TO_RIGHT) {
+                if (dragOffset < 0f && swipeDirection == SwipeDirection.TOP_TO_BOTTOM) {
                     dragOffset = 0f
-                } else if (dragOffset > 0f && swipeDirection == SwipeDirection.RIGHT_TO_LEFT) {
+                } else if (dragOffset > 0f && swipeDirection == SwipeDirection.BOTTOM_TO_TOP) {
                     dragOffset = 0f
                 }
                 velocityTracker.addPointerInputChange(change)
@@ -55,14 +56,35 @@ internal fun Modifier.animateDrag(
                     onDragChanged(dragOffset)
                     change.consume()
                 }
-            },
-            onDragEnd = {
+            }, onDragEnd = {
                 val velocity = velocityTracker.calculateVelocity().x
                 velocityTracker.resetTracking()
                 onDragFinished(velocity)
                 dragOffset = 0f
-            },
-        )
+            })
+        } else {
+            detectHorizontalDragGestures(
+                onHorizontalDrag = { change, dragAmount ->
+                    dragOffset += dragAmount
+                    if (dragOffset < 0f && swipeDirection == SwipeDirection.LEFT_TO_RIGHT) {
+                        dragOffset = 0f
+                    } else if (dragOffset > 0f && swipeDirection == SwipeDirection.RIGHT_TO_LEFT) {
+                        dragOffset = 0f
+                    }
+                    velocityTracker.addPointerInputChange(change)
+                    if (change.positionChange() != Offset.Zero) {
+                        onDragChanged(dragOffset)
+                        change.consume()
+                    }
+                },
+                onDragEnd = {
+                    val velocity = velocityTracker.calculateVelocity().x
+                    velocityTracker.resetTracking()
+                    onDragFinished(velocity)
+                    dragOffset = 0f
+                },
+            )
+        }
     }
 }
 

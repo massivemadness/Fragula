@@ -24,6 +24,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -203,13 +205,21 @@ private fun SwipeableBox(
     content: @Composable () -> Unit,
 ) {
     BoxWithConstraints(modifier) {
-        val pageStart = 0f
-        val pageEnd = constraints.maxWidth.toFloat()
+        val pageStart: Float
+        val pageEnd: Float
+        if (swipeDirection.isHorizontal()) {
+            pageStart = 0f
+            pageEnd = constraints.maxWidth.toFloat()
+        } else {
+            pageStart = 0f
+            pageEnd = constraints.maxHeight.toFloat()
+        }
         val parallaxFormula = {
             when (swipeDirection) {
                 SwipeDirection.LEFT_TO_RIGHT -> -maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
                 SwipeDirection.RIGHT_TO_LEFT -> maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
-                else -> TODO()
+                SwipeDirection.TOP_TO_BOTTOM -> -maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
+                SwipeDirection.BOTTOM_TO_TOP -> maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
             }
         }
 
@@ -304,9 +314,14 @@ private fun SwipeableBox(
                     val translation = when (swipeDirection) {
                         SwipeDirection.LEFT_TO_RIGHT -> scrollPosition
                         SwipeDirection.RIGHT_TO_LEFT -> -scrollPosition
-                        else -> TODO()
+                        SwipeDirection.TOP_TO_BOTTOM -> scrollPosition
+                        SwipeDirection.BOTTOM_TO_TOP -> -scrollPosition
                     }
-                    translationX = if (applyParallax) parallaxFormula() else translation
+                    if (swipeDirection.isHorizontal()) {
+                        translationX = if (applyParallax) parallaxFormula() else translation
+                    } else {
+                        translationY = if (applyParallax) parallaxFormula() else translation
+                    }
                 },
         ) {
             content()
@@ -321,9 +336,11 @@ private fun SwipeableBox(
                     when (swipeDirection) {
                         SwipeDirection.LEFT_TO_RIGHT -> scrollPosition
                         SwipeDirection.RIGHT_TO_LEFT -> pageEnd - scrollPosition
-                        else -> TODO()
+                        SwipeDirection.TOP_TO_BOTTOM -> scrollPosition
+                        SwipeDirection.BOTTOM_TO_TOP -> pageEnd - scrollPosition
                     }
                 },
+                swipeDirection = swipeDirection,
                 elevation = elevation,
             )
         }
@@ -353,14 +370,15 @@ private fun PageScrim(
 @Composable
 private fun PageElevation(
     positionProvider: () -> Float,
+    swipeDirection: SwipeDirection,
     elevation: Dp,
 ) {
     Canvas(
         modifier = Modifier
-            .fillMaxHeight()
-            .requiredWidth(elevation)
+            .then(if (swipeDirection.isHorizontal()) Modifier.fillMaxHeight().requiredWidth(elevation) else Modifier.fillMaxWidth().requiredHeight(elevation))
             .graphicsLayer {
-                translationX = positionProvider() - elevation.toPx()
+                if (swipeDirection.isHorizontal()) translationX = positionProvider() - elevation.toPx()
+                else translationY = positionProvider() - elevation.toPx()
             },
     ) {
         drawRect(
