@@ -301,6 +301,8 @@ private fun SwipeableBox(
                     onDragChanged = { position ->
                         if (swipeState == SwipeState.FOLLOW_POINTER) {
                             pointerPosition = abs(position)
+                            if (position > (pageEnd + elevationAmount.value)) swipeState = SwipeState.SLIDE_OUT
+                            if (position < (-pageEnd + -elevationAmount.value)) swipeState = SwipeState.SLIDE_OUT
                         }
                     },
                     onDragFinished = {
