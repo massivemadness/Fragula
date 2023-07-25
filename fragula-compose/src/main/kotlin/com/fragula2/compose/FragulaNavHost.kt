@@ -220,8 +220,8 @@ private fun SwipeableBox(
             when (swipeDirection) {
                 SwipeDirection.LEFT_TO_RIGHT -> -maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
                 SwipeDirection.RIGHT_TO_LEFT -> maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
-                SwipeDirection.TOP_TO_BOTTOM -> -maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
-                SwipeDirection.BOTTOM_TO_TOP -> maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
+                SwipeDirection.TOP_TO_BOTTOM -> -maxHeight.value * (1.0f - offsetProvider()) / parallaxFactor
+                SwipeDirection.BOTTOM_TO_TOP -> maxHeight.value * (1.0f - offsetProvider()) / parallaxFactor
             }
         }
 
