@@ -42,7 +42,7 @@ internal fun Modifier.animateDrag(
     if (!enabled) return@composed this
     val velocityTracker = VelocityTracker()
     var dragOffset by remember { mutableStateOf(0f) }
-    pointerInput(Unit) {
+    pointerInput(swipeDirection) {
         if (swipeDirection == SwipeDirection.TOP_TO_BOTTOM || swipeDirection == SwipeDirection.BOTTOM_TO_TOP) {
             detectVerticalDragGestures(onVerticalDrag = { change, dragAmount ->
                 dragOffset += dragAmount

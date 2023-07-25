@@ -210,14 +210,11 @@ private fun SwipeableBox(
     content: @Composable () -> Unit,
 ) {
     BoxWithConstraints(modifier) {
-        val pageStart: Float
-        val pageEnd: Float
-        if (swipeDirection.isHorizontal()) {
-            pageStart = 0f
-            pageEnd = constraints.maxWidth.toFloat()
+        val pageStart = 0f
+        val pageEnd = if (swipeDirection.isHorizontal()) {
+            constraints.maxWidth.toFloat()
         } else {
-            pageStart = 0f
-            pageEnd = constraints.maxHeight.toFloat()
+            constraints.maxHeight.toFloat()
         }
         val parallaxFormula = {
             when (swipeDirection) {
@@ -251,6 +248,7 @@ private fun SwipeableBox(
                     swipeState = SwipeState.FOLLOW_POINTER
                     onScrollFinished()
                 }
+
                 pageEnd -> {
                     pointerPosition = pageStart
                     swipeState = SwipeState.FOLLOW_POINTER
