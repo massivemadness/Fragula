@@ -74,10 +74,11 @@ fun FragulaNavHost(
     onPageScrolled: (Int, Float, Int) -> Unit = { _, _, _ -> },
     scrollable: Boolean = true,
     scrimColor: Color = ScrimColor,
+    elevationColor: Color = ElevationColor,
     scrimAmount: Float = 0.15f,
+    elevationAmount: Dp = 3.dp,
     parallaxFactor: Float = 1.3f,
     animDurationMs: Int = 500,
-    elevation: Dp = 3.dp,
     builder: NavGraphBuilder.() -> Unit,
 ) {
     FragulaNavHost(
@@ -90,10 +91,11 @@ fun FragulaNavHost(
         onPageScrolled = onPageScrolled,
         scrollable = scrollable,
         scrimColor = scrimColor,
+        elevationColor = elevationColor,
+        elevationAmount = elevationAmount,
         scrimAmount = scrimAmount,
         parallaxFactor = parallaxFactor,
         animDurationMs = animDurationMs,
-        elevation = elevation,
     )
 }
 
@@ -125,10 +127,11 @@ fun FragulaNavHost(
     onPageScrolled: (Int, Float, Int) -> Unit,
     scrollable: Boolean,
     scrimColor: Color,
+    elevationColor: Color,
     scrimAmount: Float,
+    elevationAmount: Dp,
     parallaxFactor: Float,
     animDurationMs: Int,
-    elevation: Dp,
 ) {
     // region SETUP
 
@@ -158,7 +161,8 @@ fun FragulaNavHost(
             scrimAmount = scrimAmount,
             parallaxFactor = parallaxFactor,
             animDurationMs = animDurationMs,
-            elevation = elevation,
+            elevationAmount = elevationAmount,
+            elevationColor = elevationColor,
             offsetProvider = { parallaxOffset },
             backToProvider = { swipeBackNavigator.backTo != null },
             positionChanger = { position, positionOffset, positionOffsetPixels ->
@@ -196,7 +200,8 @@ private fun SwipeableBox(
     scrimAmount: Float,
     parallaxFactor: Float,
     animDurationMs: Int,
-    elevation: Dp,
+    elevationAmount: Dp,
+    elevationColor: Color,
     offsetProvider: () -> Float,
     backToProvider: () -> Boolean,
     positionChanger: (Int, Float, Int) -> Unit,
@@ -341,7 +346,8 @@ private fun SwipeableBox(
                     }
                 },
                 swipeDirection = swipeDirection,
-                elevation = elevation,
+                elevationAmount = elevationAmount,
+                elevationColor = elevationColor
             )
         }
     }
@@ -371,19 +377,26 @@ private fun PageScrim(
 private fun PageElevation(
     positionProvider: () -> Float,
     swipeDirection: SwipeDirection,
-    elevation: Dp,
+    elevationAmount: Dp,
+    elevationColor: Color,
 ) {
     Canvas(
         modifier = Modifier
-            .then(if (swipeDirection.isHorizontal()) Modifier.fillMaxHeight().requiredWidth(elevation) else Modifier.fillMaxWidth().requiredHeight(elevation))
+            .then(
+                if (swipeDirection.isHorizontal()) Modifier
+                    .fillMaxHeight()
+                    .requiredWidth(elevationAmount) else Modifier
+                    .fillMaxWidth()
+                    .requiredHeight(elevationAmount)
+            )
             .graphicsLayer {
-                if (swipeDirection.isHorizontal()) translationX = positionProvider() - elevation.toPx()
-                else translationY = positionProvider() - elevation.toPx()
+                if (swipeDirection.isHorizontal()) translationX = positionProvider() - elevationAmount.toPx()
+                else translationY = positionProvider() - elevationAmount.toPx()
             },
     ) {
         drawRect(
             brush = Brush.horizontalGradient(
-                colors = listOf(ElevationEnd, ElevationStart),
+                colors = listOf(elevationColor, elevationColor),
             ),
         )
     }
