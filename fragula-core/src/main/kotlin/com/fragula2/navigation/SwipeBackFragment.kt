@@ -48,12 +48,14 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
             super.onPageScrollStateChanged(state)
             when (state) {
                 ViewPager2.SCROLL_STATE_DRAGGING,
-                ViewPager2.SCROLL_STATE_SETTLING -> {
+                ViewPager2.SCROLL_STATE_SETTLING,
+                -> {
                     if (!fakeScroll) {
                         userScroll = true
                     }
                     activity?.requestViewLock(true)
                 }
+
                 ViewPager2.SCROLL_STATE_IDLE -> {
                     userScroll = false
                     if (scrollToEnd) {
@@ -68,6 +70,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
                 }
             }
         }
+
         override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
             super.onPageScrolled(position, positionOffset, positionOffsetPixels)
             scrollToEnd = position + positionOffset < scrollOffset
@@ -121,7 +124,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         viewPager = view.findViewById<ViewPager2>(R.id.viewPager).also { viewPager ->
             viewPager.registerOnPageChangeCallback(onPageChangeCallback)
             viewPager.setPageTransformer(
-                SwipeTransformer(
+                object : SwipeTransformer(
                     swipeDirection = swipeDirection,
                     requireContext().resolveFloat(
                         R.attr.fgl_parallax_factor,
@@ -131,7 +134,15 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
                         R.attr.fgl_scrim_amount,
                         R.dimen.scrim_amount_default,
                     ),
-                ),
+                    requireContext().resolveFloat(
+                        R.attr.fgl_alpha_amount,
+                        R.dimen.alpha_amount_default,
+                    ),
+                ) {
+                    override fun isCloseWithAlpha(): Boolean {
+                        return super.isCloseWithAlpha() && fakeScroll
+                    }
+                },
             )
             viewPager.setBackgroundColor(
                 requireContext().resolveColor(R.attr.fgl_scrim_color, R.color.scrim_color_default),

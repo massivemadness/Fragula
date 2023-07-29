@@ -86,7 +86,7 @@ internal fun ViewPager2.fakeDragTo(
     stepForward: Boolean,
     swipeDirection: SwipeDirection,
     scrollDuration: Long,
-    block: () -> Unit,
+    onScrollFinished: () -> Unit,
 ) {
     val page = if (stepForward) currentItem + 1 else currentItem - 1
     val (from, to) = when (swipeDirection) {
@@ -122,7 +122,7 @@ internal fun ViewPager2.fakeDragTo(
             }
             override fun onAnimationEnd(animation: Animator) {
                 endFakeDrag()
-                block()
+                onScrollFinished()
             }
         })
         interpolator = SwipeInterpolator()
