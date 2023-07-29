@@ -257,6 +257,13 @@ there are attributes provided:
     <item name="fgl_scrim_amount">0.15</item>
 
     <!--
+        This overrides the multiplier of alpha when fragment is being closed by popBackStack, not by dragging.
+        Using it disables parallax on popBackStack call, but not on drag.
+        You can disable this by providing 0, then parallax will be enabled again.
+    -->
+    <item name="fgl_alpha_amount">1.15</item>
+
+    <!--
         This overrides the parallax multiplier when fragment is being dragged.
         It determines how much the underneath fragment will be shifted
         relative to the visible fragment (that is being dragged).
