@@ -32,6 +32,7 @@ import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.input.pointer.util.VelocityTracker
 import androidx.compose.ui.input.pointer.util.addPointerInputChange
 import com.fragula2.common.SwipeDirection
+import kotlin.math.abs
 
 internal fun Modifier.animateDrag(
     enabled: Boolean,
@@ -57,9 +58,10 @@ internal fun Modifier.animateDrag(
                     change.consume()
                 }
             }, onDragEnd = {
-                val velocity = velocityTracker.calculateVelocity().x
+                // Don't allow swipe to the other side(i.e if dragOffset == 0f)
+                val velocity = if (dragOffset == 0f) 0f else velocityTracker.calculateVelocity().y
                 velocityTracker.resetTracking()
-                onDragFinished(velocity)
+                onDragFinished(abs(velocity)) // Provide the absolute value as it might be negative
                 dragOffset = 0f
             })
         } else {
@@ -78,9 +80,10 @@ internal fun Modifier.animateDrag(
                     }
                 },
                 onDragEnd = {
-                    val velocity = velocityTracker.calculateVelocity().x
+                    // Don't allow swipe to the other side(i.e if dragOffset == 0f)
+                    val velocity = if (dragOffset == 0f) 0f else velocityTracker.calculateVelocity().x
                     velocityTracker.resetTracking()
-                    onDragFinished(velocity)
+                    onDragFinished(abs(velocity)) // Provide the absolute value as it might be negative
                     dragOffset = 0f
                 },
             )
