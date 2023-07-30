@@ -347,7 +347,7 @@ private fun SwipeableBox(
                 },
                 swipeDirection = swipeDirection,
                 elevationAmount = elevationAmount,
-                elevationColor = elevationColor
+                elevationColor = elevationColor,
             )
         }
     }
@@ -383,15 +383,22 @@ private fun PageElevation(
     Canvas(
         modifier = Modifier
             .then(
-                if (swipeDirection.isHorizontal()) Modifier
-                    .fillMaxHeight()
-                    .requiredWidth(elevationAmount) else Modifier
-                    .fillMaxWidth()
-                    .requiredHeight(elevationAmount)
+                if (swipeDirection.isHorizontal()) {
+                    Modifier
+                        .fillMaxHeight()
+                        .requiredWidth(elevationAmount)
+                } else {
+                    Modifier
+                        .fillMaxWidth()
+                        .requiredHeight(elevationAmount)
+                },
             )
             .graphicsLayer {
-                if (swipeDirection.isHorizontal()) translationX = positionProvider() - elevationAmount.toPx()
-                else translationY = positionProvider() - elevationAmount.toPx()
+                if (swipeDirection.isHorizontal()) {
+                    translationX = positionProvider() - elevationAmount.toPx()
+                } else {
+                    translationY = positionProvider() - elevationAmount.toPx()
+                }
             },
     ) {
         drawRect(

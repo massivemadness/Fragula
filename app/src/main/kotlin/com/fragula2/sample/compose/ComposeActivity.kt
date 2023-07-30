@@ -82,7 +82,7 @@ class ComposeActivity : ComponentActivity() {
                                 },
                                 onSettingsClick = {
                                     navController.navigate("settings")
-                                }
+                                },
                             )
                         },
                     ) { paddingValues ->
@@ -100,7 +100,7 @@ class ComposeActivity : ComponentActivity() {
                             scrimColor = settingsViewModel.scrimColor.value.argbToColor(),
                             elevationColor = settingsViewModel.elevationColor.value.argbToColor(),
                             scrimAmount = settingsViewModel.scrimAmount.value,
-                            elevationAmount = settingsViewModel.elevationAmount.value.dp
+                            elevationAmount = settingsViewModel.elevationAmount.value.dp,
                         ) {
                             swipeable("list") {
                                 ListScreen(navController)
@@ -172,5 +172,6 @@ private fun FragulaAppBar(
             IconButton(onClick = onSettingsClick) {
                 Icon(Icons.Default.Settings, null)
             }
-        })
+        },
+    )
 }

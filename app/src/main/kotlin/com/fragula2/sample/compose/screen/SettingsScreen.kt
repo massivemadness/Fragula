@@ -44,17 +44,18 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
             .padding(16.dp)
             .padding(bottom = 12.dp)
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
     ) {
         Text(
             modifier = Modifier
                 .padding(top = 20.dp)
-                .align(Alignment.CenterHorizontally), text = "Swipe Direction"
+                .align(Alignment.CenterHorizontally),
+            text = "Swipe Direction",
         )
         FloatButtonsRow(
             modifier = Modifier.padding(top = 10.dp),
             values = directionsList,
-            selectedFloat = settingsViewModel.swipeDirection.value.toFloat()
+            selectedFloat = settingsViewModel.swipeDirection.value.toFloat(),
         ) { value ->
             PreferencesManager.saveSwipeDirection(context, value.toInt())
             settingsViewModel.swipeDirection.value = value.toInt()
@@ -63,11 +64,12 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
         Text(
             modifier = Modifier
                 .padding(top = 20.dp)
-                .align(Alignment.CenterHorizontally), text = "Scrim Color"
+                .align(Alignment.CenterHorizontally),
+            text = "Scrim Color",
         )
         ColorButtonsRow(
             modifier = Modifier.padding(top = 10.dp),
-            selectedColor = settingsViewModel.scrimColor.value.argbToColor()
+            selectedColor = settingsViewModel.scrimColor.value.argbToColor(),
         ) { color ->
             PreferencesManager.saveScrimColor(context, color)
             settingsViewModel.scrimColor.value = color.toArgb()
@@ -76,11 +78,12 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
         Text(
             modifier = Modifier
                 .padding(top = 20.dp)
-                .align(Alignment.CenterHorizontally), text = "Elevation Color"
+                .align(Alignment.CenterHorizontally),
+            text = "Elevation Color",
         )
         ColorButtonsRow(
             modifier = Modifier.padding(top = 10.dp),
-            selectedColor = settingsViewModel.elevationColor.value.argbToColor()
+            selectedColor = settingsViewModel.elevationColor.value.argbToColor(),
         ) { color ->
             PreferencesManager.saveElevationColor(context, color)
             settingsViewModel.elevationColor.value = color.toArgb()
@@ -89,12 +92,13 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
         Text(
             modifier = Modifier
                 .padding(top = 20.dp)
-                .align(Alignment.CenterHorizontally), text = "Scrim Amount"
+                .align(Alignment.CenterHorizontally),
+            text = "Scrim Amount",
         )
         FloatButtonsRow(
             modifier = Modifier.padding(top = 10.dp),
             values = scrimAmountList,
-            selectedFloat = settingsViewModel.scrimAmount.value
+            selectedFloat = settingsViewModel.scrimAmount.value,
         ) { amount ->
             PreferencesManager.saveScrimAmount(context, amount)
             settingsViewModel.scrimAmount.value = amount
@@ -103,12 +107,13 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
         Text(
             modifier = Modifier
                 .padding(top = 20.dp)
-                .align(Alignment.CenterHorizontally), text = "Elevation Amount"
+                .align(Alignment.CenterHorizontally),
+            text = "Elevation Amount",
         )
         FloatButtonsRow(
             modifier = Modifier.padding(top = 10.dp),
             values = elevationAmountList,
-            selectedFloat = settingsViewModel.elevationAmount.value
+            selectedFloat = settingsViewModel.elevationAmount.value,
         ) { amount ->
             PreferencesManager.saveElevationAmount(context, amount)
             settingsViewModel.elevationAmount.value = amount
@@ -130,14 +135,14 @@ private fun ColorButtonsRow(
         Color.Blue,
         Color.Yellow,
         Color.Magenta,
-        Color.White
+        Color.White,
     )
     var selectedValue: Color? by remember { mutableStateOf(selectedColor) }
     Row(
         modifier = modifier
             .fillMaxWidth()
             .horizontalScroll(rememberScrollState())
-            .padding(16.dp)
+            .padding(16.dp),
     ) {
         // Create a custom ButtonDefaults object to set contentPadding to zero
         for (color in colors) {
@@ -150,7 +155,7 @@ private fun ColorButtonsRow(
                 contentPadding = PaddingValues(0.dp),
                 shape = RoundedCornerShape(8.dp),
                 border = if (selectedValue == color) BorderStroke(2.dp, Color.Gray) else null,
-                colors = ButtonDefaults.buttonColors(backgroundColor = color)
+                colors = ButtonDefaults.buttonColors(backgroundColor = color),
             ) {}
         }
     }
@@ -168,7 +173,7 @@ private fun FloatButtonsRow(
         modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .horizontalScroll(rememberScrollState())
+            .horizontalScroll(rememberScrollState()),
     ) {
         for (value in values) {
             Button(
@@ -178,7 +183,7 @@ private fun FloatButtonsRow(
                     onButtonClick(value)
                 },
                 shape = RoundedCornerShape(8.dp),
-                border = if (selectedValue == value) BorderStroke(1.dp, Color.Gray) else null
+                border = if (selectedValue == value) BorderStroke(1.dp, Color.Gray) else null,
             ) {
                 Text(text = value.toString())
             }
