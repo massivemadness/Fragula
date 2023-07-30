@@ -139,8 +139,8 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
                         R.dimen.alpha_amount_default,
                     ),
                 ) {
-                    override fun isCloseWithAlpha(): Boolean {
-                        return super.isCloseWithAlpha() && fakeScroll
+                    override fun isAlphaAnimationEnabled(): Boolean {
+                        return super.isAlphaAnimationEnabled() && fakeScroll
                     }
                 },
             )

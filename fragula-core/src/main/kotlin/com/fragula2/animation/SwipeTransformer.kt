@@ -34,17 +34,17 @@ abstract class SwipeTransformer(
             // All fragments to the right of the current one
             position <= -1 -> {
                 page.visibility = View.INVISIBLE
-                page.alpha = calculateAlpha(position)
+                page.alpha = 1f
             }
             // The screen that appears to the right of the current one when opening a new fragment
             position > 0 && position < 1 -> {
                 when (swipeDirection) {
                     SwipeDirection.LEFT_TO_RIGHT,
-                    SwipeDirection.RIGHT_TO_LEFT, -> {
+                    SwipeDirection.RIGHT_TO_LEFT -> {
                         page.translationX = 0f
                     }
                     SwipeDirection.TOP_TO_BOTTOM,
-                    SwipeDirection.BOTTOM_TO_TOP, -> {
+                    SwipeDirection.BOTTOM_TO_TOP -> {
                         page.translationY = 0f
                     }
                 }
@@ -53,7 +53,7 @@ abstract class SwipeTransformer(
             }
             // Animation for the current fragment exiting when opening a new one
             position > -1 && position <= 0 -> {
-                val mParallaxFactor = if (isCloseWithAlpha()) 1f else parallaxFactor
+                val mParallaxFactor = if (isAlphaAnimationEnabled()) 1f else parallaxFactor
                 when (swipeDirection) {
                     SwipeDirection.LEFT_TO_RIGHT -> {
                         page.translationX = -page.width * position / mParallaxFactor
@@ -81,8 +81,8 @@ abstract class SwipeTransformer(
     }
 
     private fun calculateAlpha(position: Float): Float =
-        if (isCloseWithAlpha()) 1.0f - abs(position * alphaFactor) else 1.0f
+        if (isAlphaAnimationEnabled()) 1.0f - abs(position * alphaFactor) else 1.0f
 
     @CallSuper
-    open fun isCloseWithAlpha(): Boolean = alphaFactor != 0f
+    open fun isAlphaAnimationEnabled(): Boolean = alphaFactor > 0f
 }

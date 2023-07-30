@@ -256,10 +256,12 @@ there are attributes provided:
     -->
     <item name="fgl_scrim_amount">0.15</item>
 
-    <!--
-        This overrides the multiplier of alpha when fragment is being closed by popBackStack, not by dragging.
-        Using it disables parallax on popBackStack call, but not on drag.
-        You can disable this by providing 0, then parallax will be enabled again.
+   <!--
+        This overrides the multiplier of alpha when the fragment is being closed by popBackStack, not by dragging.
+        Using it disables parallax on the popBackStack call, but not on drag.
+        You can disable this by using a value less than 0, then parallax will be enabled again.
+        To achieve an animation effect similar to Telegram when a fragment opens and closes covering half of the screen
+        you can provide a value around 1.5.
     -->
     <item name="fgl_alpha_amount">1.15</item>
 

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2023 Fragula contributors.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,6 +38,8 @@
         <!-- disable background scrim -->
         <item name="fgl_scrim_color">@android:color/transparent</item>
         <item name="fgl_scrim_amount">0.0</item>
+        <item name="fgl_anim_duration">1000</item>
+        <item name="fgl_alpha_amount">1.5</item>
     </style>
 
 </resources>
