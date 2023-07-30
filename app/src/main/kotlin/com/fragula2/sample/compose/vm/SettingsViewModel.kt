@@ -1,14 +1,16 @@
 package com.fragula2.sample.compose.vm
 
-import android.app.Application
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.AndroidViewModel
-import com.fragula2.sample.utils.PreferencesManager
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import com.fragula2.common.SwipeDirection
 
-class SettingsViewModel(application: Application) : AndroidViewModel(application) {
-    val swipeDirection = mutableStateOf(PreferencesManager.getSwipeDirection(application))
-    val scrimColor = mutableStateOf(PreferencesManager.getScrimColor(application))
-    val elevationColor = mutableStateOf(PreferencesManager.getElevationColor(application))
-    val scrimAmount = mutableStateOf(PreferencesManager.getScrimAmount(application))
-    val elevationAmount = mutableStateOf(PreferencesManager.getElevationAmount(application))
+class SettingsViewModel : ViewModel() {
+    val swipeDirection = mutableStateOf(SwipeDirection.LEFT_TO_RIGHT.value)
+    val elevationColor = mutableStateOf(Color(0x00000000).toArgb())
+    val elevationAmount = mutableStateOf(3.dp.value)
+    val scrimColor = mutableStateOf(Color(0xFF000000).toArgb())
+    val scrimAmount = mutableStateOf(0.15f)
 }

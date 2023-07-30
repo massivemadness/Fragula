@@ -25,15 +25,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.fragula2.sample.compose.vm.SettingsViewModel
-import com.fragula2.sample.utils.PreferencesManager
 import com.fragula2.sample.utils.argbToColor
 
 @Composable
 fun SettingsScreen(settingsViewModel: SettingsViewModel) {
-    val context = LocalContext.current
     val directionsList = listOf(0f, 1f, 2f, 3f)
     val scrimAmountList = listOf(0.15f, 0.30f, 0.45f, 0.60f, 0.75f, 0.90f, 1f)
     val elevationAmountList = listOf(0f, 1f, 3f, 6f, 9f, 12f, 15f, 18f)
@@ -57,7 +54,6 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
             values = directionsList,
             selectedFloat = settingsViewModel.swipeDirection.value.toFloat(),
         ) { value ->
-            PreferencesManager.saveSwipeDirection(context, value.toInt())
             settingsViewModel.swipeDirection.value = value.toInt()
         }
 
@@ -71,7 +67,6 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
             modifier = Modifier.padding(top = 10.dp),
             selectedColor = settingsViewModel.scrimColor.value.argbToColor(),
         ) { color ->
-            PreferencesManager.saveScrimColor(context, color)
             settingsViewModel.scrimColor.value = color.toArgb()
         }
 
@@ -85,7 +80,6 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
             modifier = Modifier.padding(top = 10.dp),
             selectedColor = settingsViewModel.elevationColor.value.argbToColor(),
         ) { color ->
-            PreferencesManager.saveElevationColor(context, color)
             settingsViewModel.elevationColor.value = color.toArgb()
         }
 
@@ -100,7 +94,6 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
             values = scrimAmountList,
             selectedFloat = settingsViewModel.scrimAmount.value,
         ) { amount ->
-            PreferencesManager.saveScrimAmount(context, amount)
             settingsViewModel.scrimAmount.value = amount
         }
 
@@ -115,7 +108,6 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
             values = elevationAmountList,
             selectedFloat = settingsViewModel.elevationAmount.value,
         ) { amount ->
-            PreferencesManager.saveElevationAmount(context, amount)
             settingsViewModel.elevationAmount.value = amount
         }
     }
