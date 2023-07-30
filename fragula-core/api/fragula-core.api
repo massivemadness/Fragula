@@ -30,8 +30,9 @@ public abstract interface class com/fragula2/animation/SwipeController {
 	public abstract fun setScrollingEnabled (Z)V
 }
 
-public final class com/fragula2/animation/SwipeTransformer : com/fragula2/viewpager2/widget/ViewPager2$PageTransformer {
-	public fun <init> (Lcom/fragula2/common/SwipeDirection;FF)V
+public abstract class com/fragula2/animation/SwipeTransformer : com/fragula2/viewpager2/widget/ViewPager2$PageTransformer {
+	public fun <init> (Lcom/fragula2/common/SwipeDirection;FFF)V
+	public fun isAlphaAnimationEnabled ()Z
 	public fun transformPage (Landroid/view/View;F)V
 }
 
