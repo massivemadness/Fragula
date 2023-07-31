@@ -74,19 +74,6 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
             modifier = Modifier
                 .padding(top = 20.dp)
                 .align(Alignment.CenterHorizontally),
-            text = "Elevation Color",
-        )
-        ColorButtonsRow(
-            modifier = Modifier.padding(top = 10.dp),
-            selectedColor = settingsViewModel.elevationColor.value.argbToColor(),
-        ) { color ->
-            settingsViewModel.elevationColor.value = color.toArgb()
-        }
-
-        Text(
-            modifier = Modifier
-                .padding(top = 20.dp)
-                .align(Alignment.CenterHorizontally),
             text = "Scrim Amount",
         )
         FloatButtonsRow(

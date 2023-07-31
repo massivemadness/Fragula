@@ -98,7 +98,6 @@ class ComposeActivity : ComponentActivity() {
                             },
                             swipeDirection = SwipeDirection.of(settingsViewModel.swipeDirection.value),
                             scrimColor = settingsViewModel.scrimColor.value.argbToColor(),
-                            elevationColor = settingsViewModel.elevationColor.value.argbToColor(),
                             scrimAmount = settingsViewModel.scrimAmount.value,
                             elevationAmount = settingsViewModel.elevationAmount.value.dp,
                         ) {

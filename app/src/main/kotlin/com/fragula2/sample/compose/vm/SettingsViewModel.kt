@@ -9,7 +9,6 @@ import com.fragula2.common.SwipeDirection
 
 class SettingsViewModel : ViewModel() {
     val swipeDirection = mutableStateOf(SwipeDirection.LEFT_TO_RIGHT.value)
-    val elevationColor = mutableStateOf(Color(0x00000000).toArgb())
     val elevationAmount = mutableStateOf(3.dp.value)
     val scrimColor = mutableStateOf(Color(0xFF000000).toArgb())
     val scrimAmount = mutableStateOf(0.15f)

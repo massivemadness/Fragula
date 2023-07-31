@@ -74,7 +74,6 @@ fun FragulaNavHost(
     onPageScrolled: (Int, Float, Int) -> Unit = { _, _, _ -> },
     scrollable: Boolean = true,
     scrimColor: Color = ScrimColor,
-    elevationColor: Color = ElevationColor,
     scrimAmount: Float = 0.15f,
     elevationAmount: Dp = 3.dp,
     parallaxFactor: Float = 1.3f,
@@ -91,7 +90,6 @@ fun FragulaNavHost(
         onPageScrolled = onPageScrolled,
         scrollable = scrollable,
         scrimColor = scrimColor,
-        elevationColor = elevationColor,
         elevationAmount = elevationAmount,
         scrimAmount = scrimAmount,
         parallaxFactor = parallaxFactor,
@@ -127,7 +125,6 @@ fun FragulaNavHost(
     onPageScrolled: (Int, Float, Int) -> Unit,
     scrollable: Boolean,
     scrimColor: Color,
-    elevationColor: Color,
     scrimAmount: Float,
     elevationAmount: Dp,
     parallaxFactor: Float,
@@ -162,7 +159,6 @@ fun FragulaNavHost(
             parallaxFactor = parallaxFactor,
             animDurationMs = animDurationMs,
             elevationAmount = elevationAmount,
-            elevationColor = elevationColor,
             offsetProvider = { parallaxOffset },
             backToProvider = { swipeBackNavigator.backTo != null },
             positionChanger = { position, positionOffset, positionOffsetPixels ->
@@ -201,7 +197,6 @@ private fun SwipeableBox(
     parallaxFactor: Float,
     animDurationMs: Int,
     elevationAmount: Dp,
-    elevationColor: Color,
     offsetProvider: () -> Float,
     backToProvider: () -> Boolean,
     positionChanger: (Int, Float, Int) -> Unit,
@@ -348,7 +343,6 @@ private fun SwipeableBox(
                 },
                 swipeDirection = swipeDirection,
                 elevationAmount = elevationAmount,
-                elevationColor = elevationColor,
             )
         }
     }
@@ -379,7 +373,6 @@ private fun PageElevation(
     positionProvider: () -> Float,
     swipeDirection: SwipeDirection,
     elevationAmount: Dp,
-    elevationColor: Color,
 ) {
     Canvas(
         modifier = Modifier
@@ -404,7 +397,7 @@ private fun PageElevation(
     ) {
         drawRect(
             brush = Brush.horizontalGradient(
-                colors = listOf(elevationColor, elevationColor),
+                colors = listOf(ElevationEnd, ElevationStart),
             ),
         )
     }
