@@ -399,10 +399,14 @@ private fun PageElevation(
                 }
             },
     ) {
+        val colors = listOf(ElevationEnd, ElevationStart)
+        val brush = if(swipeDirection.isHorizontal()) Brush.horizontalGradient(
+            colors = colors,
+        ) else Brush.verticalGradient(
+            colors = colors,
+        )
         drawRect(
-            brush = Brush.horizontalGradient(
-                colors = listOf(ElevationEnd, ElevationStart),
-            ),
+            brush = brush,
         )
     }
 }
