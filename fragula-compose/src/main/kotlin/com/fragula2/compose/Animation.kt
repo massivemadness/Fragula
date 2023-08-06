@@ -65,7 +65,7 @@ internal fun Modifier.animateDrag(
                     velocityTracker.resetTracking()
                     onDragFinished(abs(velocity)) // Provide the absolute value as it might be negative
                     dragOffset = 0f
-                }
+                },
             )
         } else {
             detectHorizontalDragGestures(
