@@ -6,6 +6,7 @@ public final class com/fragula2/common/SwipeDirection : java/lang/Enum {
 	public static final field TOP_TO_BOTTOM Lcom/fragula2/common/SwipeDirection;
 	public final fun getValue ()I
 	public final fun isHorizontal ()Z
+	public final fun isRTL ()Z
 	public static fun valueOf (Ljava/lang/String;)Lcom/fragula2/common/SwipeDirection;
 	public static fun values ()[Lcom/fragula2/common/SwipeDirection;
 }
