@@ -24,6 +24,8 @@ enum class SwipeDirection(val value: Int) {
 
     fun isHorizontal(): Boolean = (this == LEFT_TO_RIGHT || this == RIGHT_TO_LEFT)
 
+    fun isRTL(): Boolean = (this == RIGHT_TO_LEFT || this == BOTTOM_TO_TOP)
+
     companion object {
 
         fun of(value: Int): SwipeDirection {

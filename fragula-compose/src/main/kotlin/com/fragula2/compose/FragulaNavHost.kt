@@ -212,11 +212,10 @@ private fun SwipeableBox(
             constraints.maxHeight.toFloat()
         }
         val parallaxFormula = {
-            when (swipeDirection) {
-                SwipeDirection.LEFT_TO_RIGHT -> -maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
-                SwipeDirection.RIGHT_TO_LEFT -> maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
-                SwipeDirection.TOP_TO_BOTTOM -> -maxHeight.value * (1.0f - offsetProvider()) / parallaxFactor
-                SwipeDirection.BOTTOM_TO_TOP -> maxHeight.value * (1.0f - offsetProvider()) / parallaxFactor
+            if (swipeDirection.isRTL()) {
+                maxHeight.value * (1.0f - offsetProvider()) / parallaxFactor
+            } else {
+                -maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
             }
         }
 
@@ -315,11 +314,10 @@ private fun SwipeableBox(
                     },
                 )
                 .graphicsLayer {
-                    val translation = when (swipeDirection) {
-                        SwipeDirection.LEFT_TO_RIGHT -> scrollPosition
-                        SwipeDirection.RIGHT_TO_LEFT -> -scrollPosition
-                        SwipeDirection.TOP_TO_BOTTOM -> scrollPosition
-                        SwipeDirection.BOTTOM_TO_TOP -> -scrollPosition
+                    val translation = if (swipeDirection.isRTL()) {
+                        -scrollPosition
+                    } else {
+                        scrollPosition
                     }
                     if (swipeDirection.isHorizontal()) {
                         translationX = if (applyParallax) parallaxFormula() else translation
@@ -386,11 +384,10 @@ private fun PageElevation(
                 },
             )
             .graphicsLayer {
-                val translation = when (swipeDirection) {
-                    SwipeDirection.LEFT_TO_RIGHT -> positionProvider()
-                    SwipeDirection.RIGHT_TO_LEFT -> pageEnd - positionProvider()
-                    SwipeDirection.TOP_TO_BOTTOM -> positionProvider()
-                    SwipeDirection.BOTTOM_TO_TOP -> pageEnd - positionProvider()
+                val translation = if (swipeDirection.isRTL()) {
+                    pageEnd - positionProvider()
+                } else {
+                    positionProvider()
                 }
                 if (swipeDirection.isHorizontal()) {
                     translationX = translation - elevationAmount.toPx()
@@ -399,8 +396,12 @@ private fun PageElevation(
                 }
             },
     ) {
-        val colors = listOf(ElevationEnd, ElevationStart)
-        val brush = if(swipeDirection.isHorizontal()) Brush.horizontalGradient(
+        val colors = if (swipeDirection.isRTL()) {
+            listOf(ElevationEnd, ElevationStart)
+        } else {
+            listOf(ElevationStart, ElevationEnd)
+        }
+        val brush = if (swipeDirection.isHorizontal()) Brush.horizontalGradient(
             colors = colors,
         ) else Brush.verticalGradient(
             colors = colors,
