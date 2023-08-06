@@ -400,12 +400,13 @@ fun FragulaNavHost(
     modifier: Modifier = Modifier,
     route: String? = null,
     onPageScrolled: (Int, Float, Int) -> Unit, // Scroll listener (position, offset, offsetPixels)
+    swipeDirection: SwipeDirection = SwipeDirection.LEFT_TO_RIGHT, // Scroll direction
     scrollable: Boolean = true, // Controls user's scrolling
     scrimColor: Color = ScrimColor, // Color used for the dimming
     scrimAmount: Float = 0.15f, // Percentage of dimming (depends on drag offset)
+    elevationAmount: Dp = 3.dp, // Elevation applied on the composable
     parallaxFactor: Float = 1.3f, // Parallax multiplier (depends on drag offset)
     animDurationMs: Int = 500, // Duration of swipe animation
-    elevation: Dp = 3.dp, // Elevation applied on the composable
     builder: NavGraphBuilder.() -> Unit
 ) {
     // ...

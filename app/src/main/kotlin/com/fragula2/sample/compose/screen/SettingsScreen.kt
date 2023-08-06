@@ -26,12 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
-import com.fragula2.sample.compose.vm.SettingsViewModel
+import com.fragula2.sample.compose.viewmodel.SettingsViewModel
 import com.fragula2.sample.utils.argbToColor
 
 @Composable
 fun SettingsScreen(settingsViewModel: SettingsViewModel) {
-    val directionsList = listOf(0f, 1f, 2f, 3f)
+    val directionsList = listOf(0f, 1f, 2f, 3f) // SwipeDirection values
     val scrimAmountList = listOf(0.15f, 0.30f, 0.45f, 0.60f, 0.75f, 0.90f, 1f)
     val elevationAmountList = listOf(0f, 1f, 3f, 6f, 9f, 12f, 15f, 18f)
 
@@ -103,7 +103,7 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
 @Composable
 private fun ColorButtonsRow(
     modifier: Modifier = Modifier,
-    selectedColor: Color? = null,
+    selectedColor: Color,
     onColorClick: (value: Color) -> Unit = {},
 ) {
     val colors = listOf(
@@ -116,7 +116,7 @@ private fun ColorButtonsRow(
         Color.Magenta,
         Color.White,
     )
-    var selectedValue: Color? by remember { mutableStateOf(selectedColor) }
+    var selectedValue: Color by remember { mutableStateOf(selectedColor) }
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -144,10 +144,10 @@ private fun ColorButtonsRow(
 private fun FloatButtonsRow(
     modifier: Modifier = Modifier,
     values: List<Float>,
-    selectedFloat: Float? = null,
+    selectedFloat: Float,
     onButtonClick: (value: Float) -> Unit = {},
 ) {
-    var selectedValue: Float? by remember { mutableStateOf(selectedFloat) }
+    var selectedValue: Float by remember { mutableStateOf(selectedFloat) }
     Row(
         modifier = modifier
             .fillMaxWidth()

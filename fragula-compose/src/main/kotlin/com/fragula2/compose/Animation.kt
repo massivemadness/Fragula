@@ -44,26 +44,29 @@ internal fun Modifier.animateDrag(
     val velocityTracker = VelocityTracker()
     var dragOffset by remember { mutableStateOf(0f) }
     pointerInput(swipeDirection) {
-        if (swipeDirection == SwipeDirection.TOP_TO_BOTTOM || swipeDirection == SwipeDirection.BOTTOM_TO_TOP) {
-            detectVerticalDragGestures(onVerticalDrag = { change, dragAmount ->
-                dragOffset += dragAmount
-                if (dragOffset < 0f && swipeDirection == SwipeDirection.TOP_TO_BOTTOM) {
-                    dragOffset = 0f
-                } else if (dragOffset > 0f && swipeDirection == SwipeDirection.BOTTOM_TO_TOP) {
+        if (!swipeDirection.isHorizontal()) {
+            detectVerticalDragGestures(
+                onVerticalDrag = { change, dragAmount ->
+                    dragOffset += dragAmount
+                    if (dragOffset < 0f && swipeDirection == SwipeDirection.TOP_TO_BOTTOM) {
+                        dragOffset = 0f
+                    } else if (dragOffset > 0f && swipeDirection == SwipeDirection.BOTTOM_TO_TOP) {
+                        dragOffset = 0f
+                    }
+                    velocityTracker.addPointerInputChange(change)
+                    if (change.positionChange() != Offset.Zero) {
+                        onDragChanged(dragOffset)
+                        change.consume()
+                    }
+                },
+                onDragEnd = {
+                    // Don't allow swipe to the other side (i.e if dragOffset == 0f)
+                    val velocity = if (dragOffset == 0f) 0f else velocityTracker.calculateVelocity().y
+                    velocityTracker.resetTracking()
+                    onDragFinished(abs(velocity)) // Provide the absolute value as it might be negative
                     dragOffset = 0f
                 }
-                velocityTracker.addPointerInputChange(change)
-                if (change.positionChange() != Offset.Zero) {
-                    onDragChanged(dragOffset)
-                    change.consume()
-                }
-            }, onDragEnd = {
-                // Don't allow swipe to the other side(i.e if dragOffset == 0f)
-                val velocity = if (dragOffset == 0f) 0f else velocityTracker.calculateVelocity().y
-                velocityTracker.resetTracking()
-                onDragFinished(abs(velocity)) // Provide the absolute value as it might be negative
-                dragOffset = 0f
-            })
+            )
         } else {
             detectHorizontalDragGestures(
                 onHorizontalDrag = { change, dragAmount ->
@@ -80,7 +83,7 @@ internal fun Modifier.animateDrag(
                     }
                 },
                 onDragEnd = {
-                    // Don't allow swipe to the other side(i.e if dragOffset == 0f)
+                    // Don't allow swipe to the other side (i.e if dragOffset == 0f)
                     val velocity = if (dragOffset == 0f) 0f else velocityTracker.calculateVelocity().x
                     velocityTracker.resetTracking()
                     onDragFinished(abs(velocity)) // Provide the absolute value as it might be negative

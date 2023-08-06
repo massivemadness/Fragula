@@ -52,7 +52,7 @@ import com.fragula2.sample.compose.screen.ProfileScreen
 import com.fragula2.sample.compose.screen.SettingsScreen
 import com.fragula2.sample.compose.screen.TabScreen
 import com.fragula2.sample.compose.ui.FragulaTheme
-import com.fragula2.sample.compose.vm.SettingsViewModel
+import com.fragula2.sample.compose.viewmodel.SettingsViewModel
 import com.fragula2.sample.utils.argbToColor
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 
@@ -61,7 +61,7 @@ class ComposeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val settingsViewModel: SettingsViewModel = viewModel()
+            val settingsViewModel = viewModel<SettingsViewModel>()
             FragulaTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -75,7 +75,7 @@ class ComposeActivity : ComponentActivity() {
                                 arrowProgress = arrowProgress,
                                 onClick = {
                                     if (arrowProgress == 0f) {
-                                        Toast.makeText(this, "Open", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(this, "Open drawer", Toast.LENGTH_SHORT).show()
                                     } else {
                                         navController.popBackStack()
                                     }

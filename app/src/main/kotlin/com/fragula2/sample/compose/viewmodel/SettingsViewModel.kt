@@ -1,4 +1,4 @@
-package com.fragula2.sample.compose.vm
+package com.fragula2.sample.compose.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color

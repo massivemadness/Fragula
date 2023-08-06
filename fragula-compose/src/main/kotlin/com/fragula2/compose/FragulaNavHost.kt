@@ -66,12 +66,12 @@ import kotlin.math.abs
 
 @Composable
 fun FragulaNavHost(
-    modifier: Modifier = Modifier,
     navController: NavHostController,
     startDestination: String,
-    swipeDirection: SwipeDirection = SwipeDirection.LEFT_TO_RIGHT,
+    modifier: Modifier = Modifier,
     route: String? = null,
     onPageScrolled: (Int, Float, Int) -> Unit = { _, _, _ -> },
+    swipeDirection: SwipeDirection = SwipeDirection.LEFT_TO_RIGHT,
     scrollable: Boolean = true,
     scrimColor: Color = ScrimColor,
     scrimAmount: Float = 0.15f,
@@ -86,8 +86,8 @@ fun FragulaNavHost(
             navController.createGraph(startDestination, route, builder)
         },
         modifier = modifier,
-        swipeDirection = swipeDirection,
         onPageScrolled = onPageScrolled,
+        swipeDirection = swipeDirection,
         scrollable = scrollable,
         scrimColor = scrimColor,
         elevationAmount = elevationAmount,
@@ -121,8 +121,8 @@ fun FragulaNavHost(
     navController: NavHostController,
     graph: NavGraph,
     modifier: Modifier,
-    swipeDirection: SwipeDirection,
     onPageScrolled: (Int, Float, Int) -> Unit,
+    swipeDirection: SwipeDirection,
     scrollable: Boolean,
     scrimColor: Color,
     scrimAmount: Float,
@@ -186,7 +186,6 @@ fun FragulaNavHost(
 
 @Composable
 private fun SwipeableBox(
-    modifier: Modifier = Modifier,
     navController: NavHostController,
     swipeDirection: SwipeDirection,
     position: Int,
@@ -202,6 +201,7 @@ private fun SwipeableBox(
     positionChanger: (Int, Float, Int) -> Unit,
     onDragFinished: (SwipeState) -> Unit,
     onScrollFinished: () -> Unit,
+    modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
     BoxWithConstraints(modifier) {
@@ -294,14 +294,17 @@ private fun SwipeableBox(
                     onDragChanged = { position ->
                         if (swipeState == SwipeState.FOLLOW_POINTER) {
                             pointerPosition = abs(position)
-                            if (position > (pageEnd + elevationAmount.value)) swipeState = SwipeState.SLIDE_OUT
-                            if (position < (-pageEnd + -elevationAmount.value)) swipeState = SwipeState.SLIDE_OUT
+                            if (position > (pageEnd + elevationAmount.value) ||
+                                position < (-pageEnd + -elevationAmount.value)
+                            ) {
+                                swipeState = SwipeState.SLIDE_OUT
+                            }
                         }
                     },
                     onDragFinished = { velocity ->
                         if (swipeState == SwipeState.FOLLOW_POINTER) {
                             swipeState = when {
-                                velocity > 1000 -> SwipeState.SLIDE_OUT
+                                velocity > 1000 -> SwipeState.SLIDE_OUT // Fling
                                 pointerPosition == 0f -> SwipeState.FOLLOW_POINTER
                                 pointerPosition > pageEnd / 2 -> SwipeState.SLIDE_OUT
                                 pointerPosition < pageEnd / 2 -> SwipeState.SLIDE_IN
@@ -333,14 +336,8 @@ private fun SwipeableBox(
         }
         if (applyElevation) {
             PageElevation(
-                positionProvider = {
-                    when (swipeDirection) {
-                        SwipeDirection.LEFT_TO_RIGHT -> scrollPosition
-                        SwipeDirection.RIGHT_TO_LEFT -> pageEnd - scrollPosition
-                        SwipeDirection.TOP_TO_BOTTOM -> scrollPosition
-                        SwipeDirection.BOTTOM_TO_TOP -> pageEnd - scrollPosition
-                    }
-                },
+                positionProvider = { scrollPosition },
+                pageEnd = pageEnd,
                 swipeDirection = swipeDirection,
                 elevationAmount = elevationAmount,
             )
@@ -371,6 +368,7 @@ private fun PageScrim(
 @Composable
 private fun PageElevation(
     positionProvider: () -> Float,
+    pageEnd: Float,
     swipeDirection: SwipeDirection,
     elevationAmount: Dp,
 ) {
@@ -388,10 +386,16 @@ private fun PageElevation(
                 },
             )
             .graphicsLayer {
+                val translation = when (swipeDirection) {
+                    SwipeDirection.LEFT_TO_RIGHT -> positionProvider()
+                    SwipeDirection.RIGHT_TO_LEFT -> pageEnd - positionProvider()
+                    SwipeDirection.TOP_TO_BOTTOM -> positionProvider()
+                    SwipeDirection.BOTTOM_TO_TOP -> pageEnd - positionProvider()
+                }
                 if (swipeDirection.isHorizontal()) {
-                    translationX = positionProvider() - elevationAmount.toPx()
+                    translationX = translation - elevationAmount.toPx()
                 } else {
-                    translationY = positionProvider() - elevationAmount.toPx()
+                    translationY = translation - elevationAmount.toPx()
                 }
             },
     ) {
