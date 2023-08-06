@@ -212,7 +212,7 @@ private fun SwipeableBox(
             constraints.maxHeight.toFloat()
         }
         val parallaxFormula = {
-            if (swipeDirection.isRTL()) {
+            if (swipeDirection.isReversed()) {
                 maxHeight.value * (1.0f - offsetProvider()) / parallaxFactor
             } else {
                 -maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
@@ -242,7 +242,6 @@ private fun SwipeableBox(
                     swipeState = SwipeState.FOLLOW_POINTER
                     onScrollFinished()
                 }
-
                 pageEnd -> {
                     pointerPosition = pageStart
                     swipeState = SwipeState.FOLLOW_POINTER
@@ -314,7 +313,7 @@ private fun SwipeableBox(
                     },
                 )
                 .graphicsLayer {
-                    val translation = if (swipeDirection.isRTL()) {
+                    val translation = if (swipeDirection.isReversed()) {
                         -scrollPosition
                     } else {
                         scrollPosition
@@ -384,7 +383,7 @@ private fun PageElevation(
                 },
             )
             .graphicsLayer {
-                val translation = if (swipeDirection.isRTL()) {
+                val translation = if (swipeDirection.isReversed()) {
                     pageEnd - positionProvider()
                 } else {
                     positionProvider()
@@ -397,23 +396,17 @@ private fun PageElevation(
                 }
             },
     ) {
-        val colors = if (swipeDirection.isRTL()) {
-            listOf(ElevationEnd, ElevationStart)
-        } else {
+        val colors = if (swipeDirection.isReversed()) {
             listOf(ElevationStart, ElevationEnd)
+        } else {
+            listOf(ElevationEnd, ElevationStart)
         }
         val brush = if (swipeDirection.isHorizontal()) {
-            Brush.horizontalGradient(
-                colors = colors,
-            )
+            Brush.horizontalGradient(colors)
         } else {
-            Brush.verticalGradient(
-                colors = colors,
-            )
+            Brush.verticalGradient(colors)
         }
-        drawRect(
-            brush = brush,
-        )
+        drawRect(brush)
     }
 }
 
