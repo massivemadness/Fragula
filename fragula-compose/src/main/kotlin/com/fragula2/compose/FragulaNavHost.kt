@@ -389,10 +389,11 @@ private fun PageElevation(
                 } else {
                     positionProvider()
                 }
-                if (swipeDirection.isHorizontal()) {
-                    translationX = translation - elevationAmount.toPx()
-                } else {
-                    translationY = translation - elevationAmount.toPx()
+                when (swipeDirection) {
+                    SwipeDirection.LEFT_TO_RIGHT -> translationX = translation - elevationAmount.toPx()
+                    SwipeDirection.RIGHT_TO_LEFT -> translationX = translation
+                    SwipeDirection.TOP_TO_BOTTOM -> translationY = translation - elevationAmount.toPx()
+                    SwipeDirection.BOTTOM_TO_TOP -> translationY = translation
                 }
             },
     ) {
