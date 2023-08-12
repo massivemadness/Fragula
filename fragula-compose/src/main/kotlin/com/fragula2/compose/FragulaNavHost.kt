@@ -16,7 +16,7 @@
 
 package com.fragula2.compose
 
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
@@ -62,6 +62,7 @@ import androidx.navigation.createGraph
 import androidx.navigation.get
 import com.fragula2.common.SwipeDirection
 import com.fragula2.common.SwipeInterpolator
+import kotlinx.coroutines.flow.map
 import kotlin.math.abs
 
 @Composable
@@ -427,21 +428,28 @@ private fun NavHostLifecycle(navController: NavHostController) {
     val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
         "FragulaNavHost requires a ViewModelStoreOwner to be provided via LocalViewModelStoreOwner"
     }
+
+    // Setup the navController with proper owners
     navController.setLifecycleOwner(lifecycleOwner)
+    DisposableEffect(lifecycleOwner) {
+        // Setup the navController with proper owners
+        navController.setLifecycleOwner(lifecycleOwner)
+        onDispose { }
+    }
     navController.setViewModelStore(viewModelStoreOwner.viewModelStore)
 }
 
 @Composable
 private fun NavHostBackHandler(navController: NavHostController) {
-    val onBackPressedDispatcherOwner = LocalOnBackPressedDispatcherOwner.current
-    val onBackPressedDispatcher = onBackPressedDispatcherOwner?.onBackPressedDispatcher
-    if (onBackPressedDispatcher != null) {
-        navController.setOnBackPressedDispatcher(onBackPressedDispatcher)
-    }
-    DisposableEffect(navController) {
-        navController.enableOnBackPressed(true)
-        onDispose {
-            navController.enableOnBackPressed(false)
+    // Intercept back only when there's a destination to pop
+    val currentBackStack by remember(navController.currentBackStack) {
+        navController.currentBackStack.map {
+            it.filter { entry ->
+                entry.destination.navigatorName == SwipeBackNavigator.NAME
+            }
         }
+    }.collectAsState(emptyList())
+    BackHandler(currentBackStack.size > 1) {
+        navController.popBackStack()
     }
 }
