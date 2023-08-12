@@ -22,6 +22,10 @@ enum class SwipeDirection(val value: Int) {
     TOP_TO_BOTTOM(2),
     BOTTOM_TO_TOP(3);
 
+    fun isHorizontal(): Boolean = (this == LEFT_TO_RIGHT || this == RIGHT_TO_LEFT)
+
+    fun isReversed(): Boolean = (this == RIGHT_TO_LEFT || this == BOTTOM_TO_TOP)
+
     companion object {
 
         fun of(value: Int): SwipeDirection {

@@ -22,22 +22,38 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.fragula2.common.SwipeDirection
 import com.fragula2.compose.FragulaNavHost
 import com.fragula2.compose.rememberFragulaNavController
 import com.fragula2.compose.swipeable
 import com.fragula2.sample.compose.screen.DetailsScreen
 import com.fragula2.sample.compose.screen.ListScreen
 import com.fragula2.sample.compose.screen.ProfileScreen
+import com.fragula2.sample.compose.screen.SettingsScreen
 import com.fragula2.sample.compose.screen.TabScreen
 import com.fragula2.sample.compose.ui.FragulaTheme
+import com.fragula2.sample.compose.viewmodel.SettingsViewModel
+import com.fragula2.sample.utils.argbToColor
 import com.google.accompanist.drawablepainter.rememberDrawablePainter
 
 class ComposeActivity : ComponentActivity() {
@@ -45,6 +61,7 @@ class ComposeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val settingsViewModel = viewModel<SettingsViewModel>()
             FragulaTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -58,10 +75,13 @@ class ComposeActivity : ComponentActivity() {
                                 arrowProgress = arrowProgress,
                                 onClick = {
                                     if (arrowProgress == 0f) {
-                                        Toast.makeText(this, "Open", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(this, "Open drawer", Toast.LENGTH_SHORT).show()
                                     } else {
                                         navController.popBackStack()
                                     }
+                                },
+                                onSettingsClick = {
+                                    navController.navigate("settings")
                                 },
                             )
                         },
@@ -76,6 +96,10 @@ class ComposeActivity : ComponentActivity() {
                                     else -> 0f
                                 }
                             },
+                            swipeDirection = SwipeDirection.of(settingsViewModel.swipeDirection.value),
+                            scrimColor = settingsViewModel.scrimColor.value.argbToColor(),
+                            scrimAmount = settingsViewModel.scrimAmount.value,
+                            elevationAmount = settingsViewModel.elevationAmount.value.dp,
                         ) {
                             swipeable("list") {
                                 ListScreen(navController)
@@ -113,6 +137,9 @@ class ComposeActivity : ComponentActivity() {
                                     text = backStackEntry.arguments?.getString("text") ?: "",
                                 )
                             }
+                            swipeable("settings") {
+                                SettingsScreen(settingsViewModel)
+                            }
                         }
                     }
                 }
@@ -125,6 +152,7 @@ class ComposeActivity : ComponentActivity() {
 private fun FragulaAppBar(
     arrowProgress: Float = 0f,
     onClick: () -> Unit = {},
+    onSettingsClick: () -> Unit = {},
 ) {
     TopAppBar(
         title = { Text("Fragula") },
@@ -137,6 +165,11 @@ private fun FragulaAppBar(
                     painter = rememberDrawablePainter(icon),
                     contentDescription = null,
                 )
+            }
+        },
+        actions = {
+            IconButton(onClick = onSettingsClick) {
+                Icon(Icons.Default.Settings, null)
             }
         },
     )

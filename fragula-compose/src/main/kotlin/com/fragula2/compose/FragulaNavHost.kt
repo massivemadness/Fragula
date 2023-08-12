@@ -20,11 +20,25 @@ import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.SaveableStateHolder
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.saveable.rememberSaveableStateHolder
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -33,11 +47,22 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
-import androidx.navigation.*
+import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDeepLink
+import androidx.navigation.NavDestination
+import androidx.navigation.NavGraph
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.Navigator
 import androidx.navigation.compose.DialogHost
 import androidx.navigation.compose.DialogNavigator
 import androidx.navigation.compose.LocalOwnersProvider
+import androidx.navigation.createGraph
+import androidx.navigation.get
+import com.fragula2.common.SwipeDirection
 import com.fragula2.common.SwipeInterpolator
+import kotlin.math.abs
 
 @Composable
 fun FragulaNavHost(
@@ -46,12 +71,13 @@ fun FragulaNavHost(
     modifier: Modifier = Modifier,
     route: String? = null,
     onPageScrolled: (Int, Float, Int) -> Unit = { _, _, _ -> },
+    swipeDirection: SwipeDirection = SwipeDirection.LEFT_TO_RIGHT,
     scrollable: Boolean = true,
     scrimColor: Color = ScrimColor,
     scrimAmount: Float = 0.15f,
+    elevationAmount: Dp = 3.dp,
     parallaxFactor: Float = 1.3f,
     animDurationMs: Int = 500,
-    elevation: Dp = 3.dp,
     builder: NavGraphBuilder.() -> Unit,
 ) {
     FragulaNavHost(
@@ -61,12 +87,13 @@ fun FragulaNavHost(
         },
         modifier = modifier,
         onPageScrolled = onPageScrolled,
+        swipeDirection = swipeDirection,
         scrollable = scrollable,
         scrimColor = scrimColor,
+        elevationAmount = elevationAmount,
         scrimAmount = scrimAmount,
         parallaxFactor = parallaxFactor,
         animDurationMs = animDurationMs,
-        elevation = elevation,
     )
 }
 
@@ -95,12 +122,13 @@ fun FragulaNavHost(
     graph: NavGraph,
     modifier: Modifier,
     onPageScrolled: (Int, Float, Int) -> Unit,
+    swipeDirection: SwipeDirection,
     scrollable: Boolean,
     scrimColor: Color,
     scrimAmount: Float,
+    elevationAmount: Dp,
     parallaxFactor: Float,
     animDurationMs: Int,
-    elevation: Dp,
 ) {
     // region SETUP
 
@@ -122,6 +150,7 @@ fun FragulaNavHost(
     for ((index, backStackEntry) in backStack.withIndex()) { // FIXME don't render all entries at once
         SwipeableBox(
             navController = navController,
+            swipeDirection = swipeDirection,
             position = index,
             pageCount = backStack.size,
             scrollable = scrollable,
@@ -129,7 +158,7 @@ fun FragulaNavHost(
             scrimAmount = scrimAmount,
             parallaxFactor = parallaxFactor,
             animDurationMs = animDurationMs,
-            elevation = elevation,
+            elevationAmount = elevationAmount,
             offsetProvider = { parallaxOffset },
             backToProvider = { swipeBackNavigator.backTo != null },
             positionChanger = { position, positionOffset, positionOffsetPixels ->
@@ -158,6 +187,7 @@ fun FragulaNavHost(
 @Composable
 private fun SwipeableBox(
     navController: NavHostController,
+    swipeDirection: SwipeDirection,
     position: Int,
     pageCount: Int,
     scrollable: Boolean,
@@ -165,7 +195,7 @@ private fun SwipeableBox(
     scrimAmount: Float,
     parallaxFactor: Float,
     animDurationMs: Int,
-    elevation: Dp,
+    elevationAmount: Dp,
     offsetProvider: () -> Float,
     backToProvider: () -> Boolean,
     positionChanger: (Int, Float, Int) -> Unit,
@@ -176,9 +206,17 @@ private fun SwipeableBox(
 ) {
     BoxWithConstraints(modifier) {
         val pageStart = 0f
-        val pageEnd = constraints.maxWidth.toFloat()
+        val pageEnd = if (swipeDirection.isHorizontal()) {
+            constraints.maxWidth.toFloat()
+        } else {
+            constraints.maxHeight.toFloat()
+        }
         val parallaxFormula = {
-            -maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
+            if (swipeDirection.isReversed()) {
+                maxHeight.value * (1.0f - offsetProvider()) / parallaxFactor
+            } else {
+                -maxWidth.value * (1.0f - offsetProvider()) / parallaxFactor
+            }
         }
 
         var swipeState by rememberSaveable { mutableStateOf(SwipeState.FOLLOW_POINTER) }
@@ -234,7 +272,7 @@ private fun SwipeableBox(
             }
         }
 
-        val applyScrim by remember {
+        val applyScrim by remember(swipeDirection) {
             derivedStateOf { scrollPosition > pageStart && scrollPosition < pageEnd }
         }
         if (applyScrim) {
@@ -250,9 +288,15 @@ private fun SwipeableBox(
             modifier = modifier
                 .animateDrag(
                     enabled = position > 0 && scrollable,
+                    swipeDirection = swipeDirection,
                     onDragChanged = { position ->
                         if (swipeState == SwipeState.FOLLOW_POINTER) {
-                            pointerPosition = position
+                            pointerPosition = abs(position)
+                            if (position > (pageEnd + elevationAmount.value) ||
+                                position < (-pageEnd + -elevationAmount.value)
+                            ) {
+                                swipeState = SwipeState.SLIDE_OUT
+                            }
                         }
                     },
                     onDragFinished = { velocity ->
@@ -269,19 +313,30 @@ private fun SwipeableBox(
                     },
                 )
                 .graphicsLayer {
-                    translationX = if (applyParallax) parallaxFormula() else scrollPosition
+                    val translation = if (swipeDirection.isReversed()) {
+                        -scrollPosition
+                    } else {
+                        scrollPosition
+                    }
+                    if (swipeDirection.isHorizontal()) {
+                        translationX = if (applyParallax) parallaxFormula() else translation
+                    } else {
+                        translationY = if (applyParallax) parallaxFormula() else translation
+                    }
                 },
         ) {
             content()
         }
 
-        val applyElevation by remember {
+        val applyElevation by remember(swipeDirection) {
             derivedStateOf { scrollPosition > pageStart && scrollPosition < pageEnd }
         }
         if (applyElevation) {
             PageElevation(
                 positionProvider = { scrollPosition },
-                elevation = elevation,
+                pageEnd = pageEnd,
+                swipeDirection = swipeDirection,
+                elevationAmount = elevationAmount,
             )
         }
     }
@@ -310,21 +365,48 @@ private fun PageScrim(
 @Composable
 private fun PageElevation(
     positionProvider: () -> Float,
-    elevation: Dp,
+    pageEnd: Float,
+    swipeDirection: SwipeDirection,
+    elevationAmount: Dp,
 ) {
     Canvas(
         modifier = Modifier
-            .fillMaxHeight()
-            .requiredWidth(elevation)
+            .then(
+                if (swipeDirection.isHorizontal()) {
+                    Modifier
+                        .fillMaxHeight()
+                        .requiredWidth(elevationAmount)
+                } else {
+                    Modifier
+                        .fillMaxWidth()
+                        .requiredHeight(elevationAmount)
+                },
+            )
             .graphicsLayer {
-                translationX = positionProvider() - elevation.toPx()
+                val translation = if (swipeDirection.isReversed()) {
+                    pageEnd - positionProvider()
+                } else {
+                    positionProvider()
+                }
+                when (swipeDirection) {
+                    SwipeDirection.LEFT_TO_RIGHT -> translationX = translation - elevationAmount.toPx()
+                    SwipeDirection.RIGHT_TO_LEFT -> translationX = translation
+                    SwipeDirection.TOP_TO_BOTTOM -> translationY = translation - elevationAmount.toPx()
+                    SwipeDirection.BOTTOM_TO_TOP -> translationY = translation
+                }
             },
     ) {
-        drawRect(
-            brush = Brush.horizontalGradient(
-                colors = listOf(ElevationEnd, ElevationStart),
-            ),
-        )
+        val colors = if (swipeDirection.isReversed()) {
+            listOf(ElevationStart, ElevationEnd)
+        } else {
+            listOf(ElevationEnd, ElevationStart)
+        }
+        val brush = if (swipeDirection.isHorizontal()) {
+            Brush.horizontalGradient(colors)
+        } else {
+            Brush.verticalGradient(colors)
+        }
+        drawRect(brush)
     }
 }
 

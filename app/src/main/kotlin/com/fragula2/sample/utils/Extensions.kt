@@ -23,6 +23,7 @@ import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.graphics.Color
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -70,4 +71,13 @@ fun View.applySystemWindowInsetsPadding(
 
         insets
     }
+}
+
+fun Int.argbToColor(): Color {
+    val alpha = (this shr 24 and 0xFF) / 255f
+    val red = (this shr 16 and 0xFF) / 255f
+    val green = (this shr 8 and 0xFF) / 255f
+    val blue = (this and 0xFF) / 255f
+
+    return Color(red, green, blue, alpha)
 }

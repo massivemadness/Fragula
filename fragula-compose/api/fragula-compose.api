@@ -6,8 +6,8 @@ public final class com/fragula2/compose/ComposableSingletons$SwipeBackNavigatorK
 }
 
 public final class com/fragula2/compose/FragulaNavHostKt {
-	public static final fun FragulaNavHost-Pxy4DCs (Landroidx/navigation/NavHostController;Ljava/lang/String;Landroidx/compose/ui/Modifier;Ljava/lang/String;Lkotlin/jvm/functions/Function3;ZJFFIFLkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;III)V
-	public static final fun FragulaNavHost-WhgD3PA (Landroidx/navigation/NavHostController;Landroidx/navigation/NavGraph;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;ZJFFIFLandroidx/compose/runtime/Composer;I)V
+	public static final fun FragulaNavHost-8NhoAOM (Landroidx/navigation/NavHostController;Ljava/lang/String;Landroidx/compose/ui/Modifier;Ljava/lang/String;Lkotlin/jvm/functions/Function3;Lcom/fragula2/common/SwipeDirection;ZJFFFILkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;III)V
+	public static final fun FragulaNavHost-SerJt_A (Landroidx/navigation/NavHostController;Landroidx/navigation/NavGraph;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Lcom/fragula2/common/SwipeDirection;ZJFFFILandroidx/compose/runtime/Composer;II)V
 	public static final fun swipeable (Landroidx/navigation/NavGraphBuilder;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Lkotlin/jvm/functions/Function3;)V
 	public static synthetic fun swipeable$default (Landroidx/navigation/NavGraphBuilder;Ljava/lang/String;Ljava/util/List;Ljava/util/List;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)V
 }
