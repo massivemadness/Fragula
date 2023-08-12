@@ -272,7 +272,7 @@ private fun SwipeableBox(
             }
         }
 
-        val applyScrim by remember {
+        val applyScrim by remember(swipeDirection) {
             derivedStateOf { scrollPosition > pageStart && scrollPosition < pageEnd }
         }
         if (applyScrim) {
@@ -328,7 +328,7 @@ private fun SwipeableBox(
             content()
         }
 
-        val applyElevation by remember {
+        val applyElevation by remember(swipeDirection) {
             derivedStateOf { scrollPosition > pageStart && scrollPosition < pageEnd }
         }
         if (applyElevation) {
