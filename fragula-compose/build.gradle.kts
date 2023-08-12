@@ -23,7 +23,7 @@ android {
     namespace = "com.fragula2.compose"
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
     buildFeatures {
         compose = true
