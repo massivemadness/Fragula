@@ -33,6 +33,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.SaveableStateHolder
@@ -146,7 +147,7 @@ fun FragulaNavHost(
 
     // endregion
 
-    var parallaxOffset by remember { mutableStateOf(0f) }
+    val parallaxOffset = remember { mutableFloatStateOf(0f) }
 
     for ((index, backStackEntry) in backStack.withIndex()) { // FIXME don't render all entries at once
         SwipeableBox(
@@ -160,11 +161,11 @@ fun FragulaNavHost(
             parallaxFactor = parallaxFactor,
             animDurationMs = animDurationMs,
             elevationAmount = elevationAmount,
-            offsetProvider = { parallaxOffset },
+            offsetProvider = { parallaxOffset.floatValue },
             backToProvider = { swipeBackNavigator.backTo != null },
             positionChanger = { position, positionOffset, positionOffsetPixels ->
                 onPageScrolled(position, positionOffset, positionOffsetPixels)
-                parallaxOffset = positionOffset
+                parallaxOffset.floatValue = positionOffset
             },
             onDragFinished = { swipeBackNavigator.slideOut = it == SwipeState.SLIDE_OUT },
             onScrollFinished = { swipeBackNavigator.markTransitionComplete(backStackEntry) },
@@ -224,7 +225,7 @@ private fun SwipeableBox(
         var animateSlideIn by rememberSaveable { mutableStateOf(position > 0) }
         var pointerPosition by remember {
             val initialValue = if (animateSlideIn) pageEnd else pageStart
-            mutableStateOf(initialValue)
+            mutableFloatStateOf(initialValue)
         }
         val scrollPosition by animateFloatAsState(
             targetValue = when (swipeState) {
@@ -236,6 +237,7 @@ private fun SwipeableBox(
                 durationMillis = if (swipeState != SwipeState.FOLLOW_POINTER) animDurationMs else 0,
                 easing = SwipeInterpolator().toEasing(),
             ),
+            label = "ScrollAnimation",
         ) { value ->
             when (value) {
                 pageStart -> {
