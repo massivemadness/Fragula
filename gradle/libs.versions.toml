@@ -1,20 +1,21 @@
 [versions]
-agp = "8.1.0"
+agp = "8.1.1"
 validator = "0.13.0"
 kotlin = "1.9.0"
-core = "1.10.1"
+core = "1.12.0"
 activity = "1.7.2"
 fragment = "1.6.1"
 profile-installer = "1.3.1"
 appcompat = "1.6.1"
 material = "1.9.0"
+material-compose = "1.5.1"
 constraintlayout = "2.1.4"
 recyclerview = "1.3.1"
 coil = "2.4.0"
-compose = "1.5.0"
-accompanist = "0.28.0"
-lifecycle = "2.6.1"
-navigation = "2.7.0"
+compose = "1.5.1"
+accompanist = "0.30.1"
+lifecycle = "2.6.2"
+navigation = "2.7.2"
 junit = "4.13.2"
 junit-ext = "1.1.5"
 test-runner = "1.5.2"
@@ -45,7 +46,7 @@ androidx-navigation = { module = "androidx.navigation:navigation-fragment-ktx", 
 
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
-compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+compose-material = { module = "androidx.compose.material:material", version.ref = "material-compose" }
 compose-activity = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
