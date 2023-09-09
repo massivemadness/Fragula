@@ -23,5 +23,5 @@ object BuildConst {
     const val COMPILE_SDK = 34
 
     const val LIBRARY_MIN_SDK = 21
-    const val LIBRARY_COMPILE_SDK = 33
+    const val LIBRARY_COMPILE_SDK = 34
 }
