@@ -47,6 +47,7 @@ class SwipeBackDestination constructor(
     }
 
     override fun equals(other: Any?): Boolean {
+        if (this === other) return true
         if (other == null || other !is SwipeBackDestination) return false
         return super.equals(other) && className == other.className
     }
