@@ -63,7 +63,6 @@ import androidx.navigation.createGraph
 import androidx.navigation.get
 import com.fragula2.common.SwipeDirection
 import com.fragula2.common.SwipeInterpolator
-import kotlinx.coroutines.flow.map
 import kotlin.math.abs
 
 @Composable
@@ -134,27 +133,45 @@ fun FragulaNavHost(
 ) {
     // region SETUP
 
-    NavHostLifecycle(navController)
-    NavHostBackHandler(navController)
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
+        "FragulaNavHost requires a ViewModelStoreOwner to be provided via LocalViewModelStoreOwner"
+    }
 
+    navController.setViewModelStore(viewModelStoreOwner.viewModelStore)
+
+    // Then set the graph
     navController.graph = graph
 
+    // Find the SwipeBackNavigator, returning early if it isn't found
+    // (such as is the case when using TestNavHostController)
     val swipeBackNavigator = navController.navigatorProvider
         .get<Navigator<out NavDestination>>(SwipeBackNavigator.NAME) as? SwipeBackNavigator
         ?: return
-    val backStack by swipeBackNavigator.backStack.collectAsState()
+    val currentBackStack by swipeBackNavigator.backStack.collectAsState()
+
+    BackHandler(currentBackStack.size > 1) {
+        navController.popBackStack()
+    }
+
+    DisposableEffect(lifecycleOwner) {
+        // Setup the navController with proper owners
+        navController.setLifecycleOwner(lifecycleOwner)
+        onDispose { }
+    }
+
     val saveableStateHolder = rememberSaveableStateHolder()
 
     // endregion
 
     val parallaxOffset = remember { mutableFloatStateOf(0f) }
 
-    for ((index, backStackEntry) in backStack.withIndex()) { // FIXME don't render all entries at once
+    for ((index, backStackEntry) in currentBackStack.withIndex()) { // FIXME don't render all entries at once
         SwipeableBox(
             navController = navController,
             swipeDirection = swipeDirection,
             position = index,
-            pageCount = backStack.size,
+            pageCount = currentBackStack.size,
             scrollable = scrollable,
             scrimColor = scrimColor,
             scrimAmount = scrimAmount,
@@ -421,37 +438,5 @@ private fun NavHostContent(
     val destination = backStackEntry.destination as SwipeBackNavigator.Destination
     backStackEntry.LocalOwnersProvider(saveableStateHolder) {
         destination.content(backStackEntry)
-    }
-}
-
-@Composable
-private fun NavHostLifecycle(navController: NavHostController) {
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val viewModelStoreOwner = checkNotNull(LocalViewModelStoreOwner.current) {
-        "FragulaNavHost requires a ViewModelStoreOwner to be provided via LocalViewModelStoreOwner"
-    }
-
-    // Setup the navController with proper owners
-    navController.setLifecycleOwner(lifecycleOwner)
-    DisposableEffect(lifecycleOwner) {
-        // Setup the navController with proper owners
-        navController.setLifecycleOwner(lifecycleOwner)
-        onDispose { }
-    }
-    navController.setViewModelStore(viewModelStoreOwner.viewModelStore)
-}
-
-@Composable
-private fun NavHostBackHandler(navController: NavHostController) {
-    // Intercept back only when there's a destination to pop
-    val currentBackStack by remember(navController.currentBackStack) {
-        navController.currentBackStack.map {
-            it.filter { entry ->
-                entry.destination.navigatorName == SwipeBackNavigator.NAME
-            }
-        }
-    }.collectAsState(emptyList())
-    BackHandler(currentBackStack.size > 1) {
-        navController.popBackStack()
     }
 }
