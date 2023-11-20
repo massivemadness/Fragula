@@ -17,8 +17,8 @@
 import com.fragula2.gradle.BuildConst
 
 plugins {
-    id("com.android.test")
-    id("kotlin-android")
+    alias(libs.plugins.android.test)
+    alias(libs.plugins.kotlin.android)
     id("stub-module")
 }
 

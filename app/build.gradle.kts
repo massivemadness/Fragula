@@ -17,10 +17,10 @@
 import com.fragula2.gradle.BuildConst
 
 plugins {
-    id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-parcelize")
-    id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.android.navigation)
+    alias(libs.plugins.kotlin.parcelize)
     id("stub-module")
 }
 
