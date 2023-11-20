@@ -26,7 +26,7 @@ jobs:
         run: ./gradlew :app:assembleDebug
 
       - name: Check Kotlin code style
-        run: ./gradlew ktlint
+        run: ./gradlew ktlintCheck
 
       - name: Check project's public API
         run: ./gradlew apiCheck
