@@ -37,7 +37,9 @@ internal var ViewPager2.pageOverScrollMode: Int
     get() = getChildAt(0).overScrollMode
 
     @RestrictTo(LIBRARY_GROUP)
-    set(value) { getChildAt(0).overScrollMode = value }
+    set(value) {
+        getChildAt(0).overScrollMode = value
+    }
 
 internal var ViewPager2.pageSwipeDirection: SwipeDirection
     @RestrictTo(LIBRARY_GROUP)

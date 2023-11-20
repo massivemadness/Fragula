@@ -226,7 +226,7 @@ fun MessageBox(
                     contentDescription = null,
                     modifier = Modifier
                         .padding(
-                            top = 56.dp, // TODO use column instead
+                            top = 56.dp,
                             start = 8.dp,
                             bottom = 8.dp,
                         )

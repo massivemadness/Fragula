@@ -4,7 +4,17 @@ root = true
 indent_size = 4
 insert_final_newline = false
 
-# noinspection EditorConfigKeyCorrectness
+# Ktlint 0.50.0
 ktlint_standard_no-wildcard-imports = disabled
-# noinspection EditorConfigKeyCorrectness
 ktlint_standard_trailing-comma-on-declaration-site = disabled
+
+# Ktlint 1.0.0
+ktlint_standard_annotation = disabled
+ktlint_standard_statement-wrapping = disabled
+ktlint_standard_blank-line-before-declaration = disabled
+ktlint_standard_no-empty-first-line-in-class-body = disabled
+ktlint_standard_multiline-expression-wrapping = disabled
+ktlint_standard_string-template-indent = disabled
+ktlint_standard_parameter-list-wrapping = disabled
+ktlint_standard_function-signature = disabled
+ktlint_standard_function-naming = disabled
