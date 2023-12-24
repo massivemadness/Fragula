@@ -22,6 +22,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -33,7 +34,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -68,7 +69,7 @@ class ComposeActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background,
                 ) {
                     val navController = rememberFragulaNavController()
-                    var arrowProgress by remember { mutableStateOf(0f) }
+                    var arrowProgress by remember { mutableFloatStateOf(0f) }
                     Scaffold(
                         topBar = {
                             FragulaAppBar(
@@ -96,10 +97,11 @@ class ComposeActivity : ComponentActivity() {
                                     else -> 0f
                                 }
                             },
-                            swipeDirection = SwipeDirection.of(settingsViewModel.swipeDirection.value),
-                            scrimColor = settingsViewModel.scrimColor.value.argbToColor(),
-                            scrimAmount = settingsViewModel.scrimAmount.value,
-                            elevationAmount = settingsViewModel.elevationAmount.value.dp,
+                            swipeDirection = SwipeDirection.of(settingsViewModel.swipeDirection.intValue),
+                            scrimColor = settingsViewModel.scrimColor.intValue.argbToColor(),
+                            scrimAmount = settingsViewModel.scrimAmount.floatValue,
+                            elevationAmount = settingsViewModel.elevationAmount.floatValue.dp,
+                            modifier = Modifier.padding(paddingValues),
                         ) {
                             swipeable("list") {
                                 ListScreen(navController)

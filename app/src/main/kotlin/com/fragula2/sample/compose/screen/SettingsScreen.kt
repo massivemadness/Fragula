@@ -18,6 +18,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -52,9 +53,9 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
         FloatButtonsRow(
             modifier = Modifier.padding(top = 10.dp),
             values = directionsList,
-            selectedFloat = settingsViewModel.swipeDirection.value.toFloat(),
+            selectedFloat = settingsViewModel.swipeDirection.intValue.toFloat(),
         ) { value ->
-            settingsViewModel.swipeDirection.value = value.toInt()
+            settingsViewModel.swipeDirection.intValue = value.toInt()
         }
 
         Text(
@@ -65,9 +66,9 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
         )
         ColorButtonsRow(
             modifier = Modifier.padding(top = 10.dp),
-            selectedColor = settingsViewModel.scrimColor.value.argbToColor(),
+            selectedColor = settingsViewModel.scrimColor.intValue.argbToColor(),
         ) { color ->
-            settingsViewModel.scrimColor.value = color.toArgb()
+            settingsViewModel.scrimColor.intValue = color.toArgb()
         }
 
         Text(
@@ -79,9 +80,9 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
         FloatButtonsRow(
             modifier = Modifier.padding(top = 10.dp),
             values = scrimAmountList,
-            selectedFloat = settingsViewModel.scrimAmount.value,
+            selectedFloat = settingsViewModel.scrimAmount.floatValue,
         ) { amount ->
-            settingsViewModel.scrimAmount.value = amount
+            settingsViewModel.scrimAmount.floatValue = amount
         }
 
         Text(
@@ -93,9 +94,9 @@ fun SettingsScreen(settingsViewModel: SettingsViewModel) {
         FloatButtonsRow(
             modifier = Modifier.padding(top = 10.dp),
             values = elevationAmountList,
-            selectedFloat = settingsViewModel.elevationAmount.value,
+            selectedFloat = settingsViewModel.elevationAmount.floatValue,
         ) { amount ->
-            settingsViewModel.elevationAmount.value = amount
+            settingsViewModel.elevationAmount.floatValue = amount
         }
     }
 }
@@ -147,7 +148,7 @@ private fun FloatButtonsRow(
     selectedFloat: Float,
     onButtonClick: (value: Float) -> Unit = {},
 ) {
-    var selectedValue: Float by remember { mutableStateOf(selectedFloat) }
+    var selectedValue: Float by remember { mutableFloatStateOf(selectedFloat) }
     Row(
         modifier = modifier
             .fillMaxWidth()
