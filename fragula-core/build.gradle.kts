@@ -26,7 +26,7 @@ android {
 publishModule {
     libraryGroup = "com.fragula2"
     libraryArtifact = "fragula-core"
-    libraryVersion = "2.10"
+    libraryVersion = "2.10.1"
 }
 
 dependencies {
