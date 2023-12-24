@@ -84,6 +84,7 @@ dependencies {
 
     // UI
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
     implementation(libs.coil)
 

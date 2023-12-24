@@ -148,6 +148,7 @@ fun FragulaNavHost(
     val swipeBackNavigator = navController.navigatorProvider
         .get<Navigator<out NavDestination>>(SwipeBackNavigator.NAME) as? SwipeBackNavigator
         ?: return
+
     val currentBackStack by swipeBackNavigator.backStack.collectAsState()
 
     BackHandler(currentBackStack.size > 1) {
