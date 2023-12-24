@@ -29,7 +29,7 @@ enum class SwipeDirection(val value: Int) {
     companion object {
 
         fun of(value: Int): SwipeDirection {
-            return checkNotNull(values().find { it.value == value })
+            return checkNotNull(entries.find { it.value == value })
         }
     }
 }

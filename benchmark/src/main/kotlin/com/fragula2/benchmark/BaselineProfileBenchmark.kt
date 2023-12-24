@@ -36,6 +36,7 @@ class BaselineProfileBenchmark {
 
     private fun generate(appVariant: AppVariant) {
         baselineProfileRule.collect("com.fragula2.sample") {
+            pressHome()
             startActivityAndWait(appVariant)
         }
     }

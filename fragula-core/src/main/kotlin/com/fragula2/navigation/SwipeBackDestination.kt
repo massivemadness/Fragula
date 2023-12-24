@@ -25,7 +25,7 @@ import androidx.navigation.Navigator
 import com.fragula2.R
 
 @NavDestination.ClassType(Fragment::class)
-class SwipeBackDestination constructor(
+class SwipeBackDestination(
     swipeBackNavigator: Navigator<out SwipeBackDestination>,
 ) : NavDestination(swipeBackNavigator) {
 

@@ -21,7 +21,7 @@ import androidx.compose.animation.core.Easing
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -42,7 +42,7 @@ internal fun Modifier.animateDrag(
 ): Modifier = composed {
     if (!enabled) return@composed this
     val velocityTracker = VelocityTracker()
-    var dragOffset by remember { mutableStateOf(0f) }
+    var dragOffset by remember { mutableFloatStateOf(0f) }
     pointerInput(swipeDirection) {
         if (!swipeDirection.isHorizontal()) {
             detectVerticalDragGestures(

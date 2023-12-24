@@ -16,6 +16,7 @@
 
 package com.fragula2
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.AttributeSet
@@ -48,6 +49,7 @@ class FragulaNavHostFragment : NavHostFragment() {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         /**

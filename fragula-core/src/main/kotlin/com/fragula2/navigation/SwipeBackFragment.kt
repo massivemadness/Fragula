@@ -16,6 +16,7 @@
 
 package com.fragula2.navigation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
@@ -206,6 +207,7 @@ class SwipeBackFragment : Fragment(R.layout.fragment_swipeback), Navigable, Swip
         onSwipeListeners.remove(listener)
     }
 
+    @SuppressLint("RestrictedApi")
     private fun restoreBackStack() {
         viewPager?.currentItem = navController?.currentBackStack?.value.orEmpty()
             .filter { it.destination is SwipeBackDestination }
